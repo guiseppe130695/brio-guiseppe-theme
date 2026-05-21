@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Homepage — Philosophy ("Approche")
+   --------------------------------------------------------------------------
+   2-column layout: visual (with floating yellow Mission card) + content stack
+   with 3 icon-boxes. Background --color-bg-secondary cream.
+   ========================================================================== */
+
+.home-philosophy {
+	background-color: var(--color-bg-secondary);
+	padding: 100px 25px;
+	position: relative;
+	z-index: 4;
+}
+
+.home-philosophy .container {
+	max-width: 1400px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 100px;
+}
+
+/* Left column — bg image, mission card pinned bottom
+   ========================================================================== */
+
+.home-philosophy__visual {
+	width: 50%;
+	min-height: 850px;
+	background-position: bottom center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	border-radius: 30px;
+	padding: 30px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-start;
+	animation: philosophy-fadeIn var(--transition-normal) both;
+}
+
+/* Mission card — yellow, 70% of column width, hover lifts -5px
+   ========================================================================== */
+
+.home-philosophy__mission {
+	width: 70%;
+	background-color: var(--color-accent);
+	border-radius: 20px;
+	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	transition: transform var(--transition-normal);
+	animation: philosophy-fadeIn var(--transition-normal) 200ms both;
+}
+
+.home-philosophy__mission:hover {
+	transform: translateY(-5px);
+}
+
+.home-philosophy__mission-label {
+	font-family: var(--font-primary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-uppercase-weight);
+	text-transform: var(--accent-uppercase-transform);
+	letter-spacing: 0;
+	line-height: 1.5;
+	color: var(--color-primary);
+}
+
+.home-philosophy__mission-text {
+	color: var(--color-text);
+}
+
+/* Right column — vertical stack centered
+   ========================================================================== */
+
+.home-philosophy__content {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--spacing-lg);
+}
+
+/* Overline — Nebeco uppercase, 15/14/13 (preset Accent Text)
+   ========================================================================== */
+
+.home-philosophy__overline {
+	font-family: var(--font-primary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-uppercase-weight);
+	text-transform: var(--accent-uppercase-transform);
+	letter-spacing: 0;
+	line-height: 1.5;
+	animation: philosophy-fadeIn var(--transition-normal) both;
+}
+
+/* Heading — inherits h2 (Nebeco + --color-primary)
+   ========================================================================== */
+
+.home-philosophy__heading {
+	animation: philosophy-fadeIn var(--transition-normal) 200ms both;
+}
+
+/* Description — body inherited, max-width 75%
+   ========================================================================== */
+
+.home-philosophy__description {
+	max-width: 75%;
+	margin-bottom: var(--spacing-lg);
+	animation: philosophy-fadeIn var(--transition-normal) 400ms both;
+}
+
+/* Features list — 3 icon-boxes separated by --color-border dividers
+   ========================================================================== */
+
+.home-philosophy__features {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+}
+
+.home-philosophy__feature {
+	display: flex;
+	gap: var(--spacing-md);
+	align-items: flex-start;
+	padding: var(--spacing-lg) 0;
+	transition: transform var(--transition-normal);
+	animation: philosophy-fadeIn var(--transition-normal) 400ms both;
+}
+
+.home-philosophy__feature:hover {
+	transform: translateY(-5px);
+}
+
+.home-philosophy__feature:not(:last-child) {
+	border-bottom: 1px solid var(--color-border);
+}
+
+.home-philosophy__icon {
+	color: var(--color-secondary);
+	font-size: 24px;
+	flex-shrink: 0;
+	line-height: 1.2;
+}
+
+.home-philosophy__feature-body {
+	flex: 1;
+}
+
+/* Feature title — H5 preset (Nebeco 22/20/19, weight 300)
+   ========================================================================== */
+
+.home-philosophy__feature-title {
+	font-family: var(--font-primary);
+	font-size: var(--h5-size);
+	font-weight: var(--h5-weight);
+	line-height: var(--h5-line-height);
+	letter-spacing: var(--h5-letter-spacing);
+	color: var(--color-primary);
+	margin: 0 0 10px;
+}
+
+.home-philosophy__feature-text {
+	color: var(--color-text);
+}
+
+/* Tablet — stack columns, content first
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+	.home-philosophy {
+		padding: 70px 20px;
+	}
+
+	.home-philosophy .container {
+		flex-wrap: wrap;
+		gap: 50px 20px;
+	}
+
+	.home-philosophy__visual {
+		width: 100%;
+		min-height: 400px;
+		order: 2;
+	}
+
+	.home-philosophy__content {
+		width: 100%;
+		order: 1;
+	}
+
+	.home-philosophy__heading {
+		max-width: 520px;
+	}
+
+	.home-philosophy__features {
+		width: 100%;
+	}
+}
+
+/* Mobile
+   ========================================================================== */
+
+@media (max-width: 767px) {
+	.home-philosophy {
+		padding: 70px 10px;
+	}
+
+	.home-philosophy__visual {
+		min-height: 500px;
+		border-radius: 25px;
+		padding: 20px;
+	}
+
+	.home-philosophy__mission {
+		width: 90%;
+		padding: 20px;
+		border-radius: 20px;
+	}
+
+	.home-philosophy__heading,
+	.home-philosophy__description {
+		max-width: 100%;
+	}
+}
+
+/* Keyframes
+   ========================================================================== */
+
+@keyframes philosophy-fadeIn {
+	from { opacity: 0; transform: translateY(12px); }
+	to   { opacity: 1; transform: translateY(0); }
+}

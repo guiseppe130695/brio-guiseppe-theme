@@ -33,6 +33,7 @@ $sections = apply_filters( 'brio_home_sections', [
 	'partners',   // Bandeau partenaires / technologies
 	'programs',   // Solutions concrètes (accordéon)
 	'philosophy', // Approche technique, humaine, orientée résultats
+	'showcase',   // Bloc visuel rounded (image fond + 2 images débordantes)
 	'fun-facts',  // Chiffres clés (+62 000 € / −30 % / 90 jours / +45 %)
 	'pricing',    // Offres : Riad / Boutique / Hôtel indépendant
 	'faqs',       // Questions des hôteliers

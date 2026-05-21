@@ -12,12 +12,13 @@
 
 @import url('./sections/hero.css');
 @import url('./sections/about.css');
-/* @import url('./sections/philosophy.css'); */
+@import url('./sections/philosophy.css');
+@import url('./sections/showcase.css');
 /* @import url('./sections/mission.css'); */
-/* @import url('./sections/partners.css'); */
-/* @import url('./sections/programs.css'); */
-/* @import url('./sections/fun-facts.css'); */
-/* @import url('./sections/pricing.css'); */
+@import url('./sections/partners.css');
+@import url('./sections/programs.css');
+@import url('./sections/fun-facts.css');
+@import url('./sections/pricing.css');
 /* @import url('./sections/faqs.css'); */
 /* @import url('./sections/blog.css'); */
 /* @import url('./sections/cta.css'); */
@@ -33,6 +34,7 @@
 .home-features,
 .home-about,
 .home-philosophy,
+.home-showcase,
 .home-mission,
 .home-partners,
 .home-programs,

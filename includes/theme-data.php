@@ -139,6 +139,30 @@ function brio_get_assets() {
 		'about' => [
 			'commissions' => $base . 'about/Stop-aux-commissions-invisibles.webp',
 		],
+		'philosophy' => [
+			'visual' => $base . 'philosophy/Creez-un-site-qui-remplace-les-OTA.webp',
+		],
+		'fun_facts' => [
+			'bg'      => $base . 'fun-facts/Concu-pour-generer-des-reservations.webp',
+			'asset_1' => $base . 'fun-facts/asset-1.png',
+			'asset_6' => $base . 'fun-facts/asset-6.png',
+			'asset_5' => $base . 'fun-facts/asset-5.png',
+			'asset_2' => $base . 'fun-facts/asset-2.png',
+		],
+		'showcase' => [
+			'bg'           => $base . 'showcase/Un-site-concu-pour-les-hoteliers-ambitieux.webp',
+			'top_left'     => $base . 'showcase/Plan-de-travail-1.png',
+			'bottom_right' => $base . 'showcase/La-solution-pour-reduire-votre-dependance-OTA.webp',
+		],
+		'partners' => [
+			'ota-marge'      => $base . 'partners/Ne-laissez-plus-les-OTA-prendre-votre-marge.webp',
+			'controle'       => $base . 'partners/Reprenez-le-controle-des-maintenant.webp',
+			'direct-vs-ota'  => $base . 'partners/Vos-concurrents-passent-au-direct-et-vous.webp',
+			'strategie'      => $base . 'partners/Passez-a-une-strategie-rentable-1.webp',
+			'hotel-en-avant' => $base . 'partners/Mettez-votre-hotel-en-avant-pas-les-OTA.webp',
+			'chaque-jour'    => $base . 'partners/Chaque-jour-sans-site-optimise-vous-coute.webp',
+			'ota-marge-2'    => $base . 'partners/Ne-laissez-plus-les-OTA-prendre-votre-marge-1.webp',
+		],
 		'footer' => [
 			'logo'       => $base . 'footer/logo.webp',
 			'decoration' => $base . 'footer/decoration.png',
@@ -235,6 +259,336 @@ function brio_get_about_data() {
 	];
 
 	return apply_filters( 'brio_about_data', $data );
+}
+
+/**
+ * Get homepage Philosophy ("Approche") section content.
+ *
+ * Two-column block: visual (with floating yellow "mission" card) on the
+ * left, and a text stack with 3 feature icon-boxes on the right.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string  $visual    Background image URL for the left column.
+ *     @type array   $mission   { label, text } — yellow card content.
+ *     @type string  $overline  Small uppercase label.
+ *     @type string  $heading   Section title.
+ *     @type string  $description Lead paragraph.
+ *     @type array[] $features  Each item: { icon (FA class), title, text }.
+ * }
+ */
+function brio_get_philosophy_data() {
+	$data = [
+		'visual'      => brio_asset( 'philosophy', 'visual' ),
+		'mission'     => [
+			'label' => __( 'Ma mission :', 'brio-guiseppe' ),
+			'text'  => __( 'Donner aux hôteliers indépendants les armes digitales que seules les grandes chaînes possèdent — pour que chaque nuit soit vendue au bon prix, au bon client, sans intermédiaire.', 'brio-guiseppe' ),
+		],
+		'overline'    => __( 'Pourquoi Les Hôteliers Me Choisissent', 'brio-guiseppe' ),
+		'heading'     => __( 'Une approche technique, humaine et orientée résultats mesurables', 'brio-guiseppe' ),
+		'description' => __( 'Pas d\'agence. Pas de sous-traitance. Un seul interlocuteur qui maîtrise le code, le SEO et la réalité du terrain hôtelier.', 'brio-guiseppe' ),
+		'features'    => [
+			[
+				'icon'  => 'fa-solid fa-pencil',
+				'title' => __( 'Expertise Technique Profonde', 'brio-guiseppe' ),
+				'text'  => __( 'Développeur web, expert SEO et spécialiste UX conversion — je maîtrise l\'ensemble de la chaîne technique. Pas de sous-traitance, pas de template générique. Chaque solution est construite sur-mesure pour maximiser vos réservations directes.', 'brio-guiseppe' ),
+			],
+			[
+				'icon'  => 'fa-solid fa-chart-column',
+				'title' => __( 'Connaissance du Terrain', 'brio-guiseppe' ),
+				'text'  => __( 'Basé entre le Maroc et Madagascar, je connais les réalités des hôteliers indépendants en Afrique francophone. Les contraintes de bande passante, les habitudes de réservation locales, les spécificités culturelles — tout est intégré dans mes solutions.', 'brio-guiseppe' ),
+			],
+			[
+				'icon'  => 'fa-solid fa-circle-check',
+				'title' => __( 'ROI Mesurable et Garanti', 'brio-guiseppe' ),
+				'text'  => __( 'Chaque euro investi est traçable. Tableau de bord en temps réel, rapports mensuels avec métriques claires : trafic organique, taux de conversion, commissions économisées. Le ROI est atteint en 3 à 6 mois en moyenne.', 'brio-guiseppe' ),
+			],
+		],
+	];
+
+	return apply_filters( 'brio_philosophy_data', $data );
+}
+
+/**
+ * Get homepage Showcase ("Image" / "Video") section content.
+ *
+ * Visual-only break: a 50px-rounded media container with a background
+ * image, plus two decorative images that overflow above (top-left) and
+ * below (bottom-right) the media container.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string  $bg      Main background image URL.
+ *     @type array[] $images  Each item: { url, alt, position }.
+ * }
+ */
+function brio_get_showcase_data() {
+	$a = brio_get_assets()['showcase'];
+
+	$data = [
+		'bg'     => $a['bg'],
+		'images' => [
+			[
+				'url'      => $a['top_left'],
+				'alt'      => __( 'Site internet hôtel avec réservation directe', 'brio-guiseppe' ),
+				'position' => 'top-left',
+			],
+			[
+				'url'      => $a['bottom_right'],
+				'alt'      => __( 'Design site hôtel moderne et responsive', 'brio-guiseppe' ),
+				'position' => 'bottom-right',
+			],
+		],
+	];
+
+	return apply_filters( 'brio_showcase_data', $data );
+}
+
+/**
+ * Get homepage Fun Facts ("Résultats") section content.
+ *
+ * Yellow section with 4 counter cards in an asymmetric 34/34/32 grid:
+ *   - Card 1: 34% bg-image with overlay (full height)
+ *   - Card 2: 34% cream (full height)
+ *   - Card 3 + Card 4: 32% column, stacked (270px each)
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string  $overline  Small uppercase label.
+ *     @type string  $heading   Section title.
+ *     @type array[] $cards     Each: { variant, icon, prefix, number, suffix, title, ?bg }.
+ * }
+ */
+function brio_get_fun_facts_data() {
+	$a = brio_get_assets()['fun_facts'];
+
+	$data = [
+		'overline' => __( 'Des Résultats Concrets Pour les Hôtels', 'brio-guiseppe' ),
+		'heading'  => __( 'Chaque commission récupérée est un dirham réinvesti dans votre hôtel', 'brio-guiseppe' ),
+		'cards'    => [
+			[
+				'variant' => 'image',
+				'bg'      => $a['bg'],
+				'icon'    => $a['asset_1'],
+				'prefix'  => '+',
+				'number'  => 62000,
+				'suffix'  => '€',
+				'title'   => __( 'Commissions OTA économisées en moyenne par nos clients la première année', 'brio-guiseppe' ),
+			],
+			[
+				'variant' => 'light',
+				'icon'    => $a['asset_6'],
+				'prefix'  => '−',
+				'number'  => 30,
+				'suffix'  => '%',
+				'title'   => __( 'De dépendance Booking.com en 12 mois grâce au direct booking', 'brio-guiseppe' ),
+			],
+			[
+				'variant' => 'dark',
+				'icon'    => $a['asset_5'],
+				'prefix'  => '',
+				'number'  => 90,
+				'suffix'  => ' Jours',
+				'title'   => __( 'Délai moyen pour rentabiliser votre investissement. Le site se paye tout seul.', 'brio-guiseppe' ),
+			],
+			[
+				'variant' => 'light',
+				'icon'    => $a['asset_2'],
+				'prefix'  => '+',
+				'number'  => 45,
+				'suffix'  => '%',
+				'title'   => __( 'De trafic organique Google en 6 mois sur les sites que nous créons', 'brio-guiseppe' ),
+			],
+		],
+	];
+
+	return apply_filters( 'brio_fun_facts_data', $data );
+}
+
+/**
+ * Get homepage Pricing section content.
+ *
+ * Header row (overline + heading on left, top CTA on right) + 3-card
+ * pricing grid. Middle card uses the "dark" variant for emphasis.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string  $overline   Small uppercase label.
+ *     @type string  $heading    Section title.
+ *     @type array   $cta        { label, href } header CTA.
+ *     @type array[] $plans      Each: { variant, rooms, title, price_prefix,
+ *                                       price, tagline, cta, includes[], ideal }.
+ * }
+ */
+function brio_get_pricing_data() {
+	$wa = 'https://wa.me/212770740311?text=';
+
+	$plan_msg = function ( $offer ) {
+		return sprintf(
+			/* translators: %s: offer name (e.g. "RIAD & MAISON D'HÔTES à partir de 5 000 MAD"). */
+			__( 'Bonjour, je suis intéressé(e) par l\'offre %s. Pouvez-vous m\'envoyer plus d\'informations ?', 'brio-guiseppe' ),
+			$offer
+		);
+	};
+
+	$data = [
+		'overline' => __( 'VOTRE SITE SE REMBOURSE EN 3 MOIS', 'brio-guiseppe' ),
+		'heading'  => __( 'Investissez une fois, économisez chaque mois', 'brio-guiseppe' ),
+		'cta'      => [
+			'label' => __( 'Réserver mon audit gratuit', 'brio-guiseppe' ),
+			'href'  => $wa . rawurlencode( __( 'Bonjour, je souhaite réserver un audit gratuit pour analyser mes opportunités de réservations directes.', 'brio-guiseppe' ) ),
+		],
+		'plans'    => [
+			[
+				'variant'      => 'light',
+				'rooms'        => __( '3 à 8 chambres', 'brio-guiseppe' ),
+				'title'        => __( 'RIAD & MAISON D\'HÔTES', 'brio-guiseppe' ),
+				'price_prefix' => __( 'À partir de', 'brio-guiseppe' ),
+				'price'        => __( '5 000 MAD', 'brio-guiseppe' ),
+				'tagline'      => __( 'Votre riad en ligne en 5 jours. Prêt à recevoir ses premières réservations directes.', 'brio-guiseppe' ),
+				'cta'          => [
+					'label' => __( 'Réserver mon audit gratuit', 'brio-guiseppe' ),
+					'href'  => $wa . rawurlencode( $plan_msg( 'RIAD & MAISON D\'HÔTES à partir de 5 000 MAD' ) ),
+				],
+				'includes'     => [
+					__( 'Site optimisé réservation', 'brio-guiseppe' ),
+					__( 'Moteur de booking intégré', 'brio-guiseppe' ),
+					__( 'Design mobile-first', 'brio-guiseppe' ),
+					__( 'Fiche Google Business optimisée', 'brio-guiseppe' ),
+					__( 'Formation utilisation (1h)', 'brio-guiseppe' ),
+				],
+				'ideal'        => __( 'Les riads et maisons d\'hôtes qui n\'ont pas de site web ou qui ont une simple page vitrine sans réservation. Vous voulez exister sur Google et recevoir vos premières réservations directes sans passer par Booking.', 'brio-guiseppe' ),
+			],
+			[
+				'variant'      => 'dark',
+				'rooms'        => __( '8 à 20 chambres', 'brio-guiseppe' ),
+				'title'        => __( 'BOUTIQUE HÔTEL', 'brio-guiseppe' ),
+				'price_prefix' => __( 'À partir de', 'brio-guiseppe' ),
+				'price'        => __( '12 000 MAD', 'brio-guiseppe' ),
+				'tagline'      => __( 'Votre vitrine Booking vous coûte des milliers de dirhams. Ce site les récupère.', 'brio-guiseppe' ),
+				'cta'          => [
+					'label' => __( 'Réserver mon audit gratuit', 'brio-guiseppe' ),
+					'href'  => $wa . rawurlencode( $plan_msg( 'BOUTIQUE HÔTEL (8 à 20 chambres) à partir de 12 000 MAD' ) ),
+				],
+				'includes'     => [
+					__( 'Site multi-pages', 'brio-guiseppe' ),
+					__( 'Moteur de booking intégré', 'brio-guiseppe' ),
+					__( 'Galerie immersive + storytelling', 'brio-guiseppe' ),
+					__( 'SEO local + 4 pages optimisées', 'brio-guiseppe' ),
+					__( 'Audit OTA offert', 'brio-guiseppe' ),
+				],
+				'ideal'        => __( 'Les boutique hôtels qui ont déjà du volume sur Booking et veulent reprendre le contrôle. Vous savez que vous perdez des milliers de dirhams en commissions chaque mois et vous êtes prêt à investir pour les récupérer.', 'brio-guiseppe' ),
+			],
+			[
+				'variant'      => 'light',
+				'rooms'        => __( '20+ chambres', 'brio-guiseppe' ),
+				'title'        => __( 'HÔTEL INDÉPENDANT', 'brio-guiseppe' ),
+				'price_prefix' => __( 'À partir de', 'brio-guiseppe' ),
+				'price'        => __( '25 000 MAD', 'brio-guiseppe' ),
+				'tagline'      => __( 'La solution complète pour ne plus jamais dépendre d\'une seule plateforme.', 'brio-guiseppe' ),
+				'cta'          => [
+					'label' => __( 'Réserver mon audit gratuit', 'brio-guiseppe' ),
+					'href'  => $wa . rawurlencode( $plan_msg( 'HÔTEL INDÉPENDANT (20+ chambres) à partir de 25 000 MAD' ) ),
+				],
+				'includes'     => [
+					__( 'Site premium multilingue', 'brio-guiseppe' ),
+					__( 'Moteur de booking + intégration PMS', 'brio-guiseppe' ),
+					__( 'SEO tourisme complet', 'brio-guiseppe' ),
+					__( 'Revenue Management basique', 'brio-guiseppe' ),
+					__( 'Stratégie de contenu', 'brio-guiseppe' ),
+				],
+				'ideal'        => __( 'Les hôtels établis qui veulent une stratégie digitale complète : site premium, SEO sur toutes les requêtes de votre destination, pricing intelligent et indépendance totale vis-à-vis des OTA. Vous visez 50%+ de réservations en direct d\'ici 12 mois.', 'brio-guiseppe' ),
+			],
+		],
+	];
+
+	return apply_filters( 'brio_pricing_data', $data );
+}
+
+/**
+ * Get homepage Partners section content.
+ *
+ * Returns the label and the list of partner/technology visuals for the
+ * scrolling marquee. Items are intentionally not duplicated here — the
+ * template handles duplication for the seamless CSS loop.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string  $label  Caption above the marquee.
+ *     @type array[] $items  Each item: { url, alt }.
+ * }
+ */
+function brio_get_partners_data() {
+	$a = brio_get_assets()['partners'];
+
+	$data = [
+		'label' => __( 'Technologies & Partenaires qui propulsent mes solutions', 'brio-guiseppe' ),
+		'items' => [
+			[ 'url' => $a['ota-marge'],      'alt' => __( 'Ne laissez plus les OTA prendre votre marge', 'brio-guiseppe' ) ],
+			[ 'url' => $a['controle'],        'alt' => __( 'Reprenez le contrôle dès maintenant', 'brio-guiseppe' ) ],
+			[ 'url' => $a['direct-vs-ota'],   'alt' => __( 'Vos concurrents passent au direct — et vous ?', 'brio-guiseppe' ) ],
+			[ 'url' => $a['strategie'],       'alt' => __( 'Passez à une stratégie rentable', 'brio-guiseppe' ) ],
+			[ 'url' => $a['hotel-en-avant'],  'alt' => __( 'Mettez votre hôtel en avant, pas les OTA', 'brio-guiseppe' ) ],
+			[ 'url' => $a['chaque-jour'],     'alt' => __( 'Chaque jour sans site optimisé vous coûte', 'brio-guiseppe' ) ],
+			[ 'url' => $a['ota-marge-2'],     'alt' => __( 'Ne laissez plus les OTA prendre votre marge', 'brio-guiseppe' ) ],
+		],
+	];
+
+	return apply_filters( 'brio_partners_data', $data );
+}
+
+/**
+ * Get homepage Programs section content.
+ *
+ * Dark "Solutions" section with a 4-item accordion + CTA + sub-note.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string  $overline  Small uppercase label above heading.
+ *     @type string  $heading   Section title.
+ *     @type array[] $items     Each item: { title, content }.
+ *     @type array   $cta       { label, href } primary CTA.
+ *     @type string  $note      Reassurance text under the CTA.
+ * }
+ */
+function brio_get_programs_data() {
+	$wa_text = __( 'Bonjour, je souhaite bénéficier d\'un audit OTA gratuit afin d\'identifier les opportunités d\'augmentation de mes réservations directes et de réduction des commissions.', 'brio-guiseppe' );
+
+	$data = [
+		'overline' => __( 'CE QUE VOUS GAGNEZ EN TRAVAILLANT AVEC MOI', 'brio-guiseppe' ),
+		'heading'  => __( 'Des solutions concrètes pour chaque défi Hôtelier', 'brio-guiseppe' ),
+		'items'    => [
+			[
+				'title'   => __( 'Une stratégie digitale complète (pas juste un site)', 'brio-guiseppe' ),
+				'content' => __( 'Votre site web n\'est que le point de départ. On construit autour un écosystème complet : référencement Google pour attirer les voyageurs, fiche Google Business optimisée pour le local, contenu destination pour capter les recherches, et tracking analytics pour mesurer chaque réservation. Le tout forme une machine d\'acquisition qui tourne en continu — pas une brochure en ligne que personne ne visite.', 'brio-guiseppe' ),
+			],
+			[
+				'title'   => __( 'Moins de commissions, plus de marge', 'brio-guiseppe' ),
+				'content' => __( 'Un riad de 10 chambres à 900 MAD/nuit verse en moyenne 200 000 MAD/an à Booking. Avec un site optimisé pour la réservation directe, vous récupérez 25 à 35% de ces commissions dès la première année. On analyse votre distribution actuelle, on identifie les fuites, et on met en place les leviers concrets : offres exclusives "book direct", moteur de réservation intégré, parité tarifaire intelligente. Chaque réservation directe, c\'est 18 à 25% de marge en plus.', 'brio-guiseppe' ),
+			],
+			[
+				'title'   => __( 'Acquisition de clients en direct', 'brio-guiseppe' ),
+				'content' => __( '65% des voyageurs qui trouvent votre hôtel sur Booking vont ensuite chercher votre nom sur Google. Si votre site n\'apparaît pas — ou s\'il n\'inspire pas confiance — vous les perdez. On positionne votre établissement sur les requêtes qui comptent : "riad [votre ville]", "hôtel avec piscine [destination]", "maison d\'hôtes [région]". Le voyageur vous trouve, il réserve chez vous. Sans intermédiaire, sans commission.', 'brio-guiseppe' ),
+			],
+			[
+				'title'   => __( 'Contrôle & fidélisation client', 'brio-guiseppe' ),
+				'content' => __( 'Quand un client réserve via Booking, c\'est Booking qui possède ses données. Vous ne pouvez ni le recontacter, ni lui proposer une offre pour son anniversaire, ni l\'inviter à revenir en basse saison. Avec le direct booking, chaque client devient VOTRE client : email, téléphone, préférences, historique de séjour. Vous construisez une base de données qui prend de la valeur avec le temps. Un client fidèle coûte 5 fois moins cher qu\'un nouveau client Booking.', 'brio-guiseppe' ),
+			],
+		],
+		'cta'      => [
+			'label' => __( 'Réserver mon audit gratuit', 'brio-guiseppe' ),
+			'href'  => 'https://wa.me/212770740311?text=' . rawurlencode( $wa_text ),
+		],
+		'note'     => __( 'En 48h, recevez un rapport personnalisé avec vos commissions estimées et vos opportunités de direct booking.', 'brio-guiseppe' ),
+	];
+
+	return apply_filters( 'brio_programs_data', $data );
 }
 
 /**

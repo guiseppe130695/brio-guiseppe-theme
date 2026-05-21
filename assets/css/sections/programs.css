@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Homepage — Programs ("Solutions")
+   --------------------------------------------------------------------------
+   Cream --color-bg-primary section · centered column · flex gap 20px.
+   Dark text on light bg: --color-primary headings + accordion titles +
+   icon, --color-text body & note. Accent yellow only on the CTA.
+   ========================================================================== */
+
+.home-programs {
+	background-color: var(--color-bg-primary);
+	padding: 100px 25px;
+	position: relative;
+	z-index: 4;
+}
+
+.home-programs .container {
+	max-width: 1400px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	text-align: center;
+}
+
+/* Overline — Nebeco uppercase · color inherits from body (--color-text)
+   ========================================================================== */
+
+.home-programs__overline {
+	font-family: var(--font-primary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-uppercase-weight);
+	text-transform: var(--accent-uppercase-transform);
+	letter-spacing: 0;
+	line-height: 1.5;
+	animation: programs-fadeIn var(--transition-normal) both;
+}
+
+/* Heading — inherits h2 global (Nebeco + --color-primary)
+   max-width 50% desktop / 520px tablet / 100% mobile
+   ========================================================================== */
+
+.home-programs__heading {
+	max-width: 700px;
+	margin-bottom: 30px;
+	animation: programs-fadeIn var(--transition-normal) 200ms both;
+}
+
+/* Accordion list — max 800px, full width
+   ========================================================================== */
+
+.home-programs__list {
+	list-style: none;
+	margin: -10px 0 0;
+	padding: 0;
+	width: 100%;
+	max-width: 1200px;
+	animation: programs-fadeIn var(--transition-normal) 400ms both;
+}
+
+.home-programs__item {
+	border-bottom: 1px solid var(--color-border);
+	transition: border-color var(--transition-normal);
+}
+
+.home-programs__item:has(.home-programs__details[open]) {
+	border-bottom-color: var(--color-accent);
+}
+
+.home-programs__details {
+	width: 100%;
+}
+
+.home-programs__summary {
+	list-style: none;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--spacing-xl);
+	padding: 40px 0;
+	color: var(--color-primary);
+	font-family: var(--font-primary);
+	font-size: var(--h3-size);
+	font-weight: var(--h3-weight);
+	line-height: var(--h3-line-height);
+	letter-spacing: var(--h3-letter-spacing);
+	text-align: left;
+}
+
+.home-programs__summary::-webkit-details-marker {
+	display: none;
+}
+
+.home-programs__summary::marker {
+	display: none;
+}
+
+.home-programs__title {
+	flex: 1;
+}
+
+/* +/× toggle — single "+" rotated 45° when open
+   ========================================================================== */
+
+.home-programs__summary::after {
+	content: '+';
+	flex-shrink: 0;
+	width: 28px;
+	height: 28px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-secondary);
+	font-size: 20px;
+	font-weight: 300;
+	line-height: 1;
+	color: var(--color-primary);
+	transition: transform var(--transition-normal), font-size var(--transition-normal), color var(--transition-normal);
+}
+
+.home-programs__details[open] .home-programs__summary::after {
+	transform: rotate(45deg);
+	font-size: 23px;
+	color: var(--color-accent);
+}
+
+/* Content — body typography inherited, color inherits from body
+   ========================================================================== */
+
+.home-programs__content {
+	padding: 0 0 30px;
+	text-align: left;
+}
+
+/* CTA — accent bg → dark on hover (same recipe as About button)
+   ========================================================================== */
+
+.home-programs__btn {
+	display: inline-block;
+	margin-top: 10px;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+	letter-spacing: var(--accent-letter-spacing);
+	text-decoration: none;
+	color: var(--color-text);
+	background-color: var(--color-accent);
+	border-radius: 30px;
+	padding: 15px 26px;
+	transition: color var(--transition-normal), background-color var(--transition-normal);
+	animation: programs-fadeIn var(--transition-normal) 600ms both;
+}
+
+.home-programs__btn:hover {
+	color: var(--color-accent);
+	background-color: var(--color-text);
+}
+
+/* Sub-note — body typography, max-width 33%
+   ========================================================================== */
+
+.home-programs__note {
+	margin-top: -10px;
+	max-width: 33%;
+	animation: programs-fadeIn var(--transition-normal) 700ms both;
+}
+
+/* Tablet
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+	.home-programs {
+		padding: 70px 20px;
+	}
+
+	.home-programs__overline {
+		font-size: 14px;
+	}
+
+	.home-programs__heading {
+		max-width: 520px;
+		margin-bottom: 20px;
+	}
+
+	.home-programs__summary {
+		padding: 32px 0;
+	}
+
+	.home-programs__summary::after {
+		font-size: 15px;
+	}
+
+	.home-programs__details[open] .home-programs__summary::after {
+		font-size: 18px;
+	}
+
+	.home-programs__note {
+		max-width: 36%;
+	}
+}
+
+/* Mobile
+   ========================================================================== */
+
+@media (max-width: 767px) {
+	.home-programs {
+		padding: 70px 10px;
+	}
+
+	.home-programs__overline {
+		font-size: 14px;
+	}
+
+	.home-programs__heading {
+		max-width: 100%;
+		margin-bottom: 10px;
+	}
+
+	.home-programs__summary {
+		padding: 24px 0;
+		gap: var(--spacing-md);
+	}
+
+	.home-programs__summary::after {
+		font-size: 14px;
+	}
+
+	.home-programs__details[open] .home-programs__summary::after {
+		font-size: 17px;
+	}
+
+	.home-programs__note {
+		max-width: 75%;
+	}
+}
+
+/* Keyframes
+   ========================================================================== */
+
+@keyframes programs-fadeIn {
+	from { opacity: 0; transform: translateY(12px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
