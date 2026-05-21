@@ -45,12 +45,11 @@ function brio_send_security_headers() {
 		"form-action 'self'",
 		"img-src 'self' data: https:",
 		"media-src 'self'",
-		"font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
+		"font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com",
 		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
 		"style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
 		"script-src 'self' 'unsafe-inline'",
-		"connect-src 'self'",
-		"require-trusted-types-for 'script'",
+		"connect-src 'self' https://wa.me",
 		"upgrade-insecure-requests",
 	] );
 

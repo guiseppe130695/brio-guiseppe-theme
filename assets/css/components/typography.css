@@ -11,6 +11,10 @@ body {
 	letter-spacing: var(--body-letter-spacing);
 }
 
+p {
+	margin: 0;
+}
+
 /* Headings */
 h1, .h1 {
 	font-family: var(--font-primary);
@@ -129,4 +133,25 @@ a:hover {
 	font-weight: var(--accent-uppercase-weight);
 	text-transform: var(--accent-uppercase-transform);
 	letter-spacing: var(--accent-uppercase-letter-spacing);
+}
+
+/* Section text stack — overline → heading → body → CTA
+   Usage: add .section-stack on the wrapper, then role classes on children.
+   --------------------------------------------------------- */
+.section-stack {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.section-stack__overline {
+	margin-bottom: var(--stack-overline-heading);
+}
+
+.section-stack__heading {
+	margin-bottom: var(--stack-heading-body);
+}
+
+.section-stack__body {
+	margin-bottom: var(--stack-body-cta);
 }

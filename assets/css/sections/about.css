@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Homepage — About
+   ========================================================================== */
+
+.home-about {
+	background-color: var(--color-primary);
+	padding: 100px 25px;
+	position: relative;
+	z-index: 4;
+}
+
+.home-about .container {
+	max-width: 1400px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: var(--spacing-lg);
+}
+
+/* Content column — 60% · flex layout via .section-stack
+   ========================================================================== */
+
+.home-about__content {
+	width: 60%;
+}
+
+/* Overline — Nebeco · color via .text-accent
+   ========================================================================== */
+
+.home-about__overline {
+	font-family: var(--font-primary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-uppercase-weight);
+	text-transform: var(--accent-uppercase-transform);
+	letter-spacing: 0px;
+	line-height: 1.5;
+	animation: about-fadeIn var(--transition-normal) both;
+}
+
+/* Heading — overrides h2 global: Greenos + --color-secondary
+   ========================================================================== */
+
+.home-about__heading {
+	color: var(--color-secondary);
+	animation: about-fadeIn var(--transition-normal) 200ms both;
+}
+
+/* Description — color override only, typography from body global
+   ========================================================================== */
+
+.home-about__description {
+	color: var(--color-bg-secondary);
+	width: 100%;
+	animation: about-fadeIn var(--transition-normal) 400ms both;
+}
+
+/* Button
+   ========================================================================== */
+
+.home-about__btn {
+	display: inline-block;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+	letter-spacing: var(--accent-letter-spacing);
+	text-decoration: none;
+	color: var(--color-text);
+	background-color: var(--color-accent);
+	border-radius: 30px;
+	padding: 15px 26px;
+	transition: color var(--transition-normal), background-color var(--transition-normal);
+	animation: about-fadeIn var(--transition-normal) 600ms both;
+}
+
+.home-about__btn:hover {
+	color: var(--color-primary);
+	background-color: var(--color-bg-primary);
+}
+
+/* Image — 35% flex sibling, float on hover
+   ========================================================================== */
+
+.home-about__visual {
+	width: 35%;
+	height: auto;
+	display: block;
+	border-radius: 20px;
+	flex-shrink: 0;
+	animation: about-fadeIn var(--transition-normal) 200ms both;
+}
+
+.home-about__visual:hover {
+	animation: about-float 3s ease-in-out infinite;
+}
+
+/* Tablet
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+	.home-about {
+		padding: 70px 20px;
+	}
+
+	.home-about__heading {
+		letter-spacing: -2px;
+		max-width: 520px;
+	}
+
+	.home-about__visual {
+		border-radius: var(--radius-lg);
+	}
+}
+
+/* Mobile
+   ========================================================================== */
+
+@media (max-width: 767px) {
+	.home-about {
+		padding: 70px 10px;
+	}
+
+	.home-about .container {
+		flex-direction: column;
+	}
+
+	.home-about__content {
+		width: 100%;
+	}
+
+	.home-about__heading {
+		letter-spacing: -1.6px;
+		max-width: 100%;
+	}
+
+	.home-about__visual {
+		width: 100%;
+		margin-top: 50px;
+		border-radius: 25px;
+	}
+}
+
+/* Keyframes
+   ========================================================================== */
+
+@keyframes about-fadeIn {
+	from { opacity: 0; transform: translateY(12px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes about-float {
+	0%, 100% { transform: translateY(0); }
+	50%       { transform: translateY(-10px); }
+}

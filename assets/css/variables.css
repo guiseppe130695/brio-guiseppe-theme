@@ -99,6 +99,11 @@
 	--spacing-2xl: 32px;
 	--spacing-3xl: 40px;
 
+	/* Section text stack — gaps between overline / heading / body / CTA */
+	--stack-overline-heading: 12px;
+	--stack-heading-body: 24px;
+	--stack-body-cta: 40px;
+
 	/* ========== BORDER RADIUS ========== */
 	--radius-sm: 8px;
 	--radius-md: 12px;

@@ -136,6 +136,9 @@ function brio_get_assets() {
 			'video'    => $base . 'hero/marrakech.mp4',
 			'poster'   => $base . 'hero/poster.webp',
 		],
+		'about' => [
+			'commissions' => $base . 'about/Stop-aux-commissions-invisibles.webp',
+		],
 		'footer' => [
 			'logo'       => $base . 'footer/logo.webp',
 			'decoration' => $base . 'footer/decoration.png',
@@ -199,6 +202,39 @@ function brio_get_hero_data() {
 	];
 
 	return apply_filters( 'brio_hero_data', $data );
+}
+
+/**
+ * Get homepage About section content.
+ *
+ * Two-column layout: text pitch (left 60%) + visual asset (right 35%).
+ * Pure data — the template part is responsible for rendering only.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     About content.
+ *
+ *     @type string $overline       Small accent text above heading.
+ *     @type string $heading        Main headline (multiline).
+ *     @type string $description    Body text with context.
+ *     @type array  $cta            Call-to-action button ({ label, href }).
+ *     @type string $image          Featured image URL (right column).
+ * }
+ */
+function brio_get_about_data() {
+	$data = [
+		'overline'    => __( 'Ce que je fais vraiment', 'brio-guiseppe' ),
+		'heading'     => __( 'Je ne crée pas de sites web. Je construis des canaux de vente directe pour hôtels indépendants.', 'brio-guiseppe' ),
+		'description' => __( 'Chaque nuit sur une OTA, 15 à 25% de votre revenu s\'envole et vos clients avec. Je construis le système qui les ramène : site qui convertit, SEO qui attire, pricing qui optimise. Pensé pour votre établissement, votre marché, votre histoire.', 'brio-guiseppe' ),
+		'image'       => brio_asset( 'about', 'commissions' ),
+		'cta'         => [
+			'label' => __( 'Calculer mes revenus perdus', 'brio-guiseppe' ),
+			'href'  => 'https://wa.me/212770740311?text=' . urlencode( __( 'Bonjour, je souhaite analyser les revenus perdus à cause des OTA et découvrir des solutions concrètes pour augmenter mes réservations directes. Peut-on planifier un échange ?', 'brio-guiseppe' ) ),
+		],
+	];
+
+	return apply_filters( 'brio_about_data', $data );
 }
 
 /**
