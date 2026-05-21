@@ -62,6 +62,21 @@ This theme runs inside a [Local](https://localwp.com/) site. The working directo
 
 Toggle `JU_DEV_MODE` in [`functions.php`](functions.php) to append cache-busting timestamps during development.
 
+## Installation
+
+1. Clone this repo into `wp-content/themes/`:
+   ```
+   git clone https://github.com/guiseppe130695/brio-guiseppe-theme.git
+   ```
+2. Activate the theme from **Appearance → Themes** in the WP admin.
+3. Configure the primary menu under **Appearance → Menus** (location: *Primary*).
+
+## Contributing
+
+- Edit content shared between header and footer (phones, address, social links) in [`includes/theme-data.php`](includes/theme-data.php) — never hardcode it in templates.
+- Design tokens (colors, fonts, spacing) live in [`assets/css/variables.css`](assets/css/variables.css). Reach for CSS variables instead of literal values when extending styles.
+- Keep the CSS table-of-contents updated when adding new sections.
+
 ## License
 
 Proprietary — © Brio Guiseppe.
