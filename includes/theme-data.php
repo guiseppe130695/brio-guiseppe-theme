@@ -149,6 +149,59 @@ function brio_get_assets() {
 }
 
 /**
+ * Get homepage Hero section content.
+ *
+ * Pure data — the template part is responsible for rendering only.
+ * Filterable so the content can be A/B-tested or overridden without
+ * editing the template.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     Hero content.
+ *
+ *     @type array $rating   { value, max, caption, href } — social proof block.
+ *     @type array $title    Headline string.
+ *     @type array $lead     Two-paragraph lead (string array, second may contain a %s placeholder).
+ *     @type array $cta      List of CTAs ({ label, href, variant }).
+ *     @type array $features List of feature pills ({ title, desc }).
+ * }
+ */
+function brio_get_hero_data() {
+	$company = brio_get_company_data();
+
+	$data = [
+		'rating'   => [
+			'value'   => 5,
+			'max'     => 5,
+			'caption' => __( 'Noté par les hôteliers accompagnés', 'brio-guiseppe' ),
+			'href'    => $company['social']['linkedin'] ?? '#',
+		],
+		'title'    => __( 'Libérez votre Hôtel des commissions OTA', 'brio-guiseppe' ),
+		'lead'     => [
+			__( 'Je construis des sites qui convertissent les visiteurs en réservations directes pour les hôtels indépendants, riads et maisons d\'hôtes.', 'brio-guiseppe' ),
+			[
+				/* translators: %s: bold inline phrase "jusqu'à 25 000 €/an de commissions". */
+				'template'  => __( 'Résultat : %s récupérées.', 'brio-guiseppe' ),
+				'highlight' => __( 'jusqu\'à 25 000 €/an de commissions', 'brio-guiseppe' ),
+			],
+		],
+		'cta'      => [
+			[ 'label' => __( 'Réserver mon audit gratuit', 'brio-guiseppe' ),  'href' => '#audit',        'variant' => 'primary' ],
+			[ 'label' => __( 'Calculer mes revenus perdus', 'brio-guiseppe' ), 'href' => '#calculateur',  'variant' => 'secondary' ],
+		],
+		'features' => [
+			[ 'title' => __( 'Site Qui Vend', 'brio-guiseppe' ),              'desc' => __( 'Réservation directe. Zéro commission.', 'brio-guiseppe' ) ],
+			[ 'title' => __( 'SEO Tourisme & Destination', 'brio-guiseppe' ), 'desc' => __( 'Vos hôtes vous trouvent avant les OTA.', 'brio-guiseppe' ) ],
+			[ 'title' => __( 'Revenue Management Custom', 'brio-guiseppe' ),  'desc' => __( 'Chaque nuit vendue au meilleur prix.', 'brio-guiseppe' ) ],
+			[ 'title' => __( 'Audit Distribution OTA', 'brio-guiseppe' ),     'desc' => __( 'Découvrez combien Booking vous coûte.', 'brio-guiseppe' ) ],
+		],
+	];
+
+	return apply_filters( 'brio_hero_data', $data );
+}
+
+/**
  * Get a single asset URL by section + key.
  *
  * Convenience wrapper around brio_get_assets() for template files.

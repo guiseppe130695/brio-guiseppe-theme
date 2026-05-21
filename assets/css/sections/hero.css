@@ -51,11 +51,14 @@
 }
 
 .home-hero__stars {
-	display: inline-flex;
-	gap: 4px;
 	color: var(--color-accent);
 	font-size: 16px;
 	line-height: 1;
+}
+
+.home-hero__stars::before {
+	content: '★★★★★';
+	letter-spacing: 4px;
 }
 
 .home-hero__rating-caption {
@@ -89,7 +92,8 @@
 	color: var(--color-primary);
 }
 
-/* Lead paragraph — two sentences joined by <br><br>, last has <strong> highlight
+/* Lead paragraphs — two distinct sentences (each its own <p> for SEO).
+   The second paragraph contains a <strong> highlight on the revenue figure.
    -------------------------------------------------------------------------- */
 
 .home-hero__lead {
@@ -99,6 +103,11 @@
 	font-size: 18px;
 	line-height: var(--body-line-height);
 	color: var(--color-text);
+}
+
+/* Tighten gap between the two lead paragraphs (container uses gap: 32px). */
+.home-hero__lead + .home-hero__lead {
+	margin-top: -14px;
 }
 
 .home-hero__lead strong {
@@ -131,7 +140,7 @@
 	text-align: left;
 }
 
-.home-hero__feature {
+.home-hero__features li {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	column-gap: var(--spacing-sm);
@@ -139,7 +148,9 @@
 	align-items: start;
 }
 
-.home-hero__feature-icon {
+/* Check icon as Unicode pseudo — saves one <i> per feature, no FA dependency. */
+.home-hero__features li::before {
+	content: '✓';
 	grid-column: 1;
 	grid-row: 1 / span 2;
 	width: 24px;
@@ -150,11 +161,12 @@
 	background: var(--color-secondary);
 	color: var(--color-primary);
 	border-radius: 50%;
-	font-size: 11px;
+	font-size: 12px;
+	font-weight: 700;
 	margin-top: 2px;
 }
 
-.home-hero__feature-title {
+.home-hero__features li strong {
 	grid-column: 2;
 	font-family: var(--font-secondary);
 	font-size: 15px;
@@ -163,7 +175,7 @@
 	letter-spacing: -0.2px;
 }
 
-.home-hero__feature-desc {
+.home-hero__features li span {
 	grid-column: 2;
 	font-family: var(--font-secondary);
 	font-size: 13px;
