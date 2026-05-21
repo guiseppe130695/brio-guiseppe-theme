@@ -1,0 +1,537 @@
+/* ==========================================================================
+   Site Footer
+   --------------------------------------------------------------------------
+   Three-row layout, designed to match Elementor template #80.
+
+   Table of contents:
+     1. Container
+     2. Row 1 — Branding + Newsletter
+     3. Row 2 — Navigation columns
+     4. Row 3 — Legal links
+     5. Responsive (≤1024 / ≤768 / ≤480)
+
+   Typography references:
+     H4  → Nebeco 29px / 300 / lh 1.1 / ls -1.1
+     H5  → Nebeco 22px / 300 / lh 1.2 / ls -0.8
+     Text → Manrope 16px / 400 / lh 1.6 / ls -0.3
+     Accent (CTA) → Manrope 14px / 500 / ls -0.2
+   ========================================================================== */
+
+
+/* 1. Container
+   ========================================================================== */
+
+.site-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 100px 25px 50px;
+	background: var(--color-primary);
+	color: #fff;
+}
+
+.footer-inner {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	max-width: 1400px;
+	margin: 0;
+}
+
+
+/* 2. Row 1 — Branding + Newsletter
+   ========================================================================== */
+
+.footer-row-1 {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 50px;
+	margin-bottom: 25px;
+	padding-bottom: 100px;
+	border-bottom: 1px solid rgba(255, 250, 238, 0.12);
+}
+
+/* 2.1 Brand block (logo + description + tagline + decorative asset)
+   Layout matches Elementor: logo block on top row, tagline + asset on second. */
+.footer-col-left {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: space-between;
+	width: 50%;
+	gap: 0;
+}
+
+.footer-logo-block {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+	margin-bottom: 40px;
+}
+
+.footer-logo {
+	display: block;
+	width: 55%;
+	height: auto;
+}
+
+.footer-desc {
+	margin: -4px 0 0;
+	width: 47%;
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.6;
+	letter-spacing: -0.2px;
+	color: var(--color-bg-primary);
+}
+
+.footer-tagline {
+	align-self: flex-end;
+	width: 56%;
+	margin: 0;
+	font-family: var(--font-primary);
+	font-size: 29px;
+	font-weight: 300;
+	line-height: 1.1;
+	letter-spacing: -1.1px;
+	color: var(--color-secondary);
+}
+
+.footer-asset-image {
+	flex-shrink: 0;
+	align-self: flex-end;
+	width: 150px;
+	height: auto;
+}
+
+/* 2.2 Newsletter card */
+.footer-newsletter {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	width: 50%;
+	padding: 0;
+	background: var(--color-text);
+	border-radius: 25px;
+}
+
+.footer-newsletter-content {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: 64%;
+	padding: 30px;
+}
+
+.footer-newsletter-title {
+	margin: 0 0 30px;
+	font-family: var(--font-primary);
+	font-size: 29px;
+	font-weight: 300;
+	line-height: 1.1;
+	letter-spacing: -1.1px;
+	color: #fff;
+}
+
+.footer-newsletter-desc {
+	margin: 20px 0 0;
+	font-family: var(--font-secondary);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.6;
+	letter-spacing: -0.3px;
+	color: rgba(255, 253, 245, 0.75);
+}
+
+.footer-newsletter-image {
+	flex-shrink: 0;
+	width: 36%;
+	height: auto;
+	padding: 10px;
+	border-radius: 25px;
+	object-fit: cover;
+}
+
+/* 2.3 Newsletter form (matches MetForm design from JSON #84) */
+.newsletter-form {
+	display: flex;
+	overflow: hidden;
+	background: #fff;
+	border: 1px solid #FFFDF520;
+	border-radius: 16px;
+}
+
+.newsletter-form input {
+	flex: 1;
+	padding: 10px 18px;
+	border: none;
+	outline: none;
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: -0.3px;
+	color: var(--color-primary);
+}
+
+.newsletter-form input::placeholder {
+	font-family: var(--font-secondary);
+	font-weight: 400;
+	color: #999;
+}
+
+.newsletter-form button {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	padding: 17px 20px;
+	background: var(--color-secondary);
+	border: none;
+	border-radius: 0 15px 15px 0;
+	cursor: pointer;
+	font-size: 20px;
+	font-weight: 600;
+	color: #005064;
+	transition: var(--transition-normal);
+}
+
+.newsletter-form button:hover {
+	opacity: 0.9;
+}
+
+
+/* 3. Row 2 — Navigation Columns
+   --------------------------------------------------------------------------
+   Column widths mirror Elementor: 8% / 20% / 20% / 8% with space-between.
+   ========================================================================== */
+
+.footer-row-2 {
+	justify-content: space-between;
+	width: 100%;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: 1px solid rgba(255, 250, 238, 0.12);
+	gap: 0;
+}
+
+.footer-row-2 .footer-col,
+.footer-row-2 .footer-col-1,
+.footer-row-2 .footer-col-2,
+.footer-row-2 .footer-col-3,
+.footer-row-2 .footer-col-4 {
+	padding-bottom: 25px;
+}
+
+.footer-col,
+.footer-col-1,
+.footer-col-2,
+.footer-col-3,
+.footer-col-4 {
+	display: flex;
+	flex: 0 1 auto;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.footer-col-1,
+.footer-col-4 { width: 8%; }
+
+.footer-col-2,
+.footer-col-3 { width: 20%; }
+
+/* Column titles (H5 typography from JSON) */
+.footer-col h5,
+.footer-col-1 h5,
+.footer-col-2 h5,
+.footer-col-3 h5,
+.footer-col-4 h5 {
+	margin: 0 0 20px;
+	font-family: var(--font-primary);
+	font-size: 22px;
+	font-weight: 300;
+	line-height: 1.2;
+	letter-spacing: -0.8px;
+	color: var(--color-secondary);
+	word-wrap: break-word;
+}
+
+/* Link list */
+.footer-links {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.footer-links li {
+	margin: 0;
+	padding: 0;
+}
+
+.footer-links a {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-family: var(--font-secondary);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.6;
+	letter-spacing: -0.3px;
+	color: var(--color-bg-primary);
+	text-decoration: none;
+	transition: var(--transition-normal);
+}
+
+.footer-links a:hover {
+	color: var(--color-accent);
+}
+
+.footer-links i {
+	flex-shrink: 0;
+	min-width: 18px;
+	font-size: 18px;
+	color: var(--color-accent);
+}
+
+
+/* 4. Row 3 — Legal links + identifiers
+   ========================================================================== */
+
+.footer-row-3 {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 8px;
+	width: 100%;
+	margin-top: 30px;
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: -0.2px;
+	color: #fff;
+}
+
+.footer-bottom-link,
+.footer-bottom-sep {
+	margin-top: -3px;
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: -0.2px;
+	color: #fff;
+}
+
+.footer-bottom-link {
+	text-decoration: none;
+	transition: var(--transition-normal);
+}
+
+.footer-bottom-link:hover {
+	color: var(--color-accent);
+}
+
+
+/* 5. Responsive
+   ========================================================================== */
+
+/* 5.1 Tablet (≤1024px) */
+@media (max-width: 1024px) {
+
+	.site-footer {
+		padding: 70px 20px 50px;
+	}
+
+	.footer-row-1 {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 50px;
+		margin-bottom: 70px;
+		padding-bottom: 70px;
+	}
+
+	.footer-col-left {
+		flex-direction: column;
+		align-items: flex-start;
+		align-content: flex-start;
+		width: 100%;
+	}
+
+	.footer-logo-block {
+		margin-bottom: 20px;
+	}
+
+	.footer-desc,
+	.footer-tagline {
+		width: 100%;
+	}
+
+	.footer-asset-image {
+		display: none;
+	}
+
+	.footer-newsletter {
+		width: 100%;
+	}
+
+	.footer-newsletter-content {
+		width: 60%;
+	}
+
+	.footer-row-2 {
+		justify-content: space-between;
+	}
+
+	.footer-row-2 .footer-col,
+	.footer-row-2 .footer-col-1,
+	.footer-row-2 .footer-col-2,
+	.footer-row-2 .footer-col-3,
+	.footer-row-2 .footer-col-4 {
+		flex: 0 1 calc(25% - 12px);
+		padding-bottom: 50px;
+	}
+}
+
+/* 5.2 Mobile Landscape (≤768px) */
+@media (max-width: 768px) {
+
+	.site-footer {
+		padding: 70px 10px 50px;
+	}
+
+	.footer-row-1 {
+		flex-direction: column;
+		margin-bottom: 25px;
+		padding-bottom: 50px;
+	}
+
+	.footer-col-left {
+		width: 100%;
+	}
+
+	.footer-tagline {
+		width: 100%;
+	}
+
+	.footer-logo {
+		width: 60%;
+		margin: 0 auto;
+	}
+
+	.footer-newsletter {
+		flex-wrap: wrap;
+		width: 100%;
+	}
+
+	.footer-newsletter-content {
+		width: 100%;
+		padding: 30px 20px;
+	}
+
+	.footer-newsletter-image {
+		flex-basis: 100%;
+		width: 100%;
+	}
+
+	.footer-row-2 {
+		flex-wrap: wrap;
+	}
+
+	.footer-row-2 .footer-col,
+	.footer-row-2 .footer-col-1,
+	.footer-row-2 .footer-col-2,
+	.footer-row-2 .footer-col-3,
+	.footer-row-2 .footer-col-4 {
+		flex: 0 1 calc(50% - 15px);
+		padding-bottom: 30px;
+	}
+
+	.footer-row-3 {
+		justify-content: center;
+		text-align: center;
+	}
+}
+
+/* 5.3 Mobile Portrait (≤480px) */
+@media (max-width: 480px) {
+
+	.site-footer {
+		padding: 70px 10px 50px;
+	}
+
+	.footer-row-1 {
+		margin-bottom: 30px;
+		padding-bottom: 30px;
+	}
+
+	.footer-col-left {
+		flex-direction: column;
+		align-items: flex-start;
+		width: 100%;
+	}
+
+	.footer-logo {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	.footer-tagline {
+		width: 100%;
+		font-size: 18px;
+	}
+
+	.footer-newsletter {
+		flex-wrap: wrap;
+		width: 100%;
+	}
+
+	.footer-newsletter-content {
+		width: 100%;
+		padding: 30px 20px;
+	}
+
+	.footer-newsletter-image {
+		flex-basis: 100%;
+		width: 100%;
+	}
+
+	.footer-newsletter-title {
+		font-size: 18px;
+	}
+
+	.footer-row-2 .footer-col,
+	.footer-row-2 .footer-col-1,
+	.footer-row-2 .footer-col-2,
+	.footer-row-2 .footer-col-3,
+	.footer-row-2 .footer-col-4 {
+		flex: 0 1 100%;
+		padding-bottom: 20px;
+	}
+
+	.footer-col h5,
+	.footer-col-1 h5,
+	.footer-col-2 h5,
+	.footer-col-3 h5,
+	.footer-col-4 h5 {
+		margin-bottom: 10px;
+		font-size: 18px;
+	}
+
+	.footer-links a {
+		font-size: 13px;
+	}
+
+	.footer-row-3 {
+		flex-direction: column;
+		gap: 4px;
+		font-size: 12px;
+	}
+
+	.footer-bottom-sep:nth-child(even) {
+		display: none;
+	}
+}

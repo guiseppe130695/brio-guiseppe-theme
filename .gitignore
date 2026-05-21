@@ -1,0 +1,114 @@
+# ==========================================================================
+# Brio Guiseppe Theme — .gitignore
+# ==========================================================================
+
+
+# Operating system files
+# --------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+
+# Editors / IDE
+# --------------------------------------------------------------------------
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+*.swp
+*.swo
+*.swn
+*~
+.project
+.settings/
+.buildpath
+nbproject/
+.history/
+
+
+# Dependencies
+# --------------------------------------------------------------------------
+node_modules/
+vendor/
+bower_components/
+jspm_packages/
+
+
+# Build outputs
+# --------------------------------------------------------------------------
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+*.zip
+*.tar
+*.tar.gz
+
+
+# Compiled assets (uncomment if compiling from source)
+# --------------------------------------------------------------------------
+# style.css.map
+# *.css.map
+# *.min.css
+# *.min.js
+
+
+# Logs
+# --------------------------------------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+debug.log
+
+
+# Environment / secrets
+# --------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+.htpasswd
+auth.json
+
+
+# Local config overrides
+# --------------------------------------------------------------------------
+local-config.php
+wp-config-local.php
+
+
+# Generated language files (keep .pot, ignore compiled .mo)
+# --------------------------------------------------------------------------
+languages/*.mo
+
+
+# WordPress media / uploads (should never be in a theme repo)
+# --------------------------------------------------------------------------
+uploads/
+
+
+# PHPUnit / testing
+# --------------------------------------------------------------------------
+.phpunit.result.cache
+coverage/
+phpunit.xml
+.tmp/
+
+
+# Misc
+# --------------------------------------------------------------------------
+*.bak
+*.backup
+*.tmp
+*.temp

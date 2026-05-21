@@ -1,0 +1,132 @@
+/* ============================================
+   Component: Typography
+   ============================================ */
+
+body {
+	font-family: var(--font-secondary);
+	font-size: var(--body-size);
+	font-weight: var(--body-weight);
+	color: var(--color-text);
+	line-height: var(--body-line-height);
+	letter-spacing: var(--body-letter-spacing);
+}
+
+/* Headings */
+h1, .h1 {
+	font-family: var(--font-primary);
+	font-size: var(--h1-size);
+	font-weight: var(--h1-weight);
+	line-height: var(--h1-line-height);
+	letter-spacing: var(--h1-letter-spacing);
+	color: var(--color-primary);
+	margin: 0;
+}
+
+h2, .h2 {
+	font-family: var(--font-primary);
+	font-size: var(--h2-size);
+	font-weight: var(--h2-weight);
+	line-height: var(--h2-line-height);
+	letter-spacing: var(--h2-letter-spacing);
+	color: var(--color-primary);
+	margin: 0;
+}
+
+h3, .h3 {
+	font-family: var(--font-primary);
+	font-size: var(--h3-size);
+	font-weight: var(--h3-weight);
+	line-height: var(--h3-line-height);
+	letter-spacing: var(--h3-letter-spacing);
+	color: var(--color-primary);
+	margin: 0;
+}
+
+h4, .h4 {
+	font-family: var(--font-primary);
+	font-size: var(--h4-size);
+	font-weight: var(--h4-weight);
+	line-height: var(--h4-line-height);
+	letter-spacing: var(--h4-letter-spacing);
+	color: var(--color-primary);
+	margin: 0;
+}
+
+h5, .h5 {
+	font-family: var(--font-primary);
+	font-size: var(--h5-size);
+	font-weight: var(--h5-weight);
+	line-height: var(--h5-line-height);
+	letter-spacing: var(--h5-letter-spacing);
+	color: var(--color-primary);
+	margin: 0;
+}
+
+h6, .h6 {
+	font-family: var(--font-primary);
+	font-size: var(--h6-size);
+	font-weight: var(--h6-weight);
+	line-height: var(--h6-line-height);
+	letter-spacing: var(--h6-letter-spacing);
+	color: var(--color-primary);
+	margin: 0;
+}
+
+/* Logo */
+.logo {
+	font-family: var(--font-primary);
+	font-size: var(--h3-size);
+	font-weight: 700;
+	color: var(--color-primary);
+	letter-spacing: -1px;
+	text-decoration: none;
+	line-height: 1;
+	display: inline-block;
+}
+
+.logo:hover {
+	text-decoration: none;
+	color: var(--color-primary);
+}
+
+.logo span {
+	color: var(--color-primary);
+}
+
+/* Links */
+a {
+	color: var(--color-text);
+	text-decoration: none;
+	transition: var(--transition-fast);
+}
+
+a:hover {
+	color: var(--color-primary);
+	text-decoration: none;
+}
+
+/* Text utilities */
+.text-muted {
+	color: #999;
+}
+
+.text-primary {
+	color: var(--color-primary);
+}
+
+.text-secondary {
+	color: var(--color-secondary);
+}
+
+.text-accent {
+	color: var(--color-accent);
+}
+
+/* Accent text (like uppercase labels) */
+.accent-text {
+	font-family: var(--font-secondary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-uppercase-weight);
+	text-transform: var(--accent-uppercase-transform);
+	letter-spacing: var(--accent-uppercase-letter-spacing);
+}

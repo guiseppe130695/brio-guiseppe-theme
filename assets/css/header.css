@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Site Header
+   --------------------------------------------------------------------------
+   Three-column layout: [nav-left 40%] [logo 20%] [nav-right 40%].
+   Cream background with subtle bottom border. Mirrors Elementor template #67.
+
+   Table of contents:
+     1. Imports
+     2. Reset
+     3. Container
+     4. Layout columns
+     5. Branding (logo)
+     6. Navigation links
+     7. Contact actions (phone, demo CTA)
+   ========================================================================== */
+
+
+/* 1. Component imports
+   ========================================================================== */
+
+@import url('./components/typography.css');
+@import url('./components/button.css');
+@import url('./components/phone.css');
+@import url('./components/navigation.css');
+
+
+/* 2. Reset (scoped to header concerns)
+   ========================================================================== */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+
+/* 3. Container
+   ========================================================================== */
+
+.site-header {
+	position: relative;
+	z-index: 95;
+	width: 100%;
+	padding: 20px 0;
+	background: var(--color-bg-primary);
+	border-bottom: 1px solid rgba(33, 88, 6, 0.19);
+}
+
+.site-header .container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0 40px;
+}
+
+
+/* 4. Layout columns (40 / 20 / 40)
+   ========================================================================== */
+
+.site-header .nav-left {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 40px;
+	width: 40%;
+}
+
+.site-header .nav-right {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 20px;
+	width: 40%;
+}
+
+
+/* 5. Branding — wordmark "Brio Guiseppe."
+   ========================================================================== */
+
+.site-header .logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20%;
+	font-family: var(--font-primary);
+	font-size: 36px;
+	font-weight: 300;
+	line-height: 1;
+	letter-spacing: -1.4px;
+	color: var(--color-primary);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: transform 400ms ease;
+}
+
+.site-header .logo:hover {
+	color: var(--color-primary);
+}
+
+.site-header .logo span {
+	color: var(--color-primary);
+}
+
+
+/* 6. Navigation links (within .nav-left)
+   --------------------------------------------------------------------------
+   Note: dropdown styles live in components/navigation.css.
+   ========================================================================== */
+
+.site-header .nav-left > ul,
+.nav-primary {
+	display: flex;
+	align-items: center;
+	gap: 40px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.site-header .nav-left a {
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: -0.2px;
+	color: var(--color-primary);
+	text-decoration: none;
+	transition: var(--transition-normal);
+}
+
+.site-header .nav-left a:hover {
+	color: var(--color-text);
+}
+
+
+/* 7. Contact actions (right column)
+   ========================================================================== */
+
+/* 7.1 Phone numbers */
+.site-header .phone {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: -0.2px;
+	color: var(--color-primary);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: var(--transition-normal);
+}
+
+.site-header .phone:hover {
+	color: #334F0A;
+}
+
+.site-header .phone i {
+	font-size: 14px;
+	color: var(--color-primary);
+}
+
+/* 7.2 Demo CTA — accent pill button */
+.site-header .btn-primary {
+	flex-shrink: 0;
+	padding: 14px 22px;
+	background: var(--color-accent);
+	border: 1px solid var(--color-accent);
+	border-radius: 50px;
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1;
+	letter-spacing: -0.2px;
+	color: var(--color-primary);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: var(--transition-normal);
+}
+
+.site-header .btn-primary:hover {
+	background: var(--color-primary);
+	border-color: var(--color-primary);
+	color: var(--color-accent);
+}
