@@ -16,7 +16,6 @@ defined( 'ABSPATH' ) || exit;
 $company = brio_get_company_data();
 $columns = brio_get_footer_columns();
 $legal   = brio_get_legal_data();
-$assets  = brio_get_assets();
 ?>
 
 <footer class="site-footer" role="contentinfo">
@@ -29,7 +28,7 @@ $assets  = brio_get_assets();
 		<div class="footer-col-left">
 			<div class="footer-logo-block">
 				<img
-					src="<?php echo esc_url( $assets['footer_logo'] ); ?>"
+					src="<?php echo esc_url( brio_asset( 'footer', 'logo' ) ); ?>"
 					alt="<?php echo esc_attr( $company['name'] ); ?>"
 					class="footer-logo"
 					loading="lazy"
@@ -42,7 +41,7 @@ $assets  = brio_get_assets();
 			<h6 class="footer-tagline"><?php echo esc_html( $company['tagline'] ); ?></h6>
 
 			<img
-				src="<?php echo esc_url( $assets['footer_decoration'] ); ?>"
+				src="<?php echo esc_url( brio_asset( 'footer', 'decoration' ) ); ?>"
 				alt=""
 				class="footer-asset-image"
 				aria-hidden="true"
@@ -76,7 +75,7 @@ $assets  = brio_get_assets();
 			</div>
 
 			<img
-				src="<?php echo esc_url( $assets['newsletter_image'] ); ?>"
+				src="<?php echo esc_url( brio_asset( 'newsletter', 'background' ) ); ?>"
 				alt=""
 				class="footer-newsletter-image"
 				aria-hidden="true"

@@ -113,21 +113,54 @@ function brio_get_legal_data() {
 }
 
 /**
- * Get static asset URLs (CDN images, logos, etc.).
+ * Get static asset URLs, grouped by section.
  *
- * Centralized to allow easy migration from CDN to local uploads, or to
- * swap visual assets without editing template files.
+ * All assets are served from the theme's assets/images/{section}/ folder so
+ * the site has zero runtime dependency on the brioguiseppe.fr CDN. Add new
+ * sections as a new key and drop the files in assets/images/{key}/.
  *
  * @since 1.0.0
  *
- * @return array Asset URLs keyed by purpose.
+ * @return array<string, array<string, string>> Section => [ slug => URL ].
  */
 function brio_get_assets() {
+	$base = get_theme_file_uri( 'assets/images/' );
+
 	$assets = [
-		'footer_logo'          => 'https://www.brioguiseppe.fr/wp-content/uploads/2026/04/Brio-Guiseppe-Logo-1.webp',
-		'footer_decoration'    => 'https://www.brioguiseppe.fr/wp-content/uploads/2026/04/asset-2.png',
-		'newsletter_image'     => 'https://www.brioguiseppe.fr/wp-content/uploads/2026/04/Brio-Guiseppe-Background.webp',
+		'hero'   => [
+			'avatar_1' => $base . 'hero/avatar-1.jpg',
+			'avatar_2' => $base . 'hero/avatar-2.jpg',
+			'avatar_3' => $base . 'hero/avatar-3.jpg',
+			'avatar_4' => $base . 'hero/avatar-4.jpg',
+			'suitcase' => $base . 'hero/suitcase.svg',
+			'video'    => $base . 'hero/marrakech.mp4',
+			'poster'   => $base . 'hero/poster.webp',
+		],
+		'footer' => [
+			'logo'       => $base . 'footer/logo.webp',
+			'decoration' => $base . 'footer/decoration.png',
+		],
+		'newsletter' => [
+			'background' => $base . 'newsletter/background.webp',
+		],
 	];
 
 	return apply_filters( 'brio_theme_assets', $assets );
+}
+
+/**
+ * Get a single asset URL by section + key.
+ *
+ * Convenience wrapper around brio_get_assets() for template files.
+ * Returns empty string if the section or key is unknown.
+ *
+ * @since 1.0.0
+ *
+ * @param string $section Section slug (e.g. 'hero', 'footer').
+ * @param string $key     Asset slug within the section.
+ * @return string Asset URL, or '' if not found.
+ */
+function brio_asset( $section, $key ) {
+	$assets = brio_get_assets();
+	return isset( $assets[ $section ][ $key ] ) ? $assets[ $section ][ $key ] : '';
 }

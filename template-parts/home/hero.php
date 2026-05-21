@@ -11,13 +11,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$brio_hero_cdn = 'https://www.brioguiseppe.fr/wp-content/uploads/2026/04/';
-
 $brio_hero_avatars = [
-	'collage-of-happy-multiracial-people-avatars-on-var1-QXZQJRJ.jpg',
-	'collage-of-happy-multiracial-people-avatars-on-var2-QXZQJRJ.jpg',
-	'collage-of-happy-multiracial-people-avatars-on-var3-QXZQJRJ.jpg',
-	'collage-of-happy-multiracial-people-avatars-on-var4-QXZQJRJ.jpg',
+	brio_asset( 'hero', 'avatar_1' ),
+	brio_asset( 'hero', 'avatar_2' ),
+	brio_asset( 'hero', 'avatar_3' ),
+	brio_asset( 'hero', 'avatar_4' ),
 ];
 
 $brio_hero_features = [
@@ -32,8 +30,8 @@ $brio_hero_features = [
 
 		<div class="home-hero__social-proof">
 			<div class="home-hero__avatars" aria-hidden="true">
-				<?php foreach ( $brio_hero_avatars as $avatar_file ) : ?>
-					<img src="<?php echo esc_url( $brio_hero_cdn . $avatar_file ); ?>" alt="" class="home-hero__avatar" loading="eager" width="48" height="48" />
+				<?php foreach ( $brio_hero_avatars as $avatar_url ) : ?>
+					<img src="<?php echo esc_url( $avatar_url ); ?>" alt="" class="home-hero__avatar" loading="eager" width="48" height="48" />
 				<?php endforeach; ?>
 			</div>
 			<div class="home-hero__stars" role="img" aria-label="<?php esc_attr_e( '5 étoiles sur 5', 'brio-guiseppe' ); ?>">
@@ -67,8 +65,8 @@ $brio_hero_features = [
 		</p>
 
 		<div class="home-hero__actions">
-			<a href="#audit" class="btn btn-primary btn-lg"><?php esc_html_e( 'Réserver mon audit gratuit', 'brio-guiseppe' ); ?></a>
-			<a href="#calculateur" class="btn btn-secondary btn-lg"><?php esc_html_e( 'Calculer mes revenus perdus', 'brio-guiseppe' ); ?></a>
+			<a href="#audit" class="btn btn-primary"><?php esc_html_e( 'Réserver mon audit gratuit', 'brio-guiseppe' ); ?></a>
+			<a href="#calculateur" class="btn btn-secondary"><?php esc_html_e( 'Calculer mes revenus perdus', 'brio-guiseppe' ); ?></a>
 		</div>
 
 		<ul class="home-hero__features">
@@ -81,7 +79,21 @@ $brio_hero_features = [
 			<?php endforeach; ?>
 		</ul>
 
-		<img class="home-hero__suitcase" src="<?php echo esc_url( $brio_hero_cdn . 'Travel-Suitcase-2.svg' ); ?>" alt="" aria-hidden="true" loading="lazy" width="120" height="120" />
+		<div class="home-hero__media">
+			<video
+				class="home-hero__video"
+				autoplay
+				loop
+				muted
+				playsinline
+				preload="metadata"
+				poster="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>"
+				aria-hidden="true"
+			>
+				<source src="<?php echo esc_url( brio_asset( 'hero', 'video' ) ); ?>" type="video/mp4" />
+			</video>
+			<img class="home-hero__suitcase" src="<?php echo esc_url( brio_asset( 'hero', 'suitcase' ) ); ?>" alt="" aria-hidden="true" loading="lazy" width="250" height="250" />
+		</div>
 
 	</div>
 </section>
