@@ -1,0 +1,255 @@
+/* ==========================================================================
+   Homepage — Hero
+   --------------------------------------------------------------------------
+   Centered single column: avatar stack + 5-star rating + caption →
+   headline → subtitle (2 paragraphs, second with bold inline) → 2 CTAs →
+   4 feature checkmarks (2×2 on tablet, 4×1 on desktop) → suitcase asset.
+   ========================================================================== */
+
+.home-hero {
+	background-color: var(--color-bg-primary);
+	padding: 50px 0 80px;
+	text-align: center;
+}
+
+.home-hero .container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 var(--spacing-xl);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px;
+}
+
+/* Social proof block — avatars + stars + caption
+   -------------------------------------------------------------------------- */
+
+.home-hero__social-proof {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+}
+
+.home-hero__avatars {
+	display: inline-flex;
+	align-items: center;
+}
+
+.home-hero__avatar {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	border: 3px solid var(--color-bg-primary);
+	object-fit: cover;
+	background: var(--color-bg-secondary);
+}
+
+.home-hero__avatar + .home-hero__avatar {
+	margin-left: -14px;
+}
+
+.home-hero__stars {
+	display: inline-flex;
+	gap: 4px;
+	color: var(--color-accent);
+	font-size: 16px;
+	line-height: 1;
+}
+
+.home-hero__rating-caption {
+	margin: 0;
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--color-text);
+}
+
+.home-hero__rating-caption a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.home-hero__rating-caption a:hover {
+	text-decoration: underline;
+}
+
+/* Headline
+   -------------------------------------------------------------------------- */
+
+.home-hero__title {
+	margin: 0;
+	max-width: 1000px;
+	font-family: var(--font-primary);
+	font-size: var(--h1-size);
+	font-weight: var(--h1-weight);
+	letter-spacing: var(--h1-letter-spacing);
+	line-height: var(--h1-line-height);
+	color: var(--color-primary);
+}
+
+/* Subtitle — two paragraphs, last has <strong> highlight
+   -------------------------------------------------------------------------- */
+
+.home-hero__subtitle {
+	max-width: 720px;
+	font-family: var(--font-secondary);
+	font-size: 18px;
+	line-height: var(--body-line-height);
+	color: var(--color-text);
+}
+
+.home-hero__subtitle p {
+	margin: 0;
+}
+
+.home-hero__subtitle p + p {
+	margin-top: 18px;
+}
+
+.home-hero__subtitle strong {
+	font-weight: 700;
+	color: var(--color-primary);
+}
+
+/* CTAs
+   -------------------------------------------------------------------------- */
+
+.home-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--spacing-md);
+}
+
+/* Feature checkmark row (4 items)
+   -------------------------------------------------------------------------- */
+
+.home-hero__features {
+	list-style: none;
+	margin: 24px 0 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--spacing-2xl);
+	width: 100%;
+	max-width: 1100px;
+	text-align: left;
+}
+
+.home-hero__feature {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--spacing-sm);
+}
+
+.home-hero__feature-icon {
+	flex: 0 0 auto;
+	width: 24px;
+	height: 24px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--color-secondary);
+	color: var(--color-primary);
+	border-radius: 50%;
+	font-size: 11px;
+	margin-top: 2px;
+}
+
+.home-hero__feature-body {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.home-hero__feature-title {
+	font-family: var(--font-secondary);
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--color-primary);
+	letter-spacing: -0.2px;
+}
+
+.home-hero__feature-desc {
+	font-family: var(--font-secondary);
+	font-size: 13px;
+	color: var(--color-text);
+	opacity: 0.8;
+	line-height: 1.4;
+}
+
+/* Trailing suitcase asset
+   -------------------------------------------------------------------------- */
+
+.home-hero__suitcase {
+	margin-top: 16px;
+}
+
+.home-hero__suitcase img {
+	display: block;
+	width: 120px;
+	height: auto;
+}
+
+/* Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+	.home-hero {
+		padding: 40px 0 64px;
+	}
+
+	.home-hero .container {
+		gap: 28px;
+	}
+
+	.home-hero__features {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--spacing-xl);
+	}
+}
+
+@media (max-width: 768px) {
+	.home-hero {
+		padding: 32px 0 48px;
+	}
+
+	.home-hero .container {
+		padding: 0 var(--spacing-md);
+		gap: 24px;
+	}
+
+	.home-hero__avatar {
+		width: 40px;
+		height: 40px;
+	}
+
+	.home-hero__avatar + .home-hero__avatar {
+		margin-left: -12px;
+	}
+
+	.home-hero__subtitle {
+		font-size: 16px;
+	}
+
+	.home-hero__actions {
+		width: 100%;
+		flex-direction: column;
+	}
+
+	.home-hero__actions .btn {
+		width: 100%;
+	}
+
+	.home-hero__features {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-lg);
+		text-align: left;
+	}
+
+	.home-hero__suitcase img {
+		width: 96px;
+	}
+}

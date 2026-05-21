@@ -1,0 +1,46 @@
+/* ==========================================================================
+   Homepage
+   --------------------------------------------------------------------------
+   Loaded conditionally on the front page only (see includes/front/enqueue.php).
+   Each section has its own stylesheet under assets/css/sections/ — imported
+   below so the browser fetches a single homepage bundle.
+   ========================================================================== */
+
+
+/* Section imports — uncomment as each section is built
+   ========================================================================== */
+
+@import url('./sections/hero.css');
+/* @import url('./sections/features.css'); */
+/* @import url('./sections/about.css'); */
+/* @import url('./sections/philosophy.css'); */
+/* @import url('./sections/mission.css'); */
+/* @import url('./sections/partners.css'); */
+/* @import url('./sections/programs.css'); */
+/* @import url('./sections/fun-facts.css'); */
+/* @import url('./sections/pricing.css'); */
+/* @import url('./sections/faqs.css'); */
+/* @import url('./sections/blog.css'); */
+/* @import url('./sections/cta.css'); */
+
+
+/* Shared homepage primitives
+   --------------------------------------------------------------------------
+   Common patterns used across multiple sections: container width, vertical
+   rhythm, section spacing. Section-specific styles override these as needed.
+   ========================================================================== */
+
+.home-hero,
+.home-features,
+.home-about,
+.home-philosophy,
+.home-mission,
+.home-partners,
+.home-programs,
+.home-fun-facts,
+.home-pricing,
+.home-faqs,
+.home-blog,
+.home-cta {
+	width: 100%;
+}
