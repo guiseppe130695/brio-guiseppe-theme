@@ -3,7 +3,7 @@
  * Homepage Section — Hero
  *
  * Source: Elementor export page #60, container[0].
- * Layout: avatar stack + 5-star rating + caption · headline · subtitle ·
+ * Layout: avatar stack + 5-star rating + caption · headline · lead paragraph ·
  * 2 CTAs · 4 feature checkmarks · trailing suitcase visual.
  *
  * @package Brio_Guiseppe
@@ -33,17 +33,9 @@ $brio_hero_features = [
 		<div class="home-hero__social-proof">
 			<div class="home-hero__avatars" aria-hidden="true">
 				<?php foreach ( $brio_hero_avatars as $avatar_file ) : ?>
-					<img
-						src="<?php echo esc_url( $brio_hero_cdn . $avatar_file ); ?>"
-						alt=""
-						class="home-hero__avatar"
-						loading="eager"
-						width="48"
-						height="48"
-					/>
+					<img src="<?php echo esc_url( $brio_hero_cdn . $avatar_file ); ?>" alt="" class="home-hero__avatar" loading="eager" width="48" height="48" />
 				<?php endforeach; ?>
 			</div>
-
 			<div class="home-hero__stars" role="img" aria-label="<?php esc_attr_e( '5 étoiles sur 5', 'brio-guiseppe' ); ?>">
 				<i class="fas fa-star" aria-hidden="true"></i>
 				<i class="fas fa-star" aria-hidden="true"></i>
@@ -51,7 +43,6 @@ $brio_hero_features = [
 				<i class="fas fa-star" aria-hidden="true"></i>
 				<i class="fas fa-star" aria-hidden="true"></i>
 			</div>
-
 			<p class="home-hero__rating-caption">
 				<a href="https://www.linkedin.com/in/brioguiseppe/" target="_blank" rel="noopener">
 					<?php esc_html_e( 'Noté par les hôteliers accompagnés', 'brio-guiseppe' ); ?>
@@ -63,51 +54,34 @@ $brio_hero_features = [
 			<?php esc_html_e( 'Libérez votre Hôtel des commissions OTA', 'brio-guiseppe' ); ?>
 		</h1>
 
-		<div class="home-hero__subtitle">
-			<p>
-				<?php esc_html_e( 'Je construis des sites qui convertissent les visiteurs en réservations directes pour les hôtels indépendants, riads et maisons d\'hôtes.', 'brio-guiseppe' ); ?>
-			</p>
-			<p>
-				<?php
-				printf(
-					/* translators: %s: bold inline phrase "jusqu'à 25 000 €/an de commissions". */
-					esc_html__( 'Résultat : %s récupérées.', 'brio-guiseppe' ),
-					'<strong>' . esc_html__( 'jusqu\'à 25 000 €/an de commissions', 'brio-guiseppe' ) . '</strong>'
-				);
-				?>
-			</p>
-		</div>
+		<p class="home-hero__lead">
+			<?php esc_html_e( 'Je construis des sites qui convertissent les visiteurs en réservations directes pour les hôtels indépendants, riads et maisons d\'hôtes.', 'brio-guiseppe' ); ?>
+			<br><br>
+			<?php
+			printf(
+				/* translators: %s: bold inline phrase "jusqu'à 25 000 €/an de commissions". */
+				esc_html__( 'Résultat : %s récupérées.', 'brio-guiseppe' ),
+				'<strong>' . esc_html__( 'jusqu\'à 25 000 €/an de commissions', 'brio-guiseppe' ) . '</strong>'
+			);
+			?>
+		</p>
 
 		<div class="home-hero__actions">
-			<a href="#audit" class="btn btn-primary btn-lg">
-				<?php esc_html_e( 'Réserver mon audit gratuit', 'brio-guiseppe' ); ?>
-			</a>
-			<a href="#calculateur" class="btn btn-secondary btn-lg">
-				<?php esc_html_e( 'Calculer mes revenus perdus', 'brio-guiseppe' ); ?>
-			</a>
+			<a href="#audit" class="btn btn-primary btn-lg"><?php esc_html_e( 'Réserver mon audit gratuit', 'brio-guiseppe' ); ?></a>
+			<a href="#calculateur" class="btn btn-secondary btn-lg"><?php esc_html_e( 'Calculer mes revenus perdus', 'brio-guiseppe' ); ?></a>
 		</div>
 
 		<ul class="home-hero__features">
 			<?php foreach ( $brio_hero_features as $feature ) : ?>
 				<li class="home-hero__feature">
 					<i class="fas fa-check home-hero__feature-icon" aria-hidden="true"></i>
-					<div class="home-hero__feature-body">
-						<span class="home-hero__feature-title"><?php echo esc_html( $feature['title'] ); ?></span>
-						<span class="home-hero__feature-desc"><?php echo esc_html( $feature['desc'] ); ?></span>
-					</div>
+					<span class="home-hero__feature-title"><?php echo esc_html( $feature['title'] ); ?></span>
+					<span class="home-hero__feature-desc"><?php echo esc_html( $feature['desc'] ); ?></span>
 				</li>
 			<?php endforeach; ?>
 		</ul>
 
-		<div class="home-hero__suitcase" aria-hidden="true">
-			<img
-				src="<?php echo esc_url( $brio_hero_cdn . 'Travel-Suitcase-2.svg' ); ?>"
-				alt=""
-				loading="lazy"
-				width="120"
-				height="120"
-			/>
-		</div>
+		<img class="home-hero__suitcase" src="<?php echo esc_url( $brio_hero_cdn . 'Travel-Suitcase-2.svg' ); ?>" alt="" aria-hidden="true" loading="lazy" width="120" height="120" />
 
 	</div>
 </section>

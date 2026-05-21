@@ -89,10 +89,11 @@
 	color: var(--color-primary);
 }
 
-/* Subtitle — two paragraphs, last has <strong> highlight
+/* Lead paragraph — two sentences joined by <br><br>, last has <strong> highlight
    -------------------------------------------------------------------------- */
 
-.home-hero__subtitle {
+.home-hero__lead {
+	margin: 0;
 	max-width: 720px;
 	font-family: var(--font-secondary);
 	font-size: 18px;
@@ -100,15 +101,7 @@
 	color: var(--color-text);
 }
 
-.home-hero__subtitle p {
-	margin: 0;
-}
-
-.home-hero__subtitle p + p {
-	margin-top: 18px;
-}
-
-.home-hero__subtitle strong {
+.home-hero__lead strong {
 	font-weight: 700;
 	color: var(--color-primary);
 }
@@ -139,13 +132,16 @@
 }
 
 .home-hero__feature {
-	display: flex;
-	align-items: flex-start;
-	gap: var(--spacing-sm);
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: var(--spacing-sm);
+	row-gap: 2px;
+	align-items: start;
 }
 
 .home-hero__feature-icon {
-	flex: 0 0 auto;
+	grid-column: 1;
+	grid-row: 1 / span 2;
 	width: 24px;
 	height: 24px;
 	display: inline-flex;
@@ -158,13 +154,8 @@
 	margin-top: 2px;
 }
 
-.home-hero__feature-body {
-	display: flex;
-	flex-direction: column;
-	gap: 2px;
-}
-
 .home-hero__feature-title {
+	grid-column: 2;
 	font-family: var(--font-secondary);
 	font-size: 15px;
 	font-weight: 600;
@@ -173,6 +164,7 @@
 }
 
 .home-hero__feature-desc {
+	grid-column: 2;
 	font-family: var(--font-secondary);
 	font-size: 13px;
 	color: var(--color-text);
@@ -184,13 +176,10 @@
    -------------------------------------------------------------------------- */
 
 .home-hero__suitcase {
-	margin-top: 16px;
-}
-
-.home-hero__suitcase img {
 	display: block;
 	width: 120px;
 	height: auto;
+	margin-top: 16px;
 }
 
 /* Responsive
@@ -230,7 +219,7 @@
 		margin-left: -12px;
 	}
 
-	.home-hero__subtitle {
+	.home-hero__lead {
 		font-size: 16px;
 	}
 
@@ -249,7 +238,7 @@
 		text-align: left;
 	}
 
-	.home-hero__suitcase img {
+	.home-hero__suitcase {
 		width: 96px;
 	}
 }
