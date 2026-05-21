@@ -40,8 +40,13 @@ $sections = apply_filters( 'brio_home_sections', [
 	'cta',        // Bandeau CTA final ("Vous versez plus de 60 000 €/an…")
 ] );
 
+?>
+<main id="main" class="site-main" role="main">
+<?php
 foreach ( $sections as $section ) {
 	get_template_part( 'template-parts/home/' . $section );
 }
-
+?>
+</main>
+<?php
 get_footer();

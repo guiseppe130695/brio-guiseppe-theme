@@ -38,7 +38,7 @@ $legal   = brio_get_legal_data();
 				</p>
 			</div>
 
-			<h6 class="footer-tagline"><?php echo esc_html( $company['tagline'] ); ?></h6>
+			<h2 class="footer-tagline"><?php echo esc_html( $company['tagline'] ); ?></h2>
 
 			<img
 				src="<?php echo esc_url( brio_asset( 'footer', 'decoration' ) ); ?>"
@@ -51,9 +51,9 @@ $legal   = brio_get_legal_data();
 
 		<div class="footer-newsletter">
 			<div class="footer-newsletter-content">
-				<h6 class="footer-newsletter-title">
+				<h2 class="footer-newsletter-title">
 					<?php esc_html_e( 'Recevez nos actualités directement par email', 'brio-guiseppe' ); ?>
-				</h6>
+				</h2>
 
 				<form class="newsletter-form" action="#" method="post">
 					<label for="newsletter-email" class="screen-reader-text">
@@ -92,7 +92,7 @@ $legal   = brio_get_legal_data();
 
 		<?php /* Column 1 — Explorer */ ?>
 		<div class="footer-col-1">
-			<h5><?php echo esc_html( $columns['explorer']['title'] ); ?></h5>
+			<h2 class="footer-col-title"><?php echo esc_html( $columns['explorer']['title'] ); ?></h2>
 			<ul class="footer-links">
 				<?php foreach ( $columns['explorer']['links'] as $link ) : ?>
 					<li>
@@ -106,7 +106,7 @@ $legal   = brio_get_legal_data();
 
 		<?php /* Column 2 — Contact (built inline because it uses company data) */ ?>
 		<div class="footer-col-2">
-			<h5><?php esc_html_e( 'Contact', 'brio-guiseppe' ); ?></h5>
+			<h2 class="footer-col-title"><?php esc_html_e( 'Contact', 'brio-guiseppe' ); ?></h2>
 			<ul class="footer-links">
 				<li>
 					<a href="#">
@@ -133,7 +133,7 @@ $legal   = brio_get_legal_data();
 
 		<?php /* Column 3 — Services */ ?>
 		<div class="footer-col-3">
-			<h5><?php echo esc_html( $columns['services']['title'] ); ?></h5>
+			<h2 class="footer-col-title"><?php echo esc_html( $columns['services']['title'] ); ?></h2>
 			<ul class="footer-links">
 				<?php foreach ( $columns['services']['links'] as $link ) : ?>
 					<li>
@@ -147,7 +147,7 @@ $legal   = brio_get_legal_data();
 
 		<?php /* Column 4 — Social */ ?>
 		<div class="footer-col-4">
-			<h5><?php esc_html_e( 'Suivez-moi', 'brio-guiseppe' ); ?></h5>
+			<h2 class="footer-col-title"><?php esc_html_e( 'Suivez-moi', 'brio-guiseppe' ); ?></h2>
 			<ul class="footer-links">
 				<?php if ( ! empty( $company['social']['linkedin'] ) ) : ?>
 					<li>

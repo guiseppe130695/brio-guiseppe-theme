@@ -242,12 +242,9 @@
 .footer-col-2,
 .footer-col-3 { width: 20%; }
 
-/* Column titles (H5 typography from JSON) */
-.footer-col h5,
-.footer-col-1 h5,
-.footer-col-2 h5,
-.footer-col-3 h5,
-.footer-col-4 h5 {
+/* Column titles — rendered as <h2 class="footer-col-title"> for sequential
+   heading order (H1 in hero → H2 in footer). Visual sizing is class-driven. */
+.footer-col-title {
 	margin: 0 0 20px;
 	font-family: var(--font-primary);
 	font-size: 22px;
@@ -512,11 +509,7 @@
 		padding-bottom: 20px;
 	}
 
-	.footer-col h5,
-	.footer-col-1 h5,
-	.footer-col-2 h5,
-	.footer-col-3 h5,
-	.footer-col-4 h5 {
+	.footer-col-title {
 		margin-bottom: 10px;
 		font-size: 18px;
 	}

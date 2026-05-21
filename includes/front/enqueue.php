@@ -43,10 +43,8 @@ function ju_enqueue() {
 	}
 
 	// ---- Scripts ----
-	wp_register_script( 'ju_plugins',   $uri . '/assets/js/plugins.js',   [], $ver, true );
-	wp_register_script( 'ju_functions', $uri . '/assets/js/functions.js', [], $ver, true );
-
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'ju_plugins' );
-	wp_enqueue_script( 'ju_functions' );
+	// Legacy _s/canvas bundles (plugins.js 590 KB + functions.js 132 KB + jQuery)
+	// are not used by the custom theme. Keeping them costs LCP and triggers the
+	// Lighthouse "missing source maps for large JS" warning. Re-enable per-page
+	// only if a specific feature needs them.
 }

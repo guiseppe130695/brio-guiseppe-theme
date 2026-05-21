@@ -20,6 +20,7 @@ define( 'JU_DEV_MODE', true );
 require_once get_theme_file_path( '/includes/theme-data.php' );
 require_once get_theme_file_path( '/includes/front/enqueue.php' );
 require_once get_theme_file_path( '/includes/setup.php' );
+require_once get_theme_file_path( '/includes/security-headers.php' );
 require_once get_theme_file_path( '/includes/custom-nav-walker.php' );
 require_once get_theme_file_path( '/includes/widgets.php' );
 
