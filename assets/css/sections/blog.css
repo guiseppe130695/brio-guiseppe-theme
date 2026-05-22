@@ -1,0 +1,241 @@
+/* ==========================================================================
+   Homepage — Blog (Latest Posts)
+   --------------------------------------------------------------------------
+   Yellow section · centered overline + h2 · 3-card grid of dynamic WP
+   posts. Cards: cream bg with rounded image-top → flip to dark-green on
+   hover (background, title, excerpt colours all invert smoothly).
+   ========================================================================== */
+
+.home-blog {
+	background-color: var(--color-bg-primary);
+	padding: 100px 25px;
+	position: relative;
+	z-index: 4;
+}
+
+.home-blog .container {
+	max-width: 1400px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	text-align: center;
+}
+
+/* Overline + heading
+   ========================================================================== */
+
+.home-blog__overline {
+	font-family: var(--font-primary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-uppercase-weight);
+	text-transform: var(--accent-uppercase-transform);
+	letter-spacing: 0;
+	line-height: 1.5;
+	animation: blog-fadeIn var(--transition-normal) both;
+}
+
+.home-blog__heading {
+	max-width: 50%;
+	margin-bottom: 30px;
+	animation: blog-fadeIn var(--transition-normal) 200ms both;
+}
+
+/* Empty state — friendly placeholder when no posts published yet
+   ========================================================================== */
+
+.home-blog__empty {
+	color: var(--color-primary);
+	font-size: var(--h5-size);
+	font-family: var(--font-primary);
+	font-weight: 400;
+	margin: var(--spacing-2xl) 0;
+	opacity: 0.7;
+}
+
+/* Grid — 3 cols desktop, 2 tablet, 1 mobile
+   ========================================================================== */
+
+.home-blog__grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--spacing-lg);
+	text-align: left;
+	animation: blog-fadeIn var(--transition-normal) 400ms both;
+}
+
+/* Card — flippable cream → dark on hover · radius 25px
+   ========================================================================== */
+
+.home-blog__card {
+	display: flex;
+}
+
+.home-blog__article {
+	width: 100%;
+	display: flex;
+}
+
+.home-blog__link {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text);
+	border-radius: 25px;
+	overflow: hidden;
+	text-decoration: none;
+	transition: background-color var(--transition-normal), transform var(--transition-normal);
+}
+
+.home-blog__link:hover {
+	background-color: var(--color-primary);
+	color: var(--color-bg-secondary);
+	transform: translateY(-5px);
+}
+
+/* Media — rounded top only, fixed aspect for a clean grid
+   ========================================================================== */
+
+.home-blog__media {
+	margin: 0;
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+	background-color: var(--color-bg-primary);
+}
+
+.home-blog__media--empty {
+	background: linear-gradient(135deg, var(--color-bg-primary), var(--color-bg-secondary));
+}
+
+.home-blog__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform var(--transition-normal);
+}
+
+.home-blog__link:hover .home-blog__image {
+	transform: scale(1.04);
+}
+
+/* Body — title + meta + excerpt + read-more · padding 15/25/25/25
+   ========================================================================== */
+
+.home-blog__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	padding: 15px 25px 25px;
+	flex: 1;
+}
+
+/* Title — H5 (Nebeco 22/20/19) · color flips on hover
+   ========================================================================== */
+
+.home-blog__title {
+	font-family: var(--font-primary);
+	font-size: var(--h5-size);
+	font-weight: var(--h5-weight);
+	line-height: var(--h5-line-height);
+	letter-spacing: var(--h5-letter-spacing);
+	color: var(--color-primary);
+	margin: 0;
+	transition: color var(--transition-normal);
+}
+
+.home-blog__link:hover .home-blog__title {
+	color: var(--color-secondary);
+}
+
+/* Meta — small accent text with icons, color flips on hover
+   ========================================================================== */
+
+.home-blog__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-md);
+	margin: 0;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+	letter-spacing: var(--accent-letter-spacing);
+}
+
+.home-blog__meta-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.home-blog__meta-icon {
+	font-size: 11px;
+	color: var(--color-accent);
+	transition: color var(--transition-normal);
+}
+
+.home-blog__link:hover .home-blog__meta-icon {
+	color: var(--color-bg-primary);
+}
+
+/* Excerpt — body typography, color inherited from link
+   ========================================================================== */
+
+.home-blog__excerpt {
+	margin: 0;
+}
+
+/* Tablet — 2 cols
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+	.home-blog {
+		padding: 70px 20px;
+	}
+
+	.home-blog__heading {
+		max-width: 520px;
+		margin-bottom: 20px;
+	}
+
+	.home-blog__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+/* Mobile — single col
+   ========================================================================== */
+
+@media (max-width: 767px) {
+	.home-blog {
+		padding: 70px 10px;
+	}
+
+	.home-blog__heading {
+		max-width: 100%;
+		margin-bottom: 10px;
+	}
+
+	.home-blog__grid {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+
+	.home-blog__body {
+		padding: 20px;
+	}
+}
+
+/* Keyframes
+   ========================================================================== */
+
+@keyframes blog-fadeIn {
+	from { opacity: 0; transform: translateY(12px); }
+	to   { opacity: 1; transform: translateY(0); }
+}

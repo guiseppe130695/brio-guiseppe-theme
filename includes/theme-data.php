@@ -142,6 +142,9 @@ function brio_get_assets() {
 		'philosophy' => [
 			'visual' => $base . 'philosophy/Creez-un-site-qui-remplace-les-OTA.webp',
 		],
+		'faqs' => [
+			'visual' => $base . 'faqs/Un-outil-puissant-pour-votre-croissance.webp',
+		],
 		'fun_facts' => [
 			'bg'      => $base . 'fun-facts/Concu-pour-generer-des-reservations.webp',
 			'asset_1' => $base . 'fun-facts/asset-1.png',
@@ -406,6 +409,153 @@ function brio_get_fun_facts_data() {
 	];
 
 	return apply_filters( 'brio_fun_facts_data', $data );
+}
+
+/**
+ * Get homepage FAQs section content.
+ *
+ * Two-column block: image left + content right (overline + h2 + 7-item
+ * accordion). Items toggle between a cream "closed" state and a dark
+ * "open" state. JSON-LD FAQPage schema is rendered by the template
+ * for rich snippet eligibility in Google search.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string  $visual    Left-column background image URL.
+ *     @type string  $overline  Small uppercase label.
+ *     @type string  $heading   Section title.
+ *     @type array[] $items     Each item: { question, answer }.
+ * }
+ */
+function brio_get_faqs_data() {
+	$data = [
+		'visual'   => brio_asset( 'faqs', 'visual' ),
+		'overline' => __( 'QUESTIONS FRÉQUENTES', 'brio-guiseppe' ),
+		'heading'  => __( 'Tout ce que les hôteliers nous demandent avant de se lancer', 'brio-guiseppe' ),
+		'items'    => [
+			[
+				'question' => __( 'Combien coûtent réellement les commissions OTA pour un riad ?', 'brio-guiseppe' ),
+				'answer'   => __( 'Beaucoup plus que vous ne pensez. Un riad de 10 chambres à 900 MAD/nuit avec 65% d\'occupation et 70% de réservations via OTA verse entre 180 000 et 260 000 MAD par an en commissions — selon que Booking prend 15%, 18% ou 22%. Et ça, c\'est sans compter les commissions sur les extras, le programme Genius et les promotions imposées. En résumé : vous financez le marketing de Booking avec vos marges. Un site de réservation directe permet de récupérer 25 à 35% de ce montant dès la première année.', 'brio-guiseppe' ),
+			],
+			[
+				'question' => __( 'En combien de temps mon investissement est-il rentabilisé ?', 'brio-guiseppe' ),
+				'answer'   => __( 'En moyenne, 2 à 4 mois. Prenons un exemple concret : votre site coûte 5 000 MAD. Si vous récupérez ne serait-ce que 5 réservations directes par mois à 900 MAD (au lieu de Booking), vous économisez environ 810 MAD/mois en commissions (18%). En 6 mois, c\'est 4 860 MAD économisés. Le site est remboursé. Après, chaque réservation directe est du bénéfice net. Et plus votre référencement Google monte, plus les réservations directes augmentent — sans dépense supplémentaire.', 'brio-guiseppe' ),
+			],
+			[
+				'question' => __( 'Faut-il quitter Booking complètement ?', 'brio-guiseppe' ),
+				'answer'   => __( 'Non, surtout pas. Booking reste un excellent canal de visibilité. L\'objectif n\'est pas de couper Booking mais de rééquilibrer votre distribution. Aujourd\'hui, si 80% de vos réservations passent par les OTA, vous êtes dépendant. L\'idéal est d\'arriver à un mix 50/50 : Booking vous apporte la visibilité et les nouveaux clients, votre site capte les clients qui vous cherchent par votre nom et ceux qui reviennent. Vous gardez le meilleur des deux mondes, en payant beaucoup moins de commissions.', 'brio-guiseppe' ),
+			],
+			[
+				'question' => __( 'Quelle est la différence avec SiteMinder ou Cloudbeds ?', 'brio-guiseppe' ),
+				'answer'   => __( 'SiteMinder et Cloudbeds sont des plateformes SaaS standardisées à partir de 85$/mois. Elles fournissent des templates identiques pour tous les hôtels du monde. Moi, je construis un site sur-mesure adapté à VOTRE établissement : votre histoire, vos visuels, votre positionnement. Pas de template générique, pas d\'abonnement mensuel qui ne finit jamais. Vous payez une fois, le site est à vous. Et surtout, j\'intègre le SEO, l\'optimisation conversion et le conseil stratégique — des choses qu\'aucun SaaS ne fait à votre place.', 'brio-guiseppe' ),
+			],
+			[
+				'question' => __( 'Travaillez-vous uniquement avec des hôtels au Maroc ?', 'brio-guiseppe' ),
+				'answer'   => __( 'Le Maroc est mon marché principal parce que je connais le terrain, les contraintes et les spécificités locales. Mais j\'accompagne aussi des établissements en Afrique francophone (Madagascar, Sénégal, Côte d\'Ivoire) et dans le sud de l\'Europe. Si vous gérez un hôtel, un riad, une maison d\'hôtes ou une villa touristique, qu\'importe la géographie — tant que vous voulez réduire vos commissions OTA et développer le direct booking, on peut travailler ensemble.', 'brio-guiseppe' ),
+			],
+			[
+				'question' => __( 'Comment se passe la collaboration concrètement ?', 'brio-guiseppe' ),
+				'answer'   => __( 'C\'est simple et structuré. Étape 1 : un appel de 15 minutes pour comprendre votre situation (gratuit). Étape 2 : je vous envoie une proposition détaillée avec le périmètre, le planning et le prix. Étape 3 : on démarre avec un acompte de 40%. Je m\'occupe de tout — design, développement, contenu, SEO — et vous validez à chaque étape. Étape 4 : votre site est en ligne en 4 à 6 semaines. Étape 5 : je vous forme en 1h et je reste disponible pendant 3 mois pour le support. Tout se fait par WhatsApp, simple et rapide.', 'brio-guiseppe' ),
+			],
+			[
+				'question' => __( 'Et si je n\'ai pas de site web du tout ?', 'brio-guiseppe' ),
+				'answer'   => __( 'C\'est en fait le meilleur scénario. Pas de site à refondre, pas de contraintes techniques héritées. On part d\'une page blanche et on construit directement un site pensé pour la conversion. Vous me fournissez vos photos, vos tarifs et une description de vos chambres — le reste, c\'est mon travail. Et si vous n\'avez pas de photos professionnelles, je vous guide sur ce qu\'il faut photographier avec un smartphone. 80% de mes clients n\'avaient aucun site avant de travailler avec moi.', 'brio-guiseppe' ),
+			],
+		],
+	];
+
+	return apply_filters( 'brio_faqs_data', $data );
+}
+
+/**
+ * Get homepage final CTA section content.
+ *
+ * Jumbo rounded card (cream → light-green bg) over an accent strip.
+ * Two columns inside: icon + headline (bottom-aligned on the left) +
+ * rotating SVG textPath badge + button (on the right).
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string $icon       Decorative icon URL.
+ *     @type string $heading    Multiline headline (\n → <br>).
+ *     @type string $badge_text Rotating text around the SVG badge.
+ *     @type array  $cta        { label, href } final CTA button.
+ * }
+ */
+function brio_get_cta_data() {
+	$data = [
+		'icon'     => brio_asset( 'fun_facts', 'asset_6' ),
+		'heading'  => __( "Vous versez plus de 60 000 €/an à Booking.\nAvec un site optimisé, vous récupérez 25% de ce montant dès la première année.", 'brio-guiseppe' ),
+		'taglines' => [
+			__( 'MOINS DE COMMISSIONS', 'brio-guiseppe' ),
+			__( 'PLUS DE REVENUS', 'brio-guiseppe' ),
+			__( 'PLUS DE CONTRÔLE', 'brio-guiseppe' ),
+		],
+		'cta'      => [
+			'label' => __( 'Calculer mes revenus perdus', 'brio-guiseppe' ),
+			'href'  => 'https://www.brioguiseppe.fr/calculer-mes-commissions-ota/',
+		],
+	];
+
+	return apply_filters( 'brio_cta_data', $data );
+}
+
+/**
+ * Get homepage Blog section static content.
+ *
+ * Returns the section overline + heading. Posts themselves are queried
+ * directly in the template via WP_Query so each render reflects current
+ * publish state without going through a stale data cache.
+ *
+ * @since 1.0.0
+ *
+ * @return array {
+ *     @type string $overline       Small uppercase label.
+ *     @type string $heading        Section title.
+ *     @type int    $posts_per_page Number of cards to display.
+ *     @type string $excerpt_words  Word count for trimmed excerpts.
+ *     @type string $empty_message  Shown when no posts are published yet.
+ * }
+ */
+function brio_get_blog_data() {
+	$data = [
+		'overline'       => __( 'Blog & News', 'brio-guiseppe' ),
+		'heading'        => __( 'Insights & Stratégies pour Hôteliers Indépendants', 'brio-guiseppe' ),
+		'posts_per_page' => 3,
+		'excerpt_words'  => 14,
+		'empty_message'  => __( 'De nouveaux articles arrivent bientôt.', 'brio-guiseppe' ),
+	];
+
+	return apply_filters( 'brio_blog_data', $data );
+}
+
+/**
+ * Build the WP_Query args used by the homepage Blog section.
+ *
+ * Wrapped in its own function + filter so plugins / child themes can
+ * change category, ordering, or count without touching the template.
+ *
+ * @since 1.0.0
+ *
+ * @param int $per_page Number of posts to fetch.
+ * @return array WP_Query arguments.
+ */
+function brio_get_blog_query_args( $per_page = 3 ) {
+	$args = [
+		'post_type'              => 'post',
+		'post_status'            => 'publish',
+		'posts_per_page'         => max( 1, (int) $per_page ),
+		'ignore_sticky_posts'    => true,
+		'no_found_rows'          => true,   // skip pagination calc — perf win.
+		'update_post_meta_cache' => false,  // no meta read in the template.
+		'update_post_term_cache' => false,  // no taxonomies read in the template.
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+	];
+
+	return apply_filters( 'brio_blog_query_args', $args );
 }
 
 /**

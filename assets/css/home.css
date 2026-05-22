@@ -19,9 +19,9 @@
 @import url('./sections/programs.css');
 @import url('./sections/fun-facts.css');
 @import url('./sections/pricing.css');
-/* @import url('./sections/faqs.css'); */
-/* @import url('./sections/blog.css'); */
-/* @import url('./sections/cta.css'); */
+@import url('./sections/faqs.css');
+@import url('./sections/blog.css');
+@import url('./sections/cta.css');
 
 
 /* Shared homepage primitives
