@@ -20,15 +20,17 @@ $company = brio_get_company_data();
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
 
-	<?php /* Preconnect to font CDNs for faster first paint. */ ?>
+	<?php /* Preload Nebeco — used by every heading + overline above the fold.
+	          Short-circuits the HTML → fonts.css → @font-face → woff2 chain. */ ?>
+	<link rel="preload" as="font" type="font/woff2" href="<?php echo esc_url( get_theme_file_uri( '/assets/fonts/Nebeco.woff2' ) ); ?>" crossorigin />
+
+	<?php /* Preconnect to Google Fonts for faster handshake. */ ?>
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
 
-	<?php /* Non-blocking Font Awesome — loads async via media swap, fallback for no-JS. */ ?>
-	<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" />
-	<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" /></noscript>
+	<?php /* Non-blocking Google Fonts (Manrope, 4 weights we actually use). */ ?>
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" /></noscript>
 
 	<?php wp_head(); ?>
 </head>
@@ -63,7 +65,7 @@ $company = brio_get_company_data();
 		<div class="nav-right">
 			<?php foreach ( $company['phones'] as $phone ) : ?>
 				<a href="tel:<?php echo esc_attr( $phone['tel'] ); ?>" class="phone">
-					<i class="fas fa-phone" aria-hidden="true"></i>
+					<?php echo brio_icon( 'phone' ); ?>
 					<span><?php echo esc_html( $phone['label'] ); ?></span>
 				</a>
 			<?php endforeach; ?>

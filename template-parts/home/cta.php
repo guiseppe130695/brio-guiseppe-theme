@@ -24,7 +24,8 @@ $data = brio_get_cta_data();
 				     src="<?php echo esc_url( $data['icon'] ); ?>"
 				     alt=""
 				     loading="lazy"
-				     aria-hidden="true">
+				     aria-hidden="true"
+				     <?php echo brio_img_dims( $data['icon'] ); ?>>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $data['heading'] ) ) : ?>

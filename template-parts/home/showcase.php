@@ -25,7 +25,8 @@ if ( empty( $data['bg'] ) ) {
 				<img src="<?php echo esc_url( $img['url'] ); ?>"
 				     alt="<?php echo esc_attr( $img['alt'] ); ?>"
 				     class="home-showcase__img home-showcase__img--<?php echo esc_attr( $img['position'] ); ?>"
-				     loading="lazy">
+				     loading="lazy"
+				     <?php echo brio_img_dims( $img['url'] ); ?>>
 			<?php endforeach; ?>
 		</div>
 	</div>

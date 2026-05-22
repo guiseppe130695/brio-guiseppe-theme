@@ -13,7 +13,7 @@ class JU_Custom_Nav_Walker extends Walker_Nav_Menu{
 
         // Add dropdown icon if item has children
         if ( in_array( 'menu-item-has-children', $item->classes ) ) {
-            $output .= '<i class="nav-dropdown-icon fas fa-chevron-down" aria-hidden="true"></i>';
+            $output .= brio_icon( 'chevron-down', [ 'class' => 'nav-dropdown-icon' ] );
         }
 
         $output         .=  '</a>';

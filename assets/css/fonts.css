@@ -1,11 +1,10 @@
 /* ============================================
    Web Fonts
+   --------------------------------------------
+   Manrope is loaded via <link rel="preload"> in header.php (non-blocking).
+   Only Nebeco's @font-face lives here because it ships with the theme.
    ============================================ */
 
-/* Manrope + Ovo - Google Fonts (MUST be first - @import rule) */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Ovo&display=swap');
-
-/* Nebeco - Custom Font */
 @font-face {
 	font-family: 'Nebeco';
 	src: url('../fonts/Nebeco.woff2') format('woff2'),

@@ -60,7 +60,7 @@ $data = brio_get_philosophy_data();
 				<ul class="home-philosophy__features">
 					<?php foreach ( $data['features'] as $f ) : ?>
 						<li class="home-philosophy__feature">
-							<i class="<?php echo esc_attr( $f['icon'] ); ?> home-philosophy__icon" aria-hidden="true"></i>
+							<?php echo brio_icon( $f['icon'], [ 'class' => 'home-philosophy__icon' ] ); ?>
 							<div class="home-philosophy__feature-body">
 								<h3 class="home-philosophy__feature-title">
 									<?php echo esc_html( $f['title'] ); ?>

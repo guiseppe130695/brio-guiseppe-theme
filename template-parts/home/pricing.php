@@ -97,7 +97,7 @@ $data = brio_get_pricing_data();
 							<ul class="home-pricing__includes">
 								<?php foreach ( $plan['includes'] as $item ) : ?>
 									<li>
-										<i class="fas fa-circle" aria-hidden="true"></i>
+										<?php echo brio_icon( 'dot' ); ?>
 										<span><?php echo esc_html( $item ); ?></span>
 									</li>
 								<?php endforeach; ?>

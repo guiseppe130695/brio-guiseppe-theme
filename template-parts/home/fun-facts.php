@@ -45,7 +45,8 @@ $data = brio_get_fun_facts_data();
 						<img class="home-fun-facts__icon"
 						     src="<?php echo esc_url( $card['icon'] ); ?>"
 						     alt=""
-						     loading="lazy">
+						     loading="lazy"
+						     <?php echo brio_img_dims( $card['icon'] ); ?>>
 						<div class="home-fun-facts__counter">
 							<span class="home-fun-facts__value">
 								<?php if ( ! empty( $card['prefix'] ) ) : ?>
@@ -68,35 +69,3 @@ $data = brio_get_fun_facts_data();
 	</div>
 </section>
 
-<script>
-(() => {
-	const counters = document.querySelectorAll('.home-fun-facts__number[data-counter]');
-	if (!counters.length) return;
-	if (!('IntersectionObserver' in window)) {
-		counters.forEach(c => { c.textContent = c.dataset.counter; });
-		return;
-	}
-	const animate = (el) => {
-		const target = parseInt(el.dataset.counter, 10);
-		if (isNaN(target)) return;
-		const duration = 1800;
-		const start = performance.now();
-		const tick = (now) => {
-			const t = Math.min((now - start) / duration, 1);
-			const eased = 1 - Math.pow(1 - t, 3);
-			el.textContent = String(Math.round(target * eased));
-			if (t < 1) requestAnimationFrame(tick);
-		};
-		requestAnimationFrame(tick);
-	};
-	const obs = new IntersectionObserver((entries) => {
-		entries.forEach(e => {
-			if (e.isIntersecting) {
-				animate(e.target);
-				obs.unobserve(e.target);
-			}
-		});
-	}, { threshold: 0.4 });
-	counters.forEach(c => obs.observe(c));
-})();
-</script>

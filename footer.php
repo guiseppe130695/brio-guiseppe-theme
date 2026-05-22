@@ -110,21 +110,21 @@ $legal   = brio_get_legal_data();
 			<ul class="footer-links">
 				<li>
 					<a href="#">
-						<i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+						<?php echo brio_icon( 'map-marker' ); ?>
 						<?php echo esc_html( $company['address'] ); ?>
 					</a>
 				</li>
 				<?php foreach ( $company['phones'] as $phone ) : ?>
 					<li>
 						<a href="tel:<?php echo esc_attr( $phone['tel'] ); ?>">
-							<i class="fas fa-phone" aria-hidden="true"></i>
+							<?php echo brio_icon( 'phone' ); ?>
 							<?php echo esc_html( $phone['label'] ); ?>
 						</a>
 					</li>
 				<?php endforeach; ?>
 				<li>
 					<a href="mailto:<?php echo esc_attr( $company['email'] ); ?>">
-						<i class="fas fa-envelope" aria-hidden="true"></i>
+						<?php echo brio_icon( 'envelope' ); ?>
 						<?php echo esc_html( $company['email'] ); ?>
 					</a>
 				</li>
@@ -152,7 +152,7 @@ $legal   = brio_get_legal_data();
 				<?php if ( ! empty( $company['social']['linkedin'] ) ) : ?>
 					<li>
 						<a href="<?php echo esc_url( $company['social']['linkedin'] ); ?>" target="_blank" rel="noopener noreferrer">
-							<i class="fab fa-linkedin-in" aria-hidden="true"></i>
+							<?php echo brio_icon( 'linkedin' ); ?>
 							<?php esc_html_e( 'LinkedIn', 'brio-guiseppe' ); ?>
 						</a>
 					</li>

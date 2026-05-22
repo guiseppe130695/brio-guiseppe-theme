@@ -66,11 +66,11 @@ $query = new WP_Query( brio_get_blog_query_args( $data['posts_per_page'] ) );
 
 									<p class="home-blog__meta">
 										<span class="home-blog__meta-item">
-											<i class="fas fa-user home-blog__meta-icon" aria-hidden="true"></i>
+											<?php echo brio_icon( 'user', [ 'class' => 'home-blog__meta-icon' ] ); ?>
 											<?php the_author(); ?>
 										</span>
 										<span class="home-blog__meta-item">
-											<i class="fas fa-calendar home-blog__meta-icon" aria-hidden="true"></i>
+											<?php echo brio_icon( 'calendar', [ 'class' => 'home-blog__meta-icon' ] ); ?>
 											<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>">
 												<?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
 											</time>

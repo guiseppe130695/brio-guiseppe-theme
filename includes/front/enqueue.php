@@ -62,4 +62,14 @@ function ju_enqueue() {
 	// are not used by the custom theme. Keeping them costs LCP and triggers the
 	// Lighthouse "missing source maps for large JS" warning. Re-enable per-page
 	// only if a specific feature needs them.
+
+	if ( is_front_page() ) {
+		wp_enqueue_script(
+			'ju_counters',
+			$uri . '/assets/js/counters.js',
+			[],
+			$ver,
+			[ 'in_footer' => true, 'strategy' => 'defer' ]
+		);
+	}
 }

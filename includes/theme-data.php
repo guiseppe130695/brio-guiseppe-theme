@@ -293,17 +293,17 @@ function brio_get_philosophy_data() {
 		'description' => __( 'Pas d\'agence. Pas de sous-traitance. Un seul interlocuteur qui maîtrise le code, le SEO et la réalité du terrain hôtelier.', 'brio-guiseppe' ),
 		'features'    => [
 			[
-				'icon'  => 'fa-solid fa-pencil',
+				'icon'  => 'pencil',
 				'title' => __( 'Expertise Technique Profonde', 'brio-guiseppe' ),
 				'text'  => __( 'Développeur web, expert SEO et spécialiste UX conversion — je maîtrise l\'ensemble de la chaîne technique. Pas de sous-traitance, pas de template générique. Chaque solution est construite sur-mesure pour maximiser vos réservations directes.', 'brio-guiseppe' ),
 			],
 			[
-				'icon'  => 'fa-solid fa-chart-column',
+				'icon'  => 'chart-column',
 				'title' => __( 'Connaissance du Terrain', 'brio-guiseppe' ),
 				'text'  => __( 'Basé entre le Maroc et Madagascar, je connais les réalités des hôteliers indépendants en Afrique francophone. Les contraintes de bande passante, les habitudes de réservation locales, les spécificités culturelles — tout est intégré dans mes solutions.', 'brio-guiseppe' ),
 			],
 			[
-				'icon'  => 'fa-solid fa-circle-check',
+				'icon'  => 'check-circle',
 				'title' => __( 'ROI Mesurable et Garanti', 'brio-guiseppe' ),
 				'text'  => __( 'Chaque euro investi est traçable. Tableau de bord en temps réel, rapports mensuels avec métriques claires : trafic organique, taux de conversion, commissions économisées. Le ROI est atteint en 3 à 6 mois en moyenne.', 'brio-guiseppe' ),
 			],
@@ -756,4 +756,49 @@ function brio_get_programs_data() {
 function brio_asset( $section, $key ) {
 	$assets = brio_get_assets();
 	return isset( $assets[ $section ][ $key ] ) ? $assets[ $section ][ $key ] : '';
+}
+
+/**
+ * Get intrinsic image dimensions as an HTML attribute string.
+ *
+ * Reads the file once via getimagesize() and caches the result in a
+ * static array for the request — Lighthouse "Improve image delivery"
+ * + CLS both need explicit width/height on every <img>, and hardcoding
+ * dimensions per template gets out of sync the moment an image is swapped.
+ *
+ * Returns ' width="W" height="H"' ready to inject directly into an <img>
+ * tag. Empty string if the file is missing/unreadable (graceful fallback).
+ *
+ * @since 1.0.0
+ *
+ * @param string $url Asset URL (must point at a local theme asset).
+ * @return string HTML attributes (with leading space), or '' on failure.
+ */
+function brio_img_dims( $url ) {
+	static $cache = [];
+
+	if ( isset( $cache[ $url ] ) ) {
+		return $cache[ $url ];
+	}
+
+	// Resolve the URL to a filesystem path under the theme directory.
+	$theme_uri  = get_theme_file_uri();
+	$theme_path = get_theme_file_path();
+
+	if ( 0 !== strpos( $url, $theme_uri ) ) {
+		return $cache[ $url ] = '';
+	}
+
+	$path = $theme_path . substr( $url, strlen( $theme_uri ) );
+
+	if ( ! is_readable( $path ) ) {
+		return $cache[ $url ] = '';
+	}
+
+	$info = @getimagesize( $path );
+	if ( false === $info ) {
+		return $cache[ $url ] = '';
+	}
+
+	return $cache[ $url ] = sprintf( ' width="%d" height="%d"', $info[0], $info[1] );
 }

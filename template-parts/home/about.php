@@ -50,7 +50,8 @@ $data = brio_get_about_data();
 			<img src="<?php echo esc_url( $data['image'] ); ?>"
 			     alt="<?php echo esc_attr( __( 'Stop aux commissions invisibles', 'brio-guiseppe' ) ); ?>"
 			     class="home-about__visual"
-			     loading="lazy">
+			     loading="lazy"
+			     <?php echo brio_img_dims( $data['image'] ); ?>>
 		<?php endif; ?>
 
 	</div>

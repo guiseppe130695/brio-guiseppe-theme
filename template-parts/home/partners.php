@@ -32,14 +32,16 @@ if ( empty( $data['items'] ) ) {
 					<li class="home-partners__item">
 						<img src="<?php echo esc_url( $item['url'] ); ?>"
 						     alt="<?php echo esc_attr( $item['alt'] ); ?>"
-						     loading="lazy">
+						     loading="lazy"
+						     <?php echo brio_img_dims( $item['url'] ); ?>>
 					</li>
 				<?php endforeach; ?>
 				<?php foreach ( $data['items'] as $item ) : ?>
 					<li class="home-partners__item" aria-hidden="true">
 						<img src="<?php echo esc_url( $item['url'] ); ?>"
 						     alt=""
-						     loading="lazy">
+						     loading="lazy"
+						     <?php echo brio_img_dims( $item['url'] ); ?>>
 					</li>
 				<?php endforeach; ?>
 			</ul>
