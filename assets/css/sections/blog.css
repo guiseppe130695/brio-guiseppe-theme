@@ -1,21 +1,17 @@
 /* ==========================================================================
    Homepage — Blog (Latest Posts)
    --------------------------------------------------------------------------
-   Yellow section · centered overline + h2 · 3-card grid of dynamic WP
-   posts. Cards: cream bg with rounded image-top → flip to dark-green on
-   hover (background, title, excerpt colours all invert smoothly).
+   Cream section · centered overline + h2 · 3-card grid of dynamic WP
+   posts. Cards: cream-secondary bg with rounded image-top → flip to
+   dark-green on hover (background, title, excerpt colours all invert).
+   Uses shared .home-section + .overline + fade-up.
    ========================================================================== */
 
 .home-blog {
 	background-color: var(--color-bg-primary);
-	padding: 100px 25px;
-	position: relative;
-	z-index: 4;
 }
 
 .home-blog .container {
-	max-width: 1400px;
-	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -23,28 +19,17 @@
 	text-align: center;
 }
 
-/* Overline + heading
-   ========================================================================== */
-
 .home-blog__overline {
-	font-family: var(--font-primary);
-	font-size: var(--accent-uppercase-size);
-	font-weight: var(--accent-uppercase-weight);
-	text-transform: var(--accent-uppercase-transform);
-	letter-spacing: 0;
-	line-height: 1.5;
-	animation: blog-fadeIn var(--transition-normal) both;
+	animation: fade-up var(--transition-normal) both;
 }
 
 .home-blog__heading {
 	max-width: 50%;
 	margin-bottom: 30px;
-	animation: blog-fadeIn var(--transition-normal) 200ms both;
+	animation: fade-up var(--transition-normal) 200ms both;
 }
 
-/* Empty state — friendly placeholder when no posts published yet
-   ========================================================================== */
-
+/* Empty state — friendly placeholder when no posts published yet */
 .home-blog__empty {
 	color: var(--color-primary);
 	font-size: var(--h5-size);
@@ -54,9 +39,7 @@
 	opacity: 0.7;
 }
 
-/* Grid — 3 cols desktop, 2 tablet, 1 mobile
-   ========================================================================== */
-
+/* Grid — 3 cols desktop, 2 tablet, 1 mobile */
 .home-blog__grid {
 	list-style: none;
 	margin: 0;
@@ -66,12 +49,10 @@
 	grid-template-columns: repeat(3, 1fr);
 	gap: var(--spacing-lg);
 	text-align: left;
-	animation: blog-fadeIn var(--transition-normal) 400ms both;
+	animation: fade-up var(--transition-normal) 400ms both;
 }
 
-/* Card — flippable cream → dark on hover · radius 25px
-   ========================================================================== */
-
+/* Card — flippable cream → dark on hover · radius 25px */
 .home-blog__card {
 	display: flex;
 }
@@ -99,9 +80,7 @@
 	transform: translateY(-5px);
 }
 
-/* Media — rounded top only, fixed aspect for a clean grid
-   ========================================================================== */
-
+/* Media — rounded top only, fixed aspect for a clean grid */
 .home-blog__media {
 	margin: 0;
 	aspect-ratio: 16 / 10;
@@ -125,9 +104,7 @@
 	transform: scale(1.04);
 }
 
-/* Body — title + meta + excerpt + read-more · padding 15/25/25/25
-   ========================================================================== */
-
+/* Body — title + meta + excerpt · padding 15/25/25/25 */
 .home-blog__body {
 	display: flex;
 	flex-direction: column;
@@ -136,9 +113,7 @@
 	flex: 1;
 }
 
-/* Title — H5 (Nebeco 22/20/19) · color flips on hover
-   ========================================================================== */
-
+/* Title — H5 (Nebeco 22/20/19) · color flips on hover */
 .home-blog__title {
 	font-family: var(--font-primary);
 	font-size: var(--h5-size);
@@ -154,9 +129,7 @@
 	color: var(--color-secondary);
 }
 
-/* Meta — small accent text with icons, color flips on hover
-   ========================================================================== */
-
+/* Meta — small accent text with icons, color flips on hover */
 .home-blog__meta {
 	display: flex;
 	flex-wrap: wrap;
@@ -184,21 +157,11 @@
 	color: var(--color-bg-primary);
 }
 
-/* Excerpt — body typography, color inherited from link
-   ========================================================================== */
-
 .home-blog__excerpt {
 	margin: 0;
 }
 
-/* Tablet — 2 cols
-   ========================================================================== */
-
 @media (max-width: 1024px) {
-	.home-blog {
-		padding: 70px 20px;
-	}
-
 	.home-blog__heading {
 		max-width: 520px;
 		margin-bottom: 20px;
@@ -209,14 +172,7 @@
 	}
 }
 
-/* Mobile — single col
-   ========================================================================== */
-
 @media (max-width: 767px) {
-	.home-blog {
-		padding: 70px 10px;
-	}
-
 	.home-blog__heading {
 		max-width: 100%;
 		margin-bottom: 10px;
@@ -230,12 +186,4 @@
 	.home-blog__body {
 		padding: 20px;
 	}
-}
-
-/* Keyframes
-   ========================================================================== */
-
-@keyframes blog-fadeIn {
-	from { opacity: 0; transform: translateY(12px); }
-	to   { opacity: 1; transform: translateY(0); }
 }

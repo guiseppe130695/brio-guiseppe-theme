@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 $data = brio_get_faqs_data();
 ?>
 
-<section class="home-faqs" id="faqs">
+<section class="home-section home-faqs" id="faqs">
 	<div class="container">
 
 		<?php /* Left column — decorative image */ ?>
@@ -32,7 +32,7 @@ $data = brio_get_faqs_data();
 		<div class="home-faqs__content">
 
 			<?php if ( ! empty( $data['overline'] ) ) : ?>
-				<p class="home-faqs__overline">
+				<p class="overline home-faqs__overline">
 					<?php echo esc_html( $data['overline'] ); ?>
 				</p>
 			<?php endif; ?>

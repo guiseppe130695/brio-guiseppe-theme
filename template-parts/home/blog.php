@@ -21,11 +21,11 @@ $data  = brio_get_blog_data();
 $query = new WP_Query( brio_get_blog_query_args( $data['posts_per_page'] ) );
 ?>
 
-<section class="home-blog" id="blog">
+<section class="home-section home-blog" id="blog">
 	<div class="container">
 
 		<?php if ( ! empty( $data['overline'] ) ) : ?>
-			<p class="home-blog__overline">
+			<p class="overline home-blog__overline">
 				<?php echo esc_html( $data['overline'] ); ?>
 			</p>
 		<?php endif; ?>

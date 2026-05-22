@@ -15,14 +15,14 @@ defined( 'ABSPATH' ) || exit;
 $data = brio_get_pricing_data();
 ?>
 
-<section class="home-pricing" id="pricing">
+<section class="home-section home-pricing" id="pricing">
 	<div class="container">
 
 		<?php /* --- Header row --- */ ?>
 		<header class="home-pricing__header">
 			<div class="home-pricing__intro">
 				<?php if ( ! empty( $data['overline'] ) ) : ?>
-					<p class="home-pricing__overline">
+					<p class="overline home-pricing__overline">
 						<?php echo esc_html( $data['overline'] ); ?>
 					</p>
 				<?php endif; ?>
@@ -35,7 +35,7 @@ $data = brio_get_pricing_data();
 
 			<?php if ( ! empty( $data['cta'] ) ) : ?>
 				<a href="<?php echo esc_url( $data['cta']['href'] ); ?>"
-				   class="home-pricing__cta-top home-pricing__btn home-pricing__btn--light"
+				   class="btn-cta home-pricing__cta-top"
 				   target="_blank"
 				   rel="noopener noreferrer">
 					<?php echo esc_html( $data['cta']['label'] ); ?>
@@ -80,7 +80,7 @@ $data = brio_get_pricing_data();
 
 						<?php if ( ! empty( $plan['cta'] ) ) : ?>
 							<a href="<?php echo esc_url( $plan['cta']['href'] ); ?>"
-							   class="home-pricing__btn home-pricing__btn--<?php echo esc_attr( $variant ); ?>"
+							   class="btn-cta<?php echo 'dark' === $variant ? ' btn-cta--dark' : ''; ?>"
 							   target="_blank"
 							   rel="noopener noreferrer">
 								<?php echo esc_html( $plan['cta']['label'] ); ?>

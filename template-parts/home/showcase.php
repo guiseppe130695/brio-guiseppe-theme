@@ -18,7 +18,7 @@ if ( empty( $data['bg'] ) ) {
 }
 ?>
 
-<section class="home-showcase" id="showcase" aria-hidden="true">
+<section class="home-section home-section--flush-top home-showcase" id="showcase" aria-hidden="true">
 	<div class="container">
 		<div class="home-showcase__media" style="background-image:url(<?php echo esc_url( $data['bg'] ); ?>)">
 			<?php foreach ( $data['images'] as $img ) : ?>

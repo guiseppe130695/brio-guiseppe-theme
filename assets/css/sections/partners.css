@@ -1,39 +1,32 @@
 /* ==========================================================================
    Homepage — Partners
    --------------------------------------------------------------------------
-   --color-secondary bg · border-bottom 1px primary · padding 50/25
-   Infinite CSS marquee — items duplicated in DOM for seamless loop.
+   Slim cream-secondary strip with border-bottom + infinite CSS marquee.
+   Uses .home-section--slim (50/40 vertical padding) instead of the
+   default 100/70/70.
    ========================================================================== */
 
 .home-partners {
 	background-color: var(--color-secondary);
 	border-bottom: 1px solid var(--color-primary);
-	padding: 50px 25px;
-	position: relative;
-	z-index: 4;
 	overflow: hidden;
 }
 
 .home-partners .container {
-	max-width: 1400px;
-	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 20px;
 }
 
-/* Label — body typography + color-primary + centered + max-width 270px
-   ========================================================================== */
-
+/* Label — overrides body color to primary, max-width 270px */
 .home-partners__label {
 	color: var(--color-primary);
 	text-align: center;
+	max-width: 270px;
 }
 
-/* Marquee viewport — clips overflow, fades edges
-   ========================================================================== */
-
+/* Marquee viewport — clips overflow, fades edges */
 .home-partners__viewport {
 	width: 100%;
 	overflow: hidden;
@@ -48,17 +41,14 @@
 	margin: 0;
 	padding: 0;
 	width: max-content;
-	animation: partners-scroll 28s linear infinite;
+	animation: marquee-x 28s linear infinite;
 }
 
 .home-partners__track:hover {
 	animation-play-state: paused;
 }
 
-/* Items — fixed width so exactly 5 fit the 1400px container
-   (1400 - 4 gaps × 10px) / 5 = 272px
-   ========================================================================== */
-
+/* Items — fixed width so exactly 5 fit the 1400px container */
 .home-partners__item {
 	flex-shrink: 0;
 	width: 272px;
@@ -76,28 +66,13 @@
 	opacity: 1;
 }
 
-/* Tablet — (984px - 4×10px) / 5 ≈ 189px
-   ========================================================================== */
-
 @media (max-width: 1024px) {
-	.home-partners {
-		padding: 40px 20px;
-	}
-
 	.home-partners__item {
 		width: 189px;
 	}
 }
 
-/* Mobile — (355px - 4×10px) / 5 ≈ 63px — trop petit, on passe à 3 items
-   (355px - 2×10px) / 3 ≈ 112px
-   ========================================================================== */
-
 @media (max-width: 767px) {
-	.home-partners {
-		padding: 40px 10px;
-	}
-
 	.home-partners__label {
 		font-size: 13px;
 	}
@@ -105,12 +80,4 @@
 	.home-partners__item {
 		width: 112px;
 	}
-}
-
-/* Keyframes
-   ========================================================================== */
-
-@keyframes partners-scroll {
-	from { transform: translateX(0); }
-	to   { transform: translateX(-50%); }
 }

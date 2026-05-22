@@ -1,0 +1,19 @@
+{
+	"name": "brio-guiseppe-theme",
+	"version": "1.0.0",
+	"description": "Custom WordPress theme for Brio Guiseppe — hospitality web agency. CSS build pipeline with clean-css.",
+	"private": true,
+	"scripts": {
+		"build:css:global": "cleancss -O2 -o assets/css/dist/global.min.css assets/css/variables.css assets/css/font-icons.css assets/css/header.css assets/css/header-responsive.css assets/css/footer.css assets/css/custom.css",
+		"build:css:home": "cleancss -O2 -o assets/css/dist/home.min.css assets/css/home.css",
+		"build:css": "npm run build:css:global && npm run build:css:home",
+		"watch:css": "onchange \"assets/css/**/*.css\" --exclude \"assets/css/dist/**\" -- npm run build:css",
+		"build": "npm run build:css"
+	},
+	"devDependencies": {
+		"clean-css-cli": "^5.6.3",
+		"onchange": "^7.1.0"
+	},
+	"author": "Brio Guiseppe",
+	"license": "GPL-2.0-or-later"
+}

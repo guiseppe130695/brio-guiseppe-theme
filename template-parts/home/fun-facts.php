@@ -18,11 +18,11 @@ defined( 'ABSPATH' ) || exit;
 $data = brio_get_fun_facts_data();
 ?>
 
-<section class="home-fun-facts" id="fun-facts">
+<section class="home-section home-fun-facts" id="fun-facts">
 	<div class="container">
 
 		<?php if ( ! empty( $data['overline'] ) ) : ?>
-			<p class="home-fun-facts__overline">
+			<p class="overline home-fun-facts__overline">
 				<?php echo esc_html( $data['overline'] ); ?>
 			</p>
 		<?php endif; ?>

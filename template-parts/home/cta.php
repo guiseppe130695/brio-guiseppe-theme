@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 $data = brio_get_cta_data();
 ?>
 
-<section class="home-cta" id="cta">
+<section class="home-section home-section--flush-top home-cta" id="cta">
 	<div class="container">
 		<div class="home-cta__card">
 
@@ -41,7 +41,7 @@ $data = brio_get_cta_data();
 
 			<?php if ( ! empty( $data['cta'] ) ) : ?>
 				<a href="<?php echo esc_url( $data['cta']['href'] ); ?>"
-				   class="home-cta__btn"
+				   class="btn-cta btn-cta--lg home-cta__btn"
 				   target="_blank"
 				   rel="noopener noreferrer">
 					<?php echo esc_html( $data['cta']['label'] ); ?>

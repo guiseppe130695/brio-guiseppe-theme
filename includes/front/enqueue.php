@@ -2,8 +2,16 @@
 /**
  * Front-end Asset Enqueue
  *
- * Registers and enqueues theme stylesheets and scripts. Page-specific assets
- * (homepage, blog, etc.) are loaded conditionally to keep page weight down.
+ * Two execution paths controlled by `JU_DEV_MODE`:
+ *
+ *   • DEV (true)  — loads individual source files with a cache-busting
+ *                   timestamp. Easiest to iterate on; one HTTP request per
+ *                   stylesheet (with nested @imports kicking off more).
+ *
+ *   • PROD (false) — loads pre-built minified bundles from
+ *                    `assets/css/dist/`. Two files total: `global.min.css`
+ *                    everywhere + `home.min.css` on the homepage.
+ *                    Run `npm run build:css` to (re)generate the bundles.
  *
  * @package Brio_Guiseppe
  * @since   1.0.0
@@ -20,26 +28,33 @@ function ju_enqueue() {
 	$uri = get_theme_file_uri();
 	$ver = JU_DEV_MODE ? time() : wp_get_theme()->get( 'Version' );
 
-	// ---- Register stylesheets in dependency order ----
-	wp_register_style( 'ju_fonts',             $uri . '/assets/css/fonts.css',             [],                 $ver );
-	wp_register_style( 'ju_variables',         $uri . '/assets/css/variables.css',         [ 'ju_fonts' ],     $ver );
-	wp_register_style( 'ju_font_icons',        $uri . '/assets/css/font-icons.css',        [],                 $ver );
-	wp_register_style( 'ju_header',            $uri . '/assets/css/header.css',            [ 'ju_variables' ], $ver );
-	wp_register_style( 'ju_header_responsive', $uri . '/assets/css/header-responsive.css', [ 'ju_header' ],    $ver );
-	wp_register_style( 'ju_footer',            $uri . '/assets/css/footer.css',            [ 'ju_variables' ], $ver );
-	wp_register_style( 'ju_home',              $uri . '/assets/css/home.css',              [ 'ju_variables' ], $ver );
+	if ( JU_DEV_MODE ) {
+		// ---- DEV: individual source files (easy iteration) ----
+		wp_register_style( 'ju_fonts',             $uri . '/assets/css/fonts.css',             [],                 $ver );
+		wp_register_style( 'ju_variables',         $uri . '/assets/css/variables.css',         [ 'ju_fonts' ],     $ver );
+		wp_register_style( 'ju_font_icons',        $uri . '/assets/css/font-icons.css',        [],                 $ver );
+		wp_register_style( 'ju_header',            $uri . '/assets/css/header.css',            [ 'ju_variables' ], $ver );
+		wp_register_style( 'ju_header_responsive', $uri . '/assets/css/header-responsive.css', [ 'ju_header' ],    $ver );
+		wp_register_style( 'ju_footer',            $uri . '/assets/css/footer.css',            [ 'ju_variables' ], $ver );
+		wp_register_style( 'ju_home',              $uri . '/assets/css/home.css',              [ 'ju_variables' ], $ver );
 
-	// ---- Global stylesheets (every page) ----
-	wp_enqueue_style( 'ju_fonts' );
-	wp_enqueue_style( 'ju_variables' );
-	wp_enqueue_style( 'ju_font_icons' );
-	wp_enqueue_style( 'ju_header' );
-	wp_enqueue_style( 'ju_header_responsive' );
-	wp_enqueue_style( 'ju_footer' );
+		wp_enqueue_style( 'ju_fonts' );
+		wp_enqueue_style( 'ju_variables' );
+		wp_enqueue_style( 'ju_font_icons' );
+		wp_enqueue_style( 'ju_header' );
+		wp_enqueue_style( 'ju_header_responsive' );
+		wp_enqueue_style( 'ju_footer' );
 
-	// ---- Conditional stylesheets ----
-	if ( is_front_page() ) {
-		wp_enqueue_style( 'ju_home' );
+		if ( is_front_page() ) {
+			wp_enqueue_style( 'ju_home' );
+		}
+	} else {
+		// ---- PROD: minified bundles (one global, one home) ----
+		wp_enqueue_style( 'ju_global', $uri . '/assets/css/dist/global.min.css', [], $ver );
+
+		if ( is_front_page() ) {
+			wp_enqueue_style( 'ju_home', $uri . '/assets/css/dist/home.min.css', [ 'ju_global' ], $ver );
+		}
 	}
 
 	// ---- Scripts ----

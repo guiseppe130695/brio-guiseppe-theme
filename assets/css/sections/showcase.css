@@ -2,27 +2,16 @@
    Homepage — Showcase ("Image" / "Video")
    --------------------------------------------------------------------------
    Visual-only break between Philosophy and Fun-Facts. A 50px-rounded
-   media container with a background image, with two decorative images
-   that overflow top-left (-50px) and bottom-right (-100px).
-   Section padding-top is 0 so it sits flush against Philosophy; the
-   100px padding-bottom gives room for the bottom-right image overflow.
+   media container with a background image + two decorative images that
+   overflow above (-50px) and below (-100px). Section uses .home-section
+   --flush-top (no top padding) so it sits flush against Philosophy.
    ========================================================================== */
 
 .home-showcase {
 	background-color: var(--color-bg-secondary);
-	padding: 0 25px 100px;
-	position: relative;
-	z-index: 4;
 }
 
-.home-showcase .container {
-	max-width: 1400px;
-	margin: 0 auto;
-}
-
-/* Media container — 600px min-height, rounded 50px, image cover top-right
-   ========================================================================== */
-
+/* Media container — 600px min-height, rounded 50px, image cover top-right */
 .home-showcase__media {
 	position: relative;
 	min-height: 600px;
@@ -30,18 +19,16 @@
 	background-position: center right;
 	background-size: cover;
 	background-repeat: no-repeat;
-	animation: showcase-fadeIn var(--transition-normal) both;
+	animation: fade-up var(--transition-normal) both;
 }
 
-/* Decorative images — absolute, overflow the rounded box
-   ========================================================================== */
-
+/* Decorative images — absolute, overflow the rounded box */
 .home-showcase__img {
 	position: absolute;
 	width: 20%;
 	height: auto;
 	object-fit: cover;
-	animation: showcase-fadeIn var(--transition-normal) 400ms both;
+	animation: fade-up var(--transition-normal) 400ms both;
 }
 
 .home-showcase__img--top-left {
@@ -56,14 +43,7 @@
 	z-index: 99;
 }
 
-/* Tablet
-   ========================================================================== */
-
 @media (max-width: 1024px) {
-	.home-showcase {
-		padding: 0 20px 30px;
-	}
-
 	.home-showcase__media {
 		min-height: 500px;
 		border-radius: 40px;
@@ -80,14 +60,7 @@
 	}
 }
 
-/* Mobile
-   ========================================================================== */
-
 @media (max-width: 767px) {
-	.home-showcase {
-		padding: 0 10px 30px;
-	}
-
 	.home-showcase__media {
 		border-radius: 25px;
 	}
@@ -101,12 +74,4 @@
 		width: 32%;
 		bottom: -40px;
 	}
-}
-
-/* Keyframes
-   ========================================================================== */
-
-@keyframes showcase-fadeIn {
-	from { opacity: 0; transform: translateY(12px); }
-	to   { opacity: 1; transform: translateY(0); }
 }

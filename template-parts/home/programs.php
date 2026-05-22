@@ -14,11 +14,11 @@ defined( 'ABSPATH' ) || exit;
 $data = brio_get_programs_data();
 ?>
 
-<section class="home-programs" id="programs">
+<section class="home-section home-programs" id="programs">
 	<div class="container">
 
 		<?php if ( ! empty( $data['overline'] ) ) : ?>
-			<p class="home-programs__overline">
+			<p class="overline home-programs__overline">
 				<?php echo esc_html( $data['overline'] ); ?>
 			</p>
 		<?php endif; ?>
@@ -48,7 +48,7 @@ $data = brio_get_programs_data();
 
 		<?php if ( ! empty( $data['cta'] ) ) : ?>
 			<a href="<?php echo esc_url( $data['cta']['href'] ); ?>"
-			   class="home-programs__btn"
+			   class="btn-cta home-programs__btn"
 			   target="_blank"
 			   rel="noopener noreferrer">
 				<?php echo esc_html( $data['cta']['label'] ); ?>

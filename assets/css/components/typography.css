@@ -126,13 +126,25 @@ a:hover {
 	color: var(--color-accent);
 }
 
-/* Accent text (like uppercase labels) */
-.accent-text {
-	font-family: var(--font-secondary);
+/* Overline — small uppercase label above headings.
+   Matches the "Accent Text" preset from Elementor (Nebeco 15/14/13).
+   Used on every homepage section overline. */
+.overline {
+	font-family: var(--font-primary);
 	font-size: var(--accent-uppercase-size);
 	font-weight: var(--accent-uppercase-weight);
 	text-transform: var(--accent-uppercase-transform);
-	letter-spacing: var(--accent-uppercase-letter-spacing);
+	letter-spacing: 0;
+	line-height: 1.5;
+	margin: 0;
+}
+
+@media (max-width: 1024px) {
+	.overline { font-size: 14px; }
+}
+
+@media (max-width: 768px) {
+	.overline { font-size: 13px; }
 }
 
 /* Section text stack — overline → heading → body → CTA

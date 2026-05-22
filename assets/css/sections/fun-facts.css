@@ -1,21 +1,15 @@
 /* ==========================================================================
    Homepage — Fun Facts ("Résultats")
    --------------------------------------------------------------------------
-   Yellow accent section · centered overline + heading · asymmetric 4-card
-   grid (34/34/32 cols). Cards 1-2 span both rows; cards 3-4 sit stacked
-   in the third column. Counters animate on viewport entry (inline JS).
+   Yellow accent section · 4-card grid (34/34/32 cols, cards 1-2 span both
+   rows). Uses .home-section + .overline + fade-up shared primitives.
    ========================================================================== */
 
 .home-fun-facts {
 	background-color: var(--color-accent);
-	padding: 100px 25px;
-	position: relative;
-	z-index: 4;
 }
 
 .home-fun-facts .container {
-	max-width: 1400px;
-	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -23,32 +17,17 @@
 	text-align: center;
 }
 
-/* Overline — Nebeco uppercase, color inherits (text)
-   ========================================================================== */
-
 .home-fun-facts__overline {
-	font-family: var(--font-primary);
-	font-size: var(--accent-uppercase-size);
-	font-weight: var(--accent-uppercase-weight);
-	text-transform: var(--accent-uppercase-transform);
-	letter-spacing: 0;
-	line-height: 1.5;
-	animation: fun-facts-fadeIn var(--transition-normal) both;
+	animation: fade-up var(--transition-normal) both;
 }
-
-/* Heading — inherits h2 global (Nebeco + --color-primary)
-   width 75% / 520px / 100%, margin-bottom 50/40/30
-   ========================================================================== */
 
 .home-fun-facts__heading {
 	max-width: 75%;
 	margin-bottom: 30px;
-	animation: fun-facts-fadeIn var(--transition-normal) 200ms both;
+	animation: fade-up var(--transition-normal) 200ms both;
 }
 
-/* Grid — 34/34/32 cols, 2 rows. Cards 1-2 span both rows.
-   ========================================================================== */
-
+/* Grid — 34/34/32 cols, 2 rows. Cards 1-2 span both rows. */
 .home-fun-facts__grid {
 	display: grid;
 	grid-template-columns: 34fr 34fr 32fr;
@@ -57,10 +36,7 @@
 	width: 100%;
 }
 
-.home-fun-facts__grid > :nth-child(1) {
-	grid-row: 1 / span 2;
-}
-
+.home-fun-facts__grid > :nth-child(1),
 .home-fun-facts__grid > :nth-child(2) {
 	grid-row: 1 / span 2;
 }
@@ -75,9 +51,7 @@
 	grid-row: 2;
 }
 
-/* Card — flex column, icon top + counter bottom, rounded 25px, lift on hover
-   ========================================================================== */
-
+/* Card — flex column, icon top + counter bottom, rounded 25px, lift on hover */
 .home-fun-facts__card {
 	position: relative;
 	display: flex;
@@ -89,14 +63,12 @@
 	overflow: hidden;
 	text-align: left;
 	transition: transform var(--transition-normal);
-	animation: fun-facts-fadeIn var(--transition-normal) 400ms both;
+	animation: fade-up var(--transition-normal) 400ms both;
 }
 
 .home-fun-facts__card:hover {
 	transform: translateY(-5px);
 }
-
-/* Variants */
 
 .home-fun-facts__card--light {
 	background-color: var(--color-bg-primary);
@@ -116,9 +88,7 @@
 	color: var(--color-secondary);
 }
 
-/* Image card overlay — gradient transparent → primary at bottom (0.9 opacity)
-   ========================================================================== */
-
+/* Image card gradient overlay (transparent → primary at bottom, 0.9 opacity) */
 .home-fun-facts__card--image::after {
 	content: '';
 	position: absolute;
@@ -134,9 +104,6 @@
 	z-index: 2;
 }
 
-/* Icon — top-left, decorative
-   ========================================================================== */
-
 .home-fun-facts__icon {
 	width: auto;
 	height: 72px;
@@ -144,9 +111,6 @@
 	display: block;
 	object-fit: contain;
 }
-
-/* Counter block — value + title
-   ========================================================================== */
 
 .home-fun-facts__counter {
 	display: flex;
@@ -174,21 +138,11 @@
 	margin-left: 2px;
 }
 
-/* Title — body inherited
-   ========================================================================== */
-
 .home-fun-facts__title {
 	color: inherit;
 }
 
-/* Tablet — flatten to 2 cols
-   ========================================================================== */
-
 @media (max-width: 1024px) {
-	.home-fun-facts {
-		padding: 70px 20px;
-	}
-
 	.home-fun-facts__heading {
 		max-width: 520px;
 		margin-bottom: 20px;
@@ -210,14 +164,7 @@
 	}
 }
 
-/* Mobile — single column
-   ========================================================================== */
-
 @media (max-width: 767px) {
-	.home-fun-facts {
-		padding: 70px 10px;
-	}
-
 	.home-fun-facts__heading {
 		max-width: 100%;
 		margin-bottom: 10px;
@@ -231,12 +178,4 @@
 	.home-fun-facts__icon {
 		height: 60px;
 	}
-}
-
-/* Keyframes
-   ========================================================================== */
-
-@keyframes fun-facts-fadeIn {
-	from { opacity: 0; transform: translateY(12px); }
-	to   { opacity: 1; transform: translateY(0); }
 }

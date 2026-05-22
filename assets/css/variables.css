@@ -104,6 +104,11 @@
 	--stack-heading-body: 24px;
 	--stack-body-cta: 40px;
 
+	/* Section padding (responsive: overridden in @media below) */
+	--section-pad-y: 100px;
+	--section-pad-x: 25px;
+	--section-max-w: 1400px;
+
 	/* ========== BORDER RADIUS ========== */
 	--radius-sm: 8px;
 	--radius-md: 12px;
@@ -146,6 +151,9 @@
 		--h5-size: var(--h5-size-tablet);
 		--h6-size: var(--h6-size-tablet);
 		--body-size: var(--body-size-tablet);
+
+		--section-pad-y: 70px;
+		--section-pad-x: 20px;
 	}
 }
 
@@ -159,5 +167,7 @@
 		--h5-size: var(--h5-size-mobile);
 		--h6-size: var(--h6-size-mobile);
 		--body-size: var(--body-size-mobile);
+
+		--section-pad-x: 10px;
 	}
 }

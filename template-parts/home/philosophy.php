@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 $data = brio_get_philosophy_data();
 ?>
 
-<section class="home-philosophy" id="philosophy">
+<section class="home-section home-philosophy" id="philosophy">
 	<div class="container">
 
 		<?php /* Left column — image + mission card (bottom-left) */ ?>
@@ -22,7 +22,7 @@ $data = brio_get_philosophy_data();
 			<?php if ( ! empty( $data['mission'] ) ) : ?>
 				<div class="home-philosophy__mission">
 					<?php if ( ! empty( $data['mission']['label'] ) ) : ?>
-						<p class="home-philosophy__mission-label">
+						<p class="overline home-philosophy__mission-label">
 							<?php echo esc_html( $data['mission']['label'] ); ?>
 						</p>
 					<?php endif; ?>
@@ -39,7 +39,7 @@ $data = brio_get_philosophy_data();
 		<div class="home-philosophy__content">
 
 			<?php if ( ! empty( $data['overline'] ) ) : ?>
-				<p class="home-philosophy__overline">
+				<p class="overline home-philosophy__overline">
 					<?php echo esc_html( $data['overline'] ); ?>
 				</p>
 			<?php endif; ?>

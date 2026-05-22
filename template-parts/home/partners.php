@@ -17,7 +17,7 @@ if ( empty( $data['items'] ) ) {
 }
 ?>
 
-<section class="home-partners" id="partners">
+<section class="home-section home-section--slim home-partners" id="partners">
 	<div class="container">
 
 		<?php if ( ! empty( $data['label'] ) ) : ?>

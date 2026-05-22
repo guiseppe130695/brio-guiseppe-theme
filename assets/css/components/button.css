@@ -230,3 +230,48 @@ button:disabled:hover,
 .btn + .btn {
 	margin-left: var(--spacing-md);
 }
+
+/* ==========================================================================
+   Homepage section CTA buttons
+   --------------------------------------------------------------------------
+   Simpler recipe than .btn-primary (no sliding-circle effect): straight
+   bg + color swap on hover. Used by About, Programs, Pricing, CTA.
+   Pixel-exact padding/radius from Elementor JSON (15px 26px / 30px).
+   ========================================================================== */
+
+.btn-cta {
+	display: inline-block;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+	letter-spacing: var(--accent-letter-spacing);
+	text-decoration: none;
+	color: var(--color-text);
+	background-color: var(--color-accent);
+	border-radius: 30px;
+	padding: 15px 26px;
+	border: none;
+	cursor: pointer;
+	white-space: nowrap;
+	text-align: center;
+	transition: color var(--transition-normal), background-color var(--transition-normal);
+}
+
+/* Default hover: swap to dark green bg, accent text.
+   Used on light backgrounds (cream / cream-lighter sections). */
+.btn-cta:hover {
+	color: var(--color-accent);
+	background-color: var(--color-text);
+}
+
+/* --dark modifier: hover swaps to cream bg, primary text.
+   Used inside dark cards (Pricing "Boutique Hôtel" card). */
+.btn-cta--dark:hover {
+	color: var(--color-primary);
+	background-color: var(--color-bg-primary);
+}
+
+/* --lg modifier: larger padding (used in CTA section button). */
+.btn-cta--lg {
+	padding: 18px 35px;
+}

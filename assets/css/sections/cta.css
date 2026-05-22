@@ -1,26 +1,17 @@
 /* ==========================================================================
    Homepage — Final CTA
    --------------------------------------------------------------------------
-   Yellow strip (visible only at the bottom — padding-top: 0) with a giant
-   rounded light-green card flush at the top. Centered vertical stack:
-   icon → heading → tagline (single line) → button.
+   Cream strip (visible at bottom via .home-section--flush-top) with a
+   giant rounded light-green card flush at the top. Centered vertical
+   stack: icon → heading → tagline (single line) → button.
+   Uses shared .home-section--flush-top + .btn-cta--lg + fade-up.
    ========================================================================== */
 
 .home-cta {
 	background-color: var(--color-bg-primary);
-	padding: 0 25px 100px;
-	position: relative;
-	z-index: 4;
 }
 
-.home-cta .container {
-	max-width: 1400px;
-	margin: 0 auto;
-}
-
-/* Card — light-green, 50px radius, min-height 85vh, content centered
-   ========================================================================== */
-
+/* Card — light-green, 50px radius, content centered (left-aligned text) */
 .home-cta__card {
 	background-color: var(--color-secondary);
 	border-radius: 50px;
@@ -31,31 +22,24 @@
 	align-items: flex-start;
 	gap: var(--spacing-xl);
 	text-align: left;
-	animation: cta-fadeIn var(--transition-normal) both;
+	animation: fade-up var(--transition-normal) both;
 }
 
-/* Decorative icon at top
-   ========================================================================== */
-
+/* Decorative icon — pinned right */
 .home-cta__icon {
 	width: 200px;
 	height: auto;
 	display: block;
 	align-self: flex-end;
 	margin-bottom: 100px;
-	animation: cta-fadeIn var(--transition-normal) 100ms both;
+	animation: fade-up var(--transition-normal) 100ms both;
 }
-
-/* Heading — inherits h2 (Nebeco + --color-primary), max-width for readability
-   ========================================================================== */
 
 .home-cta__heading {
-	animation: cta-fadeIn var(--transition-normal) 200ms both;
+	animation: fade-up var(--transition-normal) 200ms both;
 }
 
-/* Tagline — single-line uppercase text with · separators
-   ========================================================================== */
-
+/* Tagline — single-line uppercase text with · separators */
 .home-cta__tagline {
 	margin: 0;
 	font-family: var(--font-primary);
@@ -66,43 +50,15 @@
 	letter-spacing: 4px;
 	white-space: nowrap;
 	color: var(--color-primary);
-	animation: cta-fadeIn var(--transition-normal) 300ms both;
+	animation: fade-up var(--transition-normal) 200ms both;
 }
-
-/* CTA button — accent bg → dark on hover (same recipe as About)
-   ========================================================================== */
 
 .home-cta__btn {
-	display: inline-block;
-	font-family: var(--font-secondary);
-	font-size: var(--accent-size);
-	font-weight: var(--accent-weight);
-	letter-spacing: var(--accent-letter-spacing);
-	text-decoration: none;
-	color: var(--color-text);
-	background-color: var(--color-accent);
-	border-radius: 30px;
-	padding: 18px 35px;
-	text-align: center;
-	transition: color var(--transition-normal), background-color var(--transition-normal);
-	animation: cta-fadeIn var(--transition-normal) 400ms both;
+	animation: fade-up var(--transition-normal) 400ms both;
 }
-
-.home-cta__btn:hover {
-	color: var(--color-accent);
-	background-color: var(--color-text);
-}
-
-/* Tablet
-   ========================================================================== */
 
 @media (max-width: 1024px) {
-	.home-cta {
-		padding: 0 20px 70px;
-	}
-
 	.home-cta__card {
-		min-height: auto;
 		border-radius: 40px;
 		padding: 60px 30px;
 		gap: var(--spacing-lg);
@@ -113,14 +69,7 @@
 	}
 }
 
-/* Mobile
-   ========================================================================== */
-
 @media (max-width: 767px) {
-	.home-cta {
-		padding: 0 10px 70px;
-	}
-
 	.home-cta__card {
 		padding: 50px 20px;
 		border-radius: 25px;
@@ -141,12 +90,4 @@
 		width: 100%;
 		max-width: 320px;
 	}
-}
-
-/* Keyframes
-   ========================================================================== */
-
-@keyframes cta-fadeIn {
-	from { opacity: 0; transform: translateY(12px); }
-	to   { opacity: 1; transform: translateY(0); }
 }

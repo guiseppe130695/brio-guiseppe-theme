@@ -3,19 +3,14 @@
    --------------------------------------------------------------------------
    2-column layout: tall image left (50%) + content stack right (50%).
    Accordion items are self-contained cards — cream when closed, dark
-   green when open. Icon "+" rotates to "×" + grows on open.
+   green when open. Uses shared .home-section + .overline + fade-up.
    ========================================================================== */
 
 .home-faqs {
 	background-color: var(--color-bg-secondary);
-	padding: 100px 25px;
-	position: relative;
-	z-index: 4;
 }
 
 .home-faqs .container {
-	max-width: 1400px;
-	margin: 0 auto;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -23,9 +18,7 @@
 	align-items: stretch;
 }
 
-/* Left column — decorative bg image, 50% width, tall
-   ========================================================================== */
-
+/* Left column — decorative bg image, 50% width, tall */
 .home-faqs__visual {
 	width: 50%;
 	min-height: 800px;
@@ -33,12 +26,10 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	border-radius: 30px;
-	animation: faqs-fadeIn var(--transition-normal) both;
+	animation: fade-up var(--transition-normal) both;
 }
 
-/* Right column — vertical stack, vertically centered
-   ========================================================================== */
-
+/* Right column — vertical stack, vertically centered */
 .home-faqs__content {
 	width: 50%;
 	display: flex;
@@ -47,44 +38,28 @@
 	gap: var(--spacing-lg);
 }
 
-/* Overline — Nebeco uppercase (preset Accent Text)
-   ========================================================================== */
-
 .home-faqs__overline {
-	font-family: var(--font-primary);
-	font-size: var(--accent-uppercase-size);
-	font-weight: var(--accent-uppercase-weight);
-	text-transform: var(--accent-uppercase-transform);
-	letter-spacing: 0;
-	line-height: 1.5;
-	animation: faqs-fadeIn var(--transition-normal) both;
+	animation: fade-up var(--transition-normal) both;
 }
-
-/* Heading — inherits h2 global
-   ========================================================================== */
 
 .home-faqs__heading {
 	margin-bottom: 30px;
-	animation: faqs-fadeIn var(--transition-normal) 200ms both;
+	animation: fade-up var(--transition-normal) 200ms both;
 }
 
-/* Accordion list — 65% of column width on desktop
-   ========================================================================== */
-
+/* Accordion list */
 .home-faqs__list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	animation: faqs-fadeIn var(--transition-normal) 400ms both;
+	animation: fade-up var(--transition-normal) 400ms both;
 }
 
 .home-faqs__item {
 	margin-bottom: 6px;
 }
 
-/* Card details — cream closed → dark primary open · radius 10px
-   ========================================================================== */
-
+/* Card details — cream closed → dark primary open · radius 10px */
 .home-faqs__details {
 	background-color: var(--color-bg-primary);
 	border-radius: 10px;
@@ -96,9 +71,7 @@
 	background-color: var(--color-primary);
 }
 
-/* Summary (title row) — body typography, color flips on open/hover
-   ========================================================================== */
-
+/* Summary (title row) — body typography, color flips on open/hover */
 .home-faqs__summary {
 	list-style: none;
 	cursor: pointer;
@@ -115,22 +88,14 @@
 	transition: color var(--transition-normal);
 }
 
-.home-faqs__summary::-webkit-details-marker {
-	display: none;
-}
-
-.home-faqs__summary::marker {
-	display: none;
-}
+.home-faqs__summary::-webkit-details-marker { display: none; }
+.home-faqs__summary::marker { display: none; }
 
 .home-faqs__summary:hover {
 	color: var(--color-accent);
 }
 
-.home-faqs__details[open] .home-faqs__summary {
-	color: var(--color-secondary);
-}
-
+.home-faqs__details[open] .home-faqs__summary,
 .home-faqs__details[open] .home-faqs__summary:hover {
 	color: var(--color-secondary);
 }
@@ -139,9 +104,7 @@
 	flex: 1;
 }
 
-/* +/× toggle — closed: secondary 17px, open: accent 20px (rotated 45°)
-   ========================================================================== */
-
+/* +/× toggle — closed: secondary 17px, open: accent 20px (rotated 45°) */
 .home-faqs__summary::after {
 	content: '+';
 	flex-shrink: 0;
@@ -164,9 +127,7 @@
 	color: var(--color-accent);
 }
 
-/* Answer — body typography, light text on dark bg when open
-   ========================================================================== */
-
+/* Answer — body typography, light text on dark bg when open */
 .home-faqs__answer {
 	padding: 20px 40px 30px 30px;
 	color: var(--color-bg-secondary);
@@ -175,14 +136,7 @@
 .home-faqs__answer > :first-child { margin-top: 0; }
 .home-faqs__answer > :last-child  { margin-bottom: 0; }
 
-/* Tablet — keep 2 cols, image gets shorter
-   ========================================================================== */
-
 @media (max-width: 1024px) {
-	.home-faqs {
-		padding: 70px 20px;
-	}
-
 	.home-faqs .container {
 		gap: 50px;
 	}
@@ -204,23 +158,11 @@
 		padding: 20px 25px 20px 20px;
 	}
 
-	.home-faqs__summary::after {
-		font-size: 15px;
-	}
-
-	.home-faqs__details[open] .home-faqs__summary::after {
-		font-size: 18px;
-	}
+	.home-faqs__summary::after { font-size: 15px; }
+	.home-faqs__details[open] .home-faqs__summary::after { font-size: 18px; }
 }
 
-/* Mobile — stack, content first
-   ========================================================================== */
-
 @media (max-width: 767px) {
-	.home-faqs {
-		padding: 70px 10px;
-	}
-
 	.home-faqs .container {
 		flex-wrap: wrap;
 		gap: 30px;
@@ -247,23 +189,10 @@
 		gap: var(--spacing-sm);
 	}
 
-	.home-faqs__summary::after {
-		font-size: 14px;
-	}
-
-	.home-faqs__details[open] .home-faqs__summary::after {
-		font-size: 17px;
-	}
+	.home-faqs__summary::after { font-size: 14px; }
+	.home-faqs__details[open] .home-faqs__summary::after { font-size: 17px; }
 
 	.home-faqs__answer {
 		padding: 16px 20px 24px;
 	}
-}
-
-/* Keyframes
-   ========================================================================== */
-
-@keyframes faqs-fadeIn {
-	from { opacity: 0; transform: translateY(12px); }
-	to   { opacity: 1; transform: translateY(0); }
 }

@@ -14,12 +14,12 @@ defined( 'ABSPATH' ) || exit;
 $data = brio_get_about_data();
 ?>
 
-<section class="home-about" id="about">
+<section class="home-section home-about" id="about">
 	<div class="container">
 
 		<div class="home-about__content section-stack">
 			<?php if ( ! empty( $data['overline'] ) ) : ?>
-				<p class="home-about__overline section-stack__overline text-accent">
+				<p class="overline home-about__overline section-stack__overline text-accent">
 					<?php echo esc_html( $data['overline'] ); ?>
 				</p>
 			<?php endif; ?>
@@ -38,7 +38,7 @@ $data = brio_get_about_data();
 
 			<?php if ( ! empty( $data['cta'] ) ) : ?>
 				<a href="<?php echo esc_url( $data['cta']['href'] ); ?>"
-				   class="home-about__btn"
+				   class="btn-cta btn-cta--dark home-about__btn"
 				   target="_blank"
 				   rel="noopener noreferrer">
 					<?php echo esc_html( $data['cta']['label'] ); ?>
