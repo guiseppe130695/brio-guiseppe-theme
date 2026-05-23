@@ -1,19 +1,17 @@
 <?php
 /**
- * Template Name: Blog (vitrine + article-pilier)
+ * Template Name: Blog (archive interactive)
  *
- * Calque le design Elementor json/Blog.json :
- *   1. Page Hero (fond primary) : titre + intro + breadcrumb
- *   2. Vitrine articles (fond accent) : 1 featured (post le plus récent) +
- *      grille des 6 articles récents suivants
- *   3. Contenu SEO statique : the_content() de la page (article-pilier)
+ * Layout :
+ *   1. Hero : titre + intro (éditables)
+ *   2. Toolbar : recherche + dropdown catégorie + bouton submit
+ *   3. Topics : grille 4 colonnes des articles, paginée via "Load more"
  *
- * Volontairement PAS de pagination ni de filtres catégorie : ce n'est pas
- * une archive paginée, c'est une landing SEO Blog. L'archive paginée
- * native WordPress reste disponible sur les pages d'archive de catégorie
- * (/category/<slug>/) si besoin.
- *
- * Sections filtrables via `brio_blog_sections`.
+ * Hybride server-render + JS :
+ *   • PHP imprime les 12 topics + metadata dans un <script type="application/json">
+ *     pour le 1er paint (SEO + LCP rapide).
+ *   • Le JS prend le relais (filtre catégorie, recherche, Load more) via
+ *     l'endpoint REST /wp-json/brio/v1/blog/posts.
  *
  * @package Brio_Guiseppe
  * @since   1.0.0
@@ -23,20 +21,39 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-$sections = apply_filters( 'brio_blog_sections', [
-	'hero',      // titre + intro + breadcrumb (fond primary)
-	'featured',  // post le plus récent en grand format paysage (fond accent)
-	'grid',      // 6 articles récents suivants en cartes verticales (fond accent)
-	'content',   // article-pilier statique via the_content()
-] );
+$initial = brio_get_blog_initial_data();
+$hero    = brio_get_blog_hero_data();
+$topics  = brio_get_blog_topics_data();
+?>
+<main id="main"
+      class="site-main site-main--blog"
+      role="main"
+      data-blog-app
+      data-rest-url="<?php echo esc_url( rest_url( 'brio/v1/blog/posts' ) ); ?>"
+      data-per-page="12"
+      data-initial-offset="<?php echo (int) count( $initial['topics'] ); ?>">
 
-?>
-<main id="main" class="site-main site-main--blog" role="main">
-<?php
-foreach ( $sections as $section ) {
-	get_template_part( 'template-parts/blog/' . $section );
-}
-?>
+	<?php get_template_part( 'template-parts/blog/hero' ); ?>
+	<?php get_template_part( 'template-parts/blog/toolbar' ); ?>
+	<?php get_template_part( 'template-parts/blog/topics' ); ?>
+
+	<script id="brio-blog-data" type="application/json">
+		<?php echo wp_json_encode( [
+			'topics'         => $initial['topics'],
+			'topics_total'   => $initial['topics_total'],
+			'categories'     => $initial['categories'],
+			'title_template' => $topics['title_template'],
+			'i18n'           => [
+				'no_results'  => __( 'Aucun article ne correspond à votre recherche.', 'brio-guiseppe' ),
+				'load_more'   => __( 'Charger plus', 'brio-guiseppe' ),
+				'loading'     => __( 'Chargement…', 'brio-guiseppe' ),
+				'all_label'   => __( 'Tous', 'brio-guiseppe' ),
+				'all_topics'  => __( 'Tous les articles', 'brio-guiseppe' ),
+				'category'    => __( 'Catégorie', 'brio-guiseppe' ),
+			],
+		], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); ?>
+	</script>
+
 </main>
 <?php
 get_footer();

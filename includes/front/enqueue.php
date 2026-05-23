@@ -82,4 +82,14 @@ function ju_enqueue() {
 			[ 'in_footer' => true, 'strategy' => 'defer' ]
 		);
 	}
+
+	if ( is_page_template( 'template-blog.php' ) ) {
+		wp_enqueue_script(
+			'ju_blog',
+			$uri . '/assets/js/blog.js',
+			[],
+			$ver,
+			[ 'in_footer' => true, 'strategy' => 'defer' ]
+		);
+	}
 }

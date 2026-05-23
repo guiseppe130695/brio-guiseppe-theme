@@ -2,6 +2,14 @@
 /**
  * Front-end data providers — Blog template
  *
+ * Two-grid layout (cf. nouveau design : hero + toolbar + featured + topics) :
+ *   • "featured" : 2 articles en grand en haut.
+ *   • "topics"   : grille 3 colonnes, articles de la catégorie active.
+ *
+ * Mécanique hybride : on imprime les 12 premiers articles (featured + topics)
+ * en HTML serveur pour le SEO/LCP, puis JS prend le relais pour filtres,
+ * recherche et "Load more" via l'endpoint REST /brio/v1/blog/posts.
+ *
  * @package Brio_Guiseppe
  * @since   1.0.0
  */
@@ -9,7 +17,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Hero data — title / intro / breadcrumb (auto with optional override).
+ * Hero data — éditable depuis la meta box (titre + intro, plus de breadcrumb).
  *
  * @since 1.0.0
  */
@@ -18,76 +26,188 @@ function brio_get_blog_hero_data( $post_id = 0 ) {
 
 	$title = brio_meta_get( $post_id, 'blog', 'hero', 'title', '' );
 	if ( ! $title ) {
-		$title = get_the_title( $post_id ) ?: __( 'Insights & Stratégies', 'brio-guiseppe' );
+		$title = get_the_title( $post_id ) ?: __( 'Blog', 'brio-guiseppe' );
 	}
 
-	$breadcrumb_override = brio_meta_json_decode(
-		brio_meta_get( $post_id, 'blog', 'hero', 'breadcrumb', '' ),
-		[]
-	);
-	$breadcrumb = ! empty( $breadcrumb_override ) ? $breadcrumb_override : [
-		[ 'label' => __( 'Accueil', 'brio-guiseppe' ), 'url' => home_url( '/' ) ],
-		[ 'label' => get_the_title( $post_id ) ?: __( 'Blog', 'brio-guiseppe' ) ],
-	];
-
 	return apply_filters( 'brio_blog_hero_data', [
-		'title'      => $title,
-		'intro'      => brio_meta_get( $post_id, 'blog', 'hero', 'intro', '' ),
-		'breadcrumb' => $breadcrumb,
+		'title' => $title,
+		'intro' => brio_meta_get( $post_id, 'blog', 'hero', 'intro', '' ),
 	], $post_id );
 }
 
 /**
- * Featured post = most recent published post.
+ * "Topics" section heading.
  *
- * Returned as a WP_Post or null when the blog has no published article yet.
+ * Modèle de titre éditable avec un placeholder {category} qui sera remplacé
+ * par le JS quand l'utilisateur change de catégorie. Côté serveur on imprime
+ * la chaîne brute (avec placeholder) pour que le JS n'ait qu'à substituer.
  *
  * @since 1.0.0
  */
-function brio_get_blog_featured_post() {
-	$posts = get_posts( [
-		'post_type'      => 'post',
-		'post_status'    => 'publish',
-		'posts_per_page' => 1,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-	] );
+function brio_get_blog_topics_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_the_ID();
 
-	$featured = ! empty( $posts ) ? $posts[0] : null;
-
-	return apply_filters( 'brio_blog_featured_post', $featured );
+	return apply_filters( 'brio_blog_topics_data', [
+		'title_template' => brio_meta_get( $post_id, 'blog', 'topics', 'title_template', __( '{category} topics', 'brio-guiseppe' ) ),
+		'see_all_label'  => brio_meta_get( $post_id, 'blog', 'topics', 'see_all_label', __( 'See all posts', 'brio-guiseppe' ) ),
+		'see_all_url'    => brio_meta_get( $post_id, 'blog', 'topics', 'see_all_url', '' ),
+	], $post_id );
 }
 
 /**
- * Recent posts grid = 6 most recent posts AFTER the featured one.
- *
- * Excludes the featured ID so we never duplicate it in the grid.
+ * Categories used for the toolbar tabs.
  *
  * @since 1.0.0
  *
- * @return WP_Post[]
+ * @return array<int, array{slug:string, name:string, count:int}>
  */
-function brio_get_blog_recent_posts() {
-	$featured = brio_get_blog_featured_post();
-	$exclude  = $featured ? [ $featured->ID ] : [];
-
-	$posts = get_posts( [
-		'post_type'      => 'post',
-		'post_status'    => 'publish',
-		'posts_per_page' => 6,
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-		'post__not_in'   => $exclude,
+function brio_get_blog_categories() {
+	$terms = get_terms( [
+		'taxonomy'   => 'category',
+		'hide_empty' => true,
 	] );
 
-	return apply_filters( 'brio_blog_recent_posts', $posts );
+	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return [];
+	}
+
+	$out = [];
+	foreach ( $terms as $t ) {
+		$out[] = [
+			'slug'        => $t->slug,
+			'name'        => $t->name,
+			'count'       => (int) $t->count,
+			'description' => wp_strip_all_tags( (string) $t->description ),
+		];
+	}
+
+	return apply_filters( 'brio_blog_categories', $out );
 }
 
 /**
- * Append CollectionPage + ItemList nodes to the JSON-LD graph.
+ * Serialize one post into the lightweight card schema consumed by JS + PHP partials.
  *
- * Only runs on pages using template-blog.php. ItemList combines the featured
- * post + the recent grid so structured data reflects what visitors see.
+ * Single source of truth : both the initial render (PHP) and the REST endpoint
+ * (AJAX Load more / filter / search) emit posts in this exact shape so the
+ * client renderer doesn't need to branch on data origin.
+ *
+ * @since 1.0.0
+ *
+ * @param WP_Post|int $post
+ * @return array
+ */
+function brio_blog_serialize_post( $post ) {
+	$post = get_post( $post );
+	if ( ! $post instanceof WP_Post ) {
+		return [];
+	}
+
+	$post_id = (int) $post->ID;
+
+	$cats = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $cats ) ) {
+		$cats = [];
+	}
+
+	$cat_slugs = wp_list_pluck( $cats, 'slug' );
+	$cat_names = wp_list_pluck( $cats, 'name' );
+
+	/* Hors-loop (contexte REST) : éviter get_the_excerpt() qui fait du setup
+	   implicite. On reconstruit l'extrait à la main, c'est plus prédictible. */
+	$excerpt_raw = ! empty( $post->post_excerpt )
+		? $post->post_excerpt
+		: wp_trim_words( wp_strip_all_tags( strip_shortcodes( $post->post_content ) ), 28, '…' );
+
+	/* Toujours une URL (vraie image ou placeholder Brio). Le partial PHP
+	   et le renderer JS ne testent plus l'absence de thumbnail — l'image
+	   est garantie côté serveur. */
+	$thumbnail       = brio_post_thumbnail_url( $post_id, 'medium_large' );
+	$thumbnail_large = brio_post_thumbnail_url( $post_id, 'large' );
+
+	return [
+		'id'              => $post_id,
+		'url'             => (string) get_permalink( $post_id ),
+		'title'           => (string) get_the_title( $post_id ),
+		'excerpt'         => (string) $excerpt_raw,
+		'date_iso'        => (string) get_the_date( DATE_W3C, $post_id ),
+		'date_display'    => (string) get_the_date( '', $post_id ),
+		'thumbnail'       => $thumbnail,
+		'thumbnail_large' => $thumbnail_large,
+		'category_slugs'  => array_values( $cat_slugs ),
+		'category_names'  => array_values( $cat_names ),
+	];
+}
+
+/**
+ * Fetch posts with the same arguments used by both the initial render and
+ * the REST endpoint, so behavior is consistent across server + client.
+ *
+ * @since 1.0.0
+ *
+ * @param array $args {
+ *     @type string $category Slug (empty = all categories).
+ *     @type string $search   Free-text query.
+ *     @type int    $offset   Pagination offset (Load more).
+ *     @type int    $per_page Items to fetch.
+ * }
+ * @return array{posts: WP_Post[], total: int}
+ */
+function brio_blog_query_posts( $args = [] ) {
+	$args = wp_parse_args( $args, [
+		'category' => '',
+		'search'   => '',
+		'offset'   => 0,
+		'per_page' => 12,
+	] );
+
+	$query_args = [
+		'post_type'      => 'post',
+		'post_status'    => 'publish',
+		'posts_per_page' => (int) $args['per_page'],
+		'offset'         => (int) $args['offset'],
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+	];
+
+	if ( ! empty( $args['category'] ) ) {
+		$query_args['category_name'] = sanitize_title( $args['category'] );
+	}
+
+	if ( ! empty( $args['search'] ) ) {
+		$query_args['s'] = sanitize_text_field( $args['search'] );
+	}
+
+	$query = new WP_Query( $query_args );
+
+	return [
+		'posts' => $query->posts,
+		'total' => (int) $query->found_posts,
+	];
+}
+
+/**
+ * Initial dataset baked into the page for the first paint.
+ *
+ * Returns 12 most recent posts (all categories) + the categories list.
+ *
+ * @since 1.0.0
+ */
+function brio_get_blog_initial_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_the_ID();
+
+	$topics_query = brio_blog_query_posts( [ 'per_page' => 12 ] );
+
+	return apply_filters( 'brio_blog_initial_data', [
+		'topics'       => array_map( 'brio_blog_serialize_post', $topics_query['posts'] ),
+		'topics_total' => (int) $topics_query['total'],
+		'categories'   => brio_get_blog_categories(),
+	], $post_id );
+}
+
+/**
+ * Append JSON-LD nodes (BreadcrumbList trimé au minimum + CollectionPage + ItemList).
+ *
+ * Only runs on pages using template-blog.php.
  *
  * @since 1.0.0
  */
@@ -99,41 +219,17 @@ function brio_blog_jsonld_graph( $graph ) {
 	$post_id = get_queried_object_id();
 	$hero    = brio_get_blog_hero_data( $post_id );
 	$url     = get_permalink( $post_id );
+	$initial = brio_get_blog_initial_data( $post_id );
 
-	/** Breadcrumb mirrors the hero trail. */
-	$crumbs = [];
-	foreach ( $hero['breadcrumb'] as $i => $crumb ) {
-		$entry = [
-			'@type'    => 'ListItem',
-			'position' => $i + 1,
-			'name'     => $crumb['label'] ?? '',
-		];
-		if ( ! empty( $crumb['url'] ) ) {
-			$entry['item'] = $crumb['url'];
-		}
-		$crumbs[] = $entry;
-	}
-
-	/** Article list = featured + recents, in display order. */
 	$articles = [];
-	$featured = brio_get_blog_featured_post();
-	$recent   = brio_get_blog_recent_posts();
-	$all      = array_filter( array_merge( [ $featured ], $recent ) );
-
-	foreach ( $all as $i => $p ) {
+	foreach ( $initial['topics'] as $i => $item ) {
 		$articles[] = [
 			'@type'    => 'ListItem',
 			'position' => $i + 1,
-			'url'      => get_permalink( $p ),
-			'name'     => get_the_title( $p ),
+			'url'      => $item['url'],
+			'name'     => $item['title'],
 		];
 	}
-
-	$graph[] = [
-		'@type'           => 'BreadcrumbList',
-		'@id'             => $url . '#breadcrumb',
-		'itemListElement' => $crumbs,
-	];
 
 	$graph[] = [
 		'@type'       => 'CollectionPage',
@@ -143,7 +239,6 @@ function brio_blog_jsonld_graph( $graph ) {
 		'description' => brio_seo_get_description(),
 		'inLanguage'  => get_bloginfo( 'language' ),
 		'isPartOf'    => [ '@id' => home_url( '/#website' ) ],
-		'breadcrumb'  => [ '@id' => $url . '#breadcrumb' ],
 		'hasPart'     => [ '@id' => $url . '#itemlist' ],
 	];
 

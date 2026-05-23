@@ -2,10 +2,12 @@
 /**
  * Meta Boxes — Blog template
  *
- * Aligned with json/Blog.json: only the hero (title + intro + breadcrumb
- * override) is editable from the meta box. The article-pilier is edited
- * in the standard WordPress editor (the_content) and pulled into the
- * "content" partial.
+ * Two meta boxes :
+ *   1. "Hero"   — titre + intro.
+ *   2. "Topics" — gabarit du titre de section (avec placeholder {category})
+ *                  + libellé/URL du bouton "See all posts".
+ *
+ * Le breadcrumb a été retiré (le nouveau design ne l'utilise pas).
  *
  * @package Brio_Guiseppe
  * @since   1.0.0
@@ -19,14 +21,8 @@ function brio_blog_register_meta_boxes() {
 		return;
 	}
 
-	add_meta_box(
-		'brio_blog_hero',
-		__( 'Blog — Hero (titre + intro + fil d\'Ariane)', 'brio-guiseppe' ),
-		'brio_blog_render_hero',
-		'page',
-		'normal',
-		'default'
-	);
+	add_meta_box( 'brio_blog_hero',   __( 'Blog — Hero',   'brio-guiseppe' ), 'brio_blog_render_hero',   'page', 'normal', 'default' );
+	add_meta_box( 'brio_blog_topics', __( 'Blog — Topics', 'brio-guiseppe' ), 'brio_blog_render_topics', 'page', 'normal', 'default' );
 }
 add_action( 'add_meta_boxes_page', 'brio_blog_register_meta_boxes' );
 
@@ -35,22 +31,35 @@ function brio_blog_render_hero( $post ) {
 
 	brio_field_text(
 		'brio_blog_hero_title',
-		__( 'Titre du hero (laissez vide pour utiliser le titre de la page)', 'brio-guiseppe' ),
+		__( 'Titre (laissez vide pour utiliser le titre de la page)', 'brio-guiseppe' ),
 		brio_meta_get( $post->ID, 'blog', 'hero', 'title' )
 	);
 
 	brio_field_textarea(
 		'brio_blog_hero_intro',
-		__( 'Intro (paragraphe sous le titre, max ~65% de largeur)', 'brio-guiseppe' ),
+		__( 'Intro (sous le titre)', 'brio-guiseppe' ),
 		brio_meta_get( $post->ID, 'blog', 'hero', 'intro' ),
-		4
+		3
+	);
+}
+
+function brio_blog_render_topics( $post ) {
+	brio_field_text(
+		'brio_blog_topics_title_template',
+		__( 'Gabarit du titre de section (utilisez {category} pour insérer le nom de la catégorie active)', 'brio-guiseppe' ),
+		brio_meta_get( $post->ID, 'blog', 'topics', 'title_template', '{category} topics' )
 	);
 
-	brio_field_json(
-		'brio_blog_hero_breadcrumb',
-		__( 'Fil d\'Ariane (override — sinon Accueil › Blog automatique)', 'brio-guiseppe' ),
-		brio_meta_get( $post->ID, 'blog', 'hero', 'breadcrumb' ),
-		'[{"label":"Accueil","url":"/"},{"label":"Blog"}]'
+	brio_field_text(
+		'brio_blog_topics_see_all_label',
+		__( 'Libellé du bouton "Voir tous les articles"', 'brio-guiseppe' ),
+		brio_meta_get( $post->ID, 'blog', 'topics', 'see_all_label', 'See all posts' )
+	);
+
+	brio_field_url(
+		'brio_blog_topics_see_all_url',
+		__( 'URL du bouton (vide = masqué)', 'brio-guiseppe' ),
+		brio_meta_get( $post->ID, 'blog', 'topics', 'see_all_url' )
 	);
 }
 
@@ -58,8 +67,11 @@ function brio_blog_save_meta( $post_id ) {
 	if ( ! brio_meta_can_save( $post_id, 'brio_blog_nonce' ) ) {
 		return;
 	}
-	brio_meta_save_field( $post_id, 'blog', 'hero', 'title',      'text' );
-	brio_meta_save_field( $post_id, 'blog', 'hero', 'intro',      'textarea' );
-	brio_meta_save_field( $post_id, 'blog', 'hero', 'breadcrumb', 'json' );
+
+	brio_meta_save_field( $post_id, 'blog', 'hero',   'title',          'text' );
+	brio_meta_save_field( $post_id, 'blog', 'hero',   'intro',          'textarea' );
+	brio_meta_save_field( $post_id, 'blog', 'topics', 'title_template', 'text' );
+	brio_meta_save_field( $post_id, 'blog', 'topics', 'see_all_label',  'text' );
+	brio_meta_save_field( $post_id, 'blog', 'topics', 'see_all_url',    'url' );
 }
 add_action( 'save_post_page', 'brio_blog_save_meta' );

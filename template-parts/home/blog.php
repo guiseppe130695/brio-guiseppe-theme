@@ -44,22 +44,18 @@ $query = new WP_Query( brio_get_blog_query_args( $data['posts_per_page'] ) );
 						<article class="home-blog__article">
 							<a href="<?php the_permalink(); ?>" class="home-blog__link" aria-label="<?php echo esc_attr( get_the_title() ); ?>">
 
-								<?php if ( has_post_thumbnail() ) : ?>
-									<figure class="home-blog__media">
-										<?php
-										the_post_thumbnail(
-											'medium_large',
-											[
-												'class'   => 'home-blog__image',
-												'loading' => 'lazy',
-												'alt'     => the_title_attribute( [ 'echo' => false ] ),
-											]
-										);
-										?>
-									</figure>
-								<?php else : ?>
-									<div class="home-blog__media home-blog__media--empty" aria-hidden="true"></div>
-								<?php endif; ?>
+								<?php
+								/* brio_post_thumbnail_url() retourne toujours une URL : la
+								   featured image si elle existe, sinon le placeholder SVG
+								   Brio. Plus de branche conditionnelle ici. */
+								?>
+								<figure class="home-blog__media">
+									<img src="<?php echo esc_url( brio_post_thumbnail_url( get_the_ID(), 'medium_large' ) ); ?>"
+									     alt="<?php echo esc_attr( the_title_attribute( [ 'echo' => false ] ) ); ?>"
+									     class="home-blog__image"
+									     loading="lazy"
+									     decoding="async" />
+								</figure>
 
 								<div class="home-blog__body">
 									<h3 class="home-blog__title"><?php the_title(); ?></h3>
@@ -121,9 +117,7 @@ if ( $query->have_posts() ) :
 				],
 			],
 		];
-		if ( has_post_thumbnail() ) {
-			$item['item']['image'] = get_the_post_thumbnail_url( get_the_ID(), 'large' );
-		}
+		$item['item']['image'] = brio_post_thumbnail_url( get_the_ID(), 'large' );
 		$items[] = $item;
 	endwhile;
 

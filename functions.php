@@ -48,11 +48,13 @@ if ( is_admin() ) {
  * `brio_jsonld_graph` and read brio_seo_get_description().
  */
 require_once get_theme_file_path( '/includes/front/seo.php' );
+require_once get_theme_file_path( '/includes/front/post-thumbnail.php' );
 
 require_once get_theme_file_path( '/includes/front/data-landing.php' );
 require_once get_theme_file_path( '/includes/front/data-legal.php' );
 require_once get_theme_file_path( '/includes/front/data-outils.php' );
 require_once get_theme_file_path( '/includes/front/data-blog.php' );
+require_once get_theme_file_path( '/includes/front/rest-blog.php' );
 
 /**
  * Register theme hooks.
