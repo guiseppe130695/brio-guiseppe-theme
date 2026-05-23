@@ -35,10 +35,19 @@ require_once get_theme_file_path( '/includes/widgets.php' );
  */
 require_once get_theme_file_path( '/includes/admin/meta-boxes-helpers.php' );
 if ( is_admin() ) {
+	require_once get_theme_file_path( '/includes/admin/meta-box-seo.php' );
 	require_once get_theme_file_path( '/includes/admin/meta-boxes-landing.php' );
 	require_once get_theme_file_path( '/includes/admin/meta-boxes-legal.php' );
 	require_once get_theme_file_path( '/includes/admin/meta-boxes-outils.php' );
 }
+
+/**
+ * SEO baseline (meta description, Open Graph, JSON-LD @graph). Must load
+ * before per-template data providers since they enrich the graph via
+ * `brio_jsonld_graph` and read brio_seo_get_description().
+ */
+require_once get_theme_file_path( '/includes/front/seo.php' );
+
 require_once get_theme_file_path( '/includes/front/data-landing.php' );
 require_once get_theme_file_path( '/includes/front/data-legal.php' );
 require_once get_theme_file_path( '/includes/front/data-outils.php' );

@@ -67,3 +67,61 @@ function brio_get_legal_hero_data( $post_id = 0 ) {
 		'breadcrumb' => $breadcrumb,
 	], $post_id );
 }
+
+/**
+ * Append BreadcrumbList + WebPage nodes to the site-wide JSON-LD graph.
+ *
+ * Reuses the breadcrumb the hero already builds, so the visible trail and
+ * the structured data can never drift apart. Only runs on pages using the
+ * legal template (PDC, mentions, CGV, CGU).
+ *
+ * @since 1.0.0
+ *
+ * @param array $graph Current @graph (Organization + WebSite, plus other filters).
+ * @return array
+ */
+function brio_legal_jsonld_graph( $graph ) {
+	if ( ! is_page_template( 'template-legal.php' ) ) {
+		return $graph;
+	}
+
+	$post_id = get_queried_object_id();
+	$hero    = brio_get_legal_hero_data( $post_id );
+
+	$items = [];
+	foreach ( $hero['breadcrumb'] as $i => $crumb ) {
+		$entry = [
+			'@type'    => 'ListItem',
+			'position' => $i + 1,
+			'name'     => $crumb['label'] ?? '',
+		];
+		if ( ! empty( $crumb['url'] ) ) {
+			$entry['item'] = $crumb['url'];
+		}
+		$items[] = $entry;
+	}
+
+	$page_url = get_permalink( $post_id );
+
+	$graph[] = [
+		'@type'           => 'BreadcrumbList',
+		'@id'             => $page_url . '#breadcrumb',
+		'itemListElement' => $items,
+	];
+
+	$graph[] = [
+		'@type'         => 'WebPage',
+		'@id'           => $page_url . '#webpage',
+		'url'           => $page_url,
+		'name'          => $hero['title'],
+		'description'   => brio_seo_get_description(),
+		'inLanguage'    => get_bloginfo( 'language' ),
+		'isPartOf'      => [ '@id' => home_url( '/#website' ) ],
+		'breadcrumb'    => [ '@id' => $page_url . '#breadcrumb' ],
+		'datePublished' => get_the_date( DATE_W3C, $post_id ),
+		'dateModified'  => get_the_modified_date( DATE_W3C, $post_id ),
+	];
+
+	return $graph;
+}
+add_filter( 'brio_jsonld_graph', 'brio_legal_jsonld_graph' );
