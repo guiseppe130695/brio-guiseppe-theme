@@ -59,6 +59,7 @@ $reading_time = max( 1, (int) ceil( $word_count / 200 ) );
 	<div class="post-hero__meta">
 
 		<address class="post-hero__author">
+			<span class="post-hero__author-label"><?php esc_html_e( 'Conseils partagés par', 'brio-guiseppe' ); ?></span>
 			<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
 				<?php the_author(); ?>
 			</a>

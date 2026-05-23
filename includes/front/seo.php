@@ -57,6 +57,34 @@ function brio_seo_get_description() {
  *
  * @since 1.0.0
  */
+/**
+ * Emit <link rel="canonical"> for every front-end page.
+ *
+ * Prevents duplicate-content penalties when the same post is reachable
+ * via multiple URLs (pagination, query strings, etc.).
+ *
+ * @since 1.0.0
+ */
+function brio_seo_canonical() {
+	if ( is_singular() ) {
+		$canonical = get_permalink();
+	} elseif ( is_front_page() ) {
+		$canonical = home_url( '/' );
+	} elseif ( is_home() ) {
+		$page = get_option( 'page_for_posts' );
+		$canonical = $page ? get_permalink( $page ) : home_url( '/' );
+	} elseif ( is_archive() ) {
+		$canonical = get_the_archive_link() ?: '';
+	} else {
+		$canonical = '';
+	}
+
+	if ( $canonical ) {
+		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $canonical ) );
+	}
+}
+add_action( 'wp_head', 'brio_seo_canonical', 2 );
+
 function brio_seo_head_meta() {
 	$desc  = brio_seo_get_description();
 	$title = is_singular() ? get_the_title() : wp_get_document_title();

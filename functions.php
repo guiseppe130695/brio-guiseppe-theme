@@ -55,6 +55,7 @@ require_once get_theme_file_path( '/includes/front/data-legal.php' );
 require_once get_theme_file_path( '/includes/front/data-outils.php' );
 require_once get_theme_file_path( '/includes/front/data-blog.php' );
 require_once get_theme_file_path( '/includes/front/rest-blog.php' );
+require_once get_theme_file_path( '/includes/front/sitemap.php' );
 
 /**
  * Register theme hooks.

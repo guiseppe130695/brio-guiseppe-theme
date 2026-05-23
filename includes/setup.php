@@ -56,3 +56,45 @@ function brio_render_meta_description() {
 	}
 }
 add_action( 'wp_head', 'brio_render_meta_description', 1 );
+
+/**
+ * Add a custom LinkedIn field to the WordPress user profile.
+ *
+ * @since 1.0.0
+ */
+function brio_add_linkedin_profile_field( $user ) {
+	?>
+	<h3><?php esc_html_e( 'Réseaux sociaux (Brio)', 'brio-guiseppe' ); ?></h3>
+	<table class="form-table">
+		<tr>
+			<th><label for="linkedin"><?php esc_html_e( 'URL LinkedIn', 'brio-guiseppe' ); ?></label></th>
+			<td>
+				<input type="url"
+				       name="linkedin"
+				       id="linkedin"
+				       value="<?php echo esc_attr( get_the_author_meta( 'linkedin', $user->ID ) ); ?>"
+				       class="regular-text"
+				       placeholder="https://www.linkedin.com/in/votre-profil" />
+				<p class="description"><?php esc_html_e( 'Affiché sur le bloc auteur des articles.', 'brio-guiseppe' ); ?></p>
+			</td>
+		</tr>
+	</table>
+	<?php
+}
+add_action( 'show_user_profile',  'brio_add_linkedin_profile_field' );
+add_action( 'edit_user_profile',  'brio_add_linkedin_profile_field' );
+
+/**
+ * Save the LinkedIn field.
+ *
+ * @since 1.0.0
+ */
+function brio_save_linkedin_profile_field( $user_id ) {
+	if ( ! current_user_can( 'edit_user', $user_id ) ) {
+		return;
+	}
+	$linkedin = isset( $_POST['linkedin'] ) ? esc_url_raw( $_POST['linkedin'] ) : '';
+	update_user_meta( $user_id, 'linkedin', $linkedin );
+}
+add_action( 'personal_options_update',  'brio_save_linkedin_profile_field' );
+add_action( 'edit_user_profile_update', 'brio_save_linkedin_profile_field' );

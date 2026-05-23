@@ -100,7 +100,7 @@ function brio_blog_rest_get_posts( WP_REST_Request $request ) {
 		'offset'    => (int) $offset,
 		'per_page'  => (int) $per_page,
 		'author_id' => (int) $request->get_param( 'author_id' ),
-		'tag'       => (string) $request->get_param( 'tag' ),
+		'tag'       => sanitize_title( (string) ( $request->get_param( 'tag' ) ?? '' ) ),
 		'year'      => (int) $request->get_param( 'year' ),
 		'monthnum'  => (int) $request->get_param( 'month' ),
 		'day'       => (int) $request->get_param( 'day' ),
