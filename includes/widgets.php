@@ -1,9 +1,9 @@
 <?php
 
-function ju_widgets(){
+function brio_widgets(){
     register_sidebar([
         'name'          =>  __( 'My First Theme Sidebar', 'udemy' ),
-        'id'            =>  'ju_sidebar',
+        'id'            =>  'brio_sidebar',
         'description'   =>  __( 'Sidebar for the theme Udemy', 'udemy' ),
         'before_widget' =>  '<div id="%1$s" class="widget cleafix %2$s">',
         'after_widget'  =>  '</div>',

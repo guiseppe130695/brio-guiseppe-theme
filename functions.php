@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Cache-busting toggle for development.
  * Set to true to append a timestamp to asset versions (forces browser reload).
  */
-define( 'JU_DEV_MODE', true );
+define( 'BRIO_DEV_MODE', true );
 
 /**
  * Load theme files.
@@ -59,6 +59,6 @@ require_once get_theme_file_path( '/includes/front/rest-blog.php' );
 /**
  * Register theme hooks.
  */
-add_action( 'wp_enqueue_scripts', 'ju_enqueue' );
-add_action( 'after_setup_theme',  'ju_setup_theme' );
-add_action( 'widgets_init',       'ju_widgets' );
+add_action( 'wp_enqueue_scripts', 'brio_enqueue' );
+add_action( 'after_setup_theme',  'brio_setup_theme' );
+add_action( 'widgets_init',       'brio_widgets' );

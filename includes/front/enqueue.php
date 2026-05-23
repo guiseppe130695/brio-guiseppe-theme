@@ -2,7 +2,7 @@
 /**
  * Front-end Asset Enqueue
  *
- * Two execution paths controlled by `JU_DEV_MODE`:
+ * Two execution paths controlled by `BRIO_DEV_MODE`:
  *
  *   • DEV (true)  — loads individual source files with a cache-busting
  *                   timestamp. Easiest to iterate on; one HTTP request per
@@ -24,51 +24,56 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  */
-function ju_enqueue() {
+function brio_enqueue() {
 	$uri = get_theme_file_uri();
-	$ver = JU_DEV_MODE ? time() : wp_get_theme()->get( 'Version' );
+	$ver = BRIO_DEV_MODE ? time() : wp_get_theme()->get( 'Version' );
 
-	if ( JU_DEV_MODE ) {
+	if ( BRIO_DEV_MODE ) {
 		// ---- DEV: individual source files (easy iteration) ----
-		wp_register_style( 'ju_fonts',             $uri . '/assets/css/fonts.css',             [],                 $ver );
-		wp_register_style( 'ju_variables',         $uri . '/assets/css/variables.css',         [ 'ju_fonts' ],     $ver );
-		wp_register_style( 'ju_font_icons',        $uri . '/assets/css/font-icons.css',        [],                 $ver );
-		wp_register_style( 'ju_header',            $uri . '/assets/css/header.css',            [ 'ju_variables' ], $ver );
-		wp_register_style( 'ju_header_responsive', $uri . '/assets/css/header-responsive.css', [ 'ju_header' ],    $ver );
-		wp_register_style( 'ju_footer',            $uri . '/assets/css/footer.css',            [ 'ju_variables' ], $ver );
-		wp_register_style( 'ju_home',              $uri . '/assets/css/home.css',              [ 'ju_variables' ], $ver );
-		wp_register_style( 'ju_legal',             $uri . '/assets/css/sections/legal.css',    [ 'ju_variables' ], $ver );
-		wp_register_style( 'ju_blog',              $uri . '/assets/css/sections/blog-page.css',[ 'ju_variables' ], $ver );
-		wp_register_style( 'ju_404',               $uri . '/assets/css/sections/404.css',      [ 'ju_variables' ], $ver );
+		wp_register_style( 'brio_fonts',             $uri . '/assets/css/fonts.css',             [],                 $ver );
+		wp_register_style( 'brio_variables',         $uri . '/assets/css/variables.css',         [ 'brio_fonts' ],     $ver );
+		wp_register_style( 'brio_font_icons',        $uri . '/assets/css/font-icons.css',        [],                 $ver );
+		wp_register_style( 'brio_header',            $uri . '/assets/css/header.css',            [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_header_responsive', $uri . '/assets/css/header-responsive.css', [ 'brio_header' ],    $ver );
+		wp_register_style( 'brio_footer',            $uri . '/assets/css/footer.css',            [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_home',              $uri . '/assets/css/home.css',              [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_legal',             $uri . '/assets/css/sections/legal.css',    [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_blog',              $uri . '/assets/css/sections/blog-page.css',[ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_404',               $uri . '/assets/css/sections/404.css',      [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_single',            $uri . '/assets/css/sections/single.css',   [ 'brio_variables' ], $ver );
 
-		wp_enqueue_style( 'ju_fonts' );
-		wp_enqueue_style( 'ju_variables' );
-		wp_enqueue_style( 'ju_font_icons' );
-		wp_enqueue_style( 'ju_header' );
-		wp_enqueue_style( 'ju_header_responsive' );
-		wp_enqueue_style( 'ju_footer' );
+		wp_enqueue_style( 'brio_fonts' );
+		wp_enqueue_style( 'brio_variables' );
+		wp_enqueue_style( 'brio_font_icons' );
+		wp_enqueue_style( 'brio_header' );
+		wp_enqueue_style( 'brio_header_responsive' );
+		wp_enqueue_style( 'brio_footer' );
 
 		if ( is_front_page() ) {
-			wp_enqueue_style( 'ju_home' );
+			wp_enqueue_style( 'brio_home' );
 		}
 
 		if ( is_page_template( 'template-legal.php' ) ) {
-			wp_enqueue_style( 'ju_legal' );
+			wp_enqueue_style( 'brio_legal' );
 		}
 
 		if ( is_page_template( 'template-blog.php' ) ) {
-			wp_enqueue_style( 'ju_blog' );
+			wp_enqueue_style( 'brio_blog' );
 		}
 
 		if ( is_404() ) {
-			wp_enqueue_style( 'ju_404' );
+			wp_enqueue_style( 'brio_404' );
+		}
+
+		if ( is_single() ) {
+			wp_enqueue_style( 'brio_single' );
 		}
 	} else {
 		// ---- PROD: minified bundles (one global, one home) ----
-		wp_enqueue_style( 'ju_global', $uri . '/assets/css/dist/global.min.css', [], $ver );
+		wp_enqueue_style( 'brio_global', $uri . '/assets/css/dist/global.min.css', [], $ver );
 
 		if ( is_front_page() ) {
-			wp_enqueue_style( 'ju_home', $uri . '/assets/css/dist/home.min.css', [ 'ju_global' ], $ver );
+			wp_enqueue_style( 'brio_home', $uri . '/assets/css/dist/home.min.css', [ 'brio_global' ], $ver );
 		}
 	}
 
@@ -80,7 +85,7 @@ function ju_enqueue() {
 
 	if ( is_front_page() ) {
 		wp_enqueue_script(
-			'ju_counters',
+			'brio_counters',
 			$uri . '/assets/js/counters.js',
 			[],
 			$ver,
@@ -90,7 +95,7 @@ function ju_enqueue() {
 
 	if ( is_page_template( 'template-blog.php' ) ) {
 		wp_enqueue_script(
-			'ju_blog',
+			'brio_blog',
 			$uri . '/assets/js/blog.js',
 			[],
 			$ver,

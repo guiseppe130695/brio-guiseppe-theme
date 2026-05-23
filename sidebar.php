@@ -4,8 +4,8 @@
     <div class="sidebar-widgets-wrap">
         <?php
 
-        if( is_active_sidebar( 'ju_sidebar' ) ){
-            dynamic_sidebar( 'ju_sidebar' );
+        if( is_active_sidebar( 'brio_sidebar' ) ){
+            dynamic_sidebar( 'brio_sidebar' );
         }
 
         ?>

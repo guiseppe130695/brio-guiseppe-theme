@@ -1,0 +1,379 @@
+/* ============================================
+   Brio Guiseppe — Single post
+   Hero : fond primary, titre centré, meta, image featured radius
+   Content : corps éditorial + footer tags/share + nav prev/next
+   ============================================ */
+
+/* ========== HERO ========== */
+.post-hero {
+	background-color: var(--color-primary);
+	padding: 100px var(--section-pad-x) 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	max-width: var(--section-max-w);
+	margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+	.post-hero { padding: 70px 20px 0; }
+}
+
+@media (max-width: 768px) {
+	.post-hero { padding: 70px 10px 0; }
+}
+
+/* --- Titre --- */
+.post-hero__title {
+	font-family: var(--font-primary);
+	font-size: var(--h1-size);
+	font-weight: var(--h1-weight);
+	letter-spacing: var(--h1-letter-spacing);
+	line-height: var(--h1-line-height);
+	color: var(--color-bg-primary);
+	text-align: center;
+	max-width: 90%;
+	margin: 0;
+	animation: brio-fadeIn 0.5s ease both;
+}
+
+/* --- Breadcrumb --- */
+.post-hero__crumbs ol {
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-weight);
+	animation: brio-fadeIn 0.5s ease 0.1s both;
+}
+
+.post-hero__crumbs li {
+	display: inline-flex;
+	align-items: center;
+	color: var(--color-secondary);
+	padding: 0 10px;
+}
+
+.post-hero__crumbs li + li::before {
+	content: "/";
+	margin-right: 10px;
+	color: var(--color-secondary);
+	opacity: 0.5;
+}
+
+.post-hero__crumbs a {
+	color: var(--color-secondary);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+}
+
+.post-hero__crumbs a:hover { color: var(--color-accent); }
+
+.post-hero__crumbs [aria-current="page"] {
+	color: var(--color-secondary);
+	opacity: 0.6;
+}
+
+/* --- Meta (auteur / date / catégorie / lecture) --- */
+.post-hero__meta {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 0;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+	letter-spacing: var(--accent-letter-spacing);
+	color: var(--color-secondary);
+	animation: brio-fadeIn 0.5s ease 0.2s both;
+}
+
+.post-hero__meta-item { padding: 0 1.5em; }
+
+.post-hero__meta-sep {
+	color: var(--color-secondary);
+	opacity: 0.5;
+}
+
+.post-hero__meta a {
+	color: var(--color-secondary);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+}
+
+.post-hero__meta a:hover { color: var(--color-accent); }
+
+/* --- Image featured --- */
+.post-hero__image {
+	width: 100%;
+	margin-top: 80px;
+	min-height: 500px;
+	border-radius: 50px 50px 0 0;
+	overflow: hidden;
+	animation: brio-fadeIn 0.6s ease 0.4s both;
+}
+
+@media (max-width: 1024px) {
+	.post-hero__image {
+		margin-top: 50px;
+		min-height: 400px;
+		border-radius: 40px 40px 0 0;
+	}
+}
+
+@media (max-width: 768px) {
+	.post-hero__image {
+		min-height: 300px;
+		border-radius: 25px 25px 0 0;
+	}
+}
+
+.post-hero__image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* ========== CONTENT ========== */
+.post-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 100px var(--section-pad-x);
+}
+
+@media (max-width: 1024px) {
+	.post-content { padding: 70px 20px; }
+}
+
+@media (max-width: 768px) {
+	.post-content { padding: 70px 10px; }
+}
+
+/* --- Corps éditorial --- */
+.post-content__body {
+	font-family: var(--font-secondary);
+	font-size: var(--body-size);
+	font-weight: var(--body-weight);
+	letter-spacing: var(--body-letter-spacing);
+	line-height: var(--body-line-height);
+	color: #000;
+	animation: brio-fadeIn 0.5s ease 0.2s both;
+}
+
+.post-content__body > * + * { margin-top: 1.25em; }
+
+.post-content__body h2 {
+	font-family: var(--font-primary);
+	font-size: var(--h3-size);
+	font-weight: var(--h3-weight);
+	letter-spacing: var(--h3-letter-spacing);
+	line-height: var(--h3-line-height);
+	color: var(--color-primary);
+	margin: 1.5em 0 0.5em;
+}
+
+.post-content__body h3 {
+	font-family: var(--font-primary);
+	font-size: var(--h4-size);
+	font-weight: var(--h4-weight);
+	letter-spacing: var(--h4-letter-spacing);
+	color: var(--color-primary);
+	margin: 1.5em 0 0.4em;
+}
+
+.post-content__body ul,
+.post-content__body ol {
+	padding-left: 1.5em;
+	margin: 0 0 1.25em;
+}
+
+.post-content__body li + li { margin-top: 0.4em; }
+
+.post-content__body a {
+	color: var(--color-primary);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1px;
+	transition: color var(--transition-fast);
+}
+
+.post-content__body a:hover { color: var(--color-text); }
+
+.post-content__body img {
+	max-width: 100%;
+	height: auto;
+	border-radius: var(--radius-md);
+}
+
+/* ========== FOOTER (tags + share) ========== */
+.post-content__footer {
+	border-top: 1px solid var(--color-border);
+	margin-top: 50px;
+	padding-top: 25px;
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+}
+
+@media (max-width: 768px) {
+	.post-content__footer { margin-top: 30px; }
+}
+
+.post-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+@media (max-width: 768px) {
+	.post-footer {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+}
+
+/* --- Tags --- */
+.post-footer__tags-label {
+	font-family: var(--font-secondary);
+	font-size: var(--body-size);
+	color: var(--color-primary);
+	margin: 0 0 -15px;
+}
+
+.post-footer__tag-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 10px;
+}
+
+.post-footer__tag-list li { margin: 0; }
+
+.post-footer__tag-list a {
+	font-family: var(--font-secondary);
+	font-size: 14px;
+	font-weight: 500;
+	color: rgba(0, 0, 0, 0.49);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+	letter-spacing: -0.1px;
+}
+
+.post-footer__tag-list a:hover { color: var(--color-primary); }
+
+/* --- Share --- */
+.post-footer__share {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+@media (max-width: 768px) {
+	.post-footer__share { flex-direction: column; gap: 5px; }
+}
+
+.post-footer__share-label {
+	font-family: var(--font-secondary);
+	font-size: var(--body-size);
+	color: var(--color-primary);
+	margin: 0 10px 0 0;
+	white-space: nowrap;
+}
+
+.post-footer__share-list {
+	display: flex;
+	gap: 5px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.post-footer__share-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 33px;
+	height: 33px;
+	border-radius: 50%;
+	background-color: var(--color-secondary);
+	color: var(--color-primary);
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+	text-decoration: none;
+	transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.post-footer__share-btn:hover {
+	background-color: var(--color-accent);
+	color: var(--color-primary);
+}
+
+/* ========== NAV PREV / NEXT ========== */
+.post-nav {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	margin-top: 50px;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+	.post-nav { margin-top: 30px; }
+}
+
+.post-nav__link {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	text-decoration: none;
+	max-width: 48%;
+}
+
+.post-nav__link--next { text-align: right; margin-left: auto; }
+
+@media (max-width: 768px) {
+	.post-nav__link,
+	.post-nav__link--next { max-width: 100%; text-align: left; }
+}
+
+.post-nav__label {
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+	color: var(--color-text);
+	opacity: 0.6;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.post-nav__title {
+	font-family: var(--font-primary);
+	font-size: var(--h5-size);
+	font-weight: var(--h5-weight);
+	letter-spacing: -0.8px;
+	line-height: 1.3;
+	color: var(--color-text);
+	transition: color var(--transition-fast);
+}
+
+.post-nav__link:hover .post-nav__title { color: var(--color-primary); }
+
+/* ========== Keyframes ========== */
+@keyframes brio-fadeIn {
+	from { opacity: 0; transform: translateY(12px); }
+	to   { opacity: 1; transform: translateY(0); }
+}

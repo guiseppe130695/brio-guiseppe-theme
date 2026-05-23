@@ -162,7 +162,7 @@ add_action( 'init', 'brio_disable_comments' );
  * @since 1.0.0
  */
 function brio_strip_version_query( $src ) {
-	if ( JU_DEV_MODE ) {
+	if ( BRIO_DEV_MODE ) {
 		return $src; // Keep cache-busting timestamps during development.
 	}
 	return remove_query_arg( 'ver', $src );

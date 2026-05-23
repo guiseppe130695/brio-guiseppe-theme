@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  */
-function ju_setup_theme() {
+function brio_setup_theme() {
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'html5', [ 'search-form', 'gallery', 'caption', 'style', 'script' ] );
