@@ -38,6 +38,7 @@ function ju_enqueue() {
 		wp_register_style( 'ju_footer',            $uri . '/assets/css/footer.css',            [ 'ju_variables' ], $ver );
 		wp_register_style( 'ju_home',              $uri . '/assets/css/home.css',              [ 'ju_variables' ], $ver );
 		wp_register_style( 'ju_legal',             $uri . '/assets/css/sections/legal.css',    [ 'ju_variables' ], $ver );
+		wp_register_style( 'ju_blog',              $uri . '/assets/css/sections/blog-page.css',[ 'ju_variables' ], $ver );
 
 		wp_enqueue_style( 'ju_fonts' );
 		wp_enqueue_style( 'ju_variables' );
@@ -52,6 +53,10 @@ function ju_enqueue() {
 
 		if ( is_page_template( 'template-legal.php' ) ) {
 			wp_enqueue_style( 'ju_legal' );
+		}
+
+		if ( is_page_template( 'template-blog.php' ) ) {
+			wp_enqueue_style( 'ju_blog' );
 		}
 	} else {
 		// ---- PROD: minified bundles (one global, one home) ----

@@ -9,7 +9,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Hero data — eyebrow / title / intro with sensible fallbacks.
+ * Hero data — title / intro / breadcrumb (auto with optional override).
  *
  * @since 1.0.0
  */
@@ -21,53 +21,75 @@ function brio_get_blog_hero_data( $post_id = 0 ) {
 		$title = get_the_title( $post_id ) ?: __( 'Insights & Stratégies', 'brio-guiseppe' );
 	}
 
+	$breadcrumb_override = brio_meta_json_decode(
+		brio_meta_get( $post_id, 'blog', 'hero', 'breadcrumb', '' ),
+		[]
+	);
+	$breadcrumb = ! empty( $breadcrumb_override ) ? $breadcrumb_override : [
+		[ 'label' => __( 'Accueil', 'brio-guiseppe' ), 'url' => home_url( '/' ) ],
+		[ 'label' => get_the_title( $post_id ) ?: __( 'Blog', 'brio-guiseppe' ) ],
+	];
+
 	return apply_filters( 'brio_blog_hero_data', [
-		'eyebrow' => brio_meta_get( $post_id, 'blog', 'hero', 'eyebrow', '' ),
-		'title'   => $title,
-		'intro'   => brio_meta_get( $post_id, 'blog', 'hero', 'intro',   '' ),
+		'title'      => $title,
+		'intro'      => brio_meta_get( $post_id, 'blog', 'hero', 'intro', '' ),
+		'breadcrumb' => $breadcrumb,
 	], $post_id );
 }
 
 /**
- * List of published categories used by the filter tabs.
+ * Featured post = most recent published post.
  *
- * Hidden categories (`hide_empty=true`) drop out automatically. Returned in
- * the same shape the filters partial consumes.
+ * Returned as a WP_Post or null when the blog has no published article yet.
  *
  * @since 1.0.0
- *
- * @return array<int, array{slug:string, name:string, count:int}>
  */
-function brio_get_blog_categories() {
-	$terms = get_terms( [
-		'taxonomy'   => 'category',
-		'hide_empty' => true,
+function brio_get_blog_featured_post() {
+	$posts = get_posts( [
+		'post_type'      => 'post',
+		'post_status'    => 'publish',
+		'posts_per_page' => 1,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
 	] );
 
-	if ( is_wp_error( $terms ) || empty( $terms ) ) {
-		return [];
-	}
+	$featured = ! empty( $posts ) ? $posts[0] : null;
 
-	$out = [];
-	foreach ( $terms as $t ) {
-		$out[] = [
-			'slug'  => $t->slug,
-			'name'  => $t->name,
-			'count' => (int) $t->count,
-		];
-	}
-
-	return apply_filters( 'brio_blog_categories', $out );
+	return apply_filters( 'brio_blog_featured_post', $featured );
 }
 
 /**
- * Append CollectionPage + ItemList nodes to the JSON-LD graph for the
- * blog archive. Only runs on pages using template-blog.php.
+ * Recent posts grid = 6 most recent posts AFTER the featured one.
+ *
+ * Excludes the featured ID so we never duplicate it in the grid.
  *
  * @since 1.0.0
  *
- * @param array $graph Current @graph.
- * @return array
+ * @return WP_Post[]
+ */
+function brio_get_blog_recent_posts() {
+	$featured = brio_get_blog_featured_post();
+	$exclude  = $featured ? [ $featured->ID ] : [];
+
+	$posts = get_posts( [
+		'post_type'      => 'post',
+		'post_status'    => 'publish',
+		'posts_per_page' => 6,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'post__not_in'   => $exclude,
+	] );
+
+	return apply_filters( 'brio_blog_recent_posts', $posts );
+}
+
+/**
+ * Append CollectionPage + ItemList nodes to the JSON-LD graph.
+ *
+ * Only runs on pages using template-blog.php. ItemList combines the featured
+ * post + the recent grid so structured data reflects what visitors see.
+ *
+ * @since 1.0.0
  */
 function brio_blog_jsonld_graph( $graph ) {
 	if ( ! is_page_template( 'template-blog.php' ) ) {
@@ -78,29 +100,40 @@ function brio_blog_jsonld_graph( $graph ) {
 	$hero    = brio_get_blog_hero_data( $post_id );
 	$url     = get_permalink( $post_id );
 
-	/** Build a lightweight ItemList from the current query (visible page only). */
-	global $wp_query;
-	$items = [];
-	if ( $wp_query instanceof WP_Query ) {
-		// The main query on a template-page is the Page itself, not the posts —
-		// so we run a small read-only query just for the structured data.
-		$peek = new WP_Query( [
-			'post_type'      => 'post',
-			'post_status'    => 'publish',
-			'posts_per_page' => 12,
-			'no_found_rows'  => true,
-			'fields'         => 'ids',
-		] );
-		foreach ( $peek->posts as $i => $pid ) {
-			$items[] = [
-				'@type'    => 'ListItem',
-				'position' => $i + 1,
-				'url'      => get_permalink( $pid ),
-				'name'     => get_the_title( $pid ),
-			];
+	/** Breadcrumb mirrors the hero trail. */
+	$crumbs = [];
+	foreach ( $hero['breadcrumb'] as $i => $crumb ) {
+		$entry = [
+			'@type'    => 'ListItem',
+			'position' => $i + 1,
+			'name'     => $crumb['label'] ?? '',
+		];
+		if ( ! empty( $crumb['url'] ) ) {
+			$entry['item'] = $crumb['url'];
 		}
-		wp_reset_postdata();
+		$crumbs[] = $entry;
 	}
+
+	/** Article list = featured + recents, in display order. */
+	$articles = [];
+	$featured = brio_get_blog_featured_post();
+	$recent   = brio_get_blog_recent_posts();
+	$all      = array_filter( array_merge( [ $featured ], $recent ) );
+
+	foreach ( $all as $i => $p ) {
+		$articles[] = [
+			'@type'    => 'ListItem',
+			'position' => $i + 1,
+			'url'      => get_permalink( $p ),
+			'name'     => get_the_title( $p ),
+		];
+	}
+
+	$graph[] = [
+		'@type'           => 'BreadcrumbList',
+		'@id'             => $url . '#breadcrumb',
+		'itemListElement' => $crumbs,
+	];
 
 	$graph[] = [
 		'@type'       => 'CollectionPage',
@@ -108,16 +141,17 @@ function brio_blog_jsonld_graph( $graph ) {
 		'url'         => $url,
 		'name'        => $hero['title'],
 		'description' => brio_seo_get_description(),
-		'isPartOf'    => [ '@id' => home_url( '/#website' ) ],
 		'inLanguage'  => get_bloginfo( 'language' ),
+		'isPartOf'    => [ '@id' => home_url( '/#website' ) ],
+		'breadcrumb'  => [ '@id' => $url . '#breadcrumb' ],
 		'hasPart'     => [ '@id' => $url . '#itemlist' ],
 	];
 
-	if ( ! empty( $items ) ) {
+	if ( ! empty( $articles ) ) {
 		$graph[] = [
 			'@type'           => 'ItemList',
 			'@id'             => $url . '#itemlist',
-			'itemListElement' => $items,
+			'itemListElement' => $articles,
 		];
 	}
 
