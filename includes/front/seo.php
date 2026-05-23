@@ -142,3 +142,102 @@ function brio_seo_jsonld() {
 		. "</script>\n";
 }
 add_action( 'wp_head', 'brio_seo_jsonld', 20 );
+
+/**
+ * JSON-LD Article node for single posts.
+ *
+ * Appended via brio_jsonld_graph so it lives in the same consolidated
+ * @graph as Organization + WebSite. Covers the full E-E-A-T surface:
+ * author (Person), dates, image, publisher, breadcrumb reference.
+ *
+ * @since 1.0.0
+ */
+function brio_single_jsonld_graph( $graph ) {
+	if ( ! is_singular( 'post' ) ) {
+		return $graph;
+	}
+
+	$post_id      = get_queried_object_id();
+	$post         = get_post( $post_id );
+	$author_id    = (int) $post->post_author;
+	$author_name  = get_the_author_meta( 'display_name', $author_id );
+	$author_bio   = get_the_author_meta( 'description', $author_id );
+	$author_url   = get_author_posts_url( $author_id );
+	$post_url     = get_permalink( $post_id );
+	$thumb_url    = get_the_post_thumbnail_url( $post_id, 'large' );
+	$categories   = get_the_category( $post_id );
+	$first_cat    = ! empty( $categories ) ? $categories[0] : null;
+
+	/* Person node (reusable via @id) */
+	$person = [
+		'@type' => 'Person',
+		'@id'   => $author_url . '#person',
+		'name'  => $author_name,
+		'url'   => $author_url,
+	];
+	if ( $author_bio ) {
+		$person['description'] = wp_strip_all_tags( $author_bio );
+	}
+
+	/* BreadcrumbList */
+	$crumbs = [
+		[ '@type' => 'ListItem', 'position' => 1, 'name' => __( 'Accueil', 'brio-guiseppe' ), 'item' => home_url( '/' ) ],
+	];
+	$position = 2;
+	if ( $first_cat ) {
+		$crumbs[] = [
+			'@type'    => 'ListItem',
+			'position' => $position++,
+			'name'     => $first_cat->name,
+			'item'     => get_category_link( $first_cat->term_id ),
+		];
+	}
+	$crumbs[] = [
+		'@type'    => 'ListItem',
+		'position' => $position,
+		'name'     => get_the_title( $post_id ),
+		'item'     => $post_url,
+	];
+
+	$breadcrumb = [
+		'@type'           => 'BreadcrumbList',
+		'@id'             => $post_url . '#breadcrumb',
+		'itemListElement' => $crumbs,
+	];
+
+	/* Article node */
+	$article = [
+		'@type'            => 'Article',
+		'@id'              => $post_url . '#article',
+		'url'              => $post_url,
+		'headline'         => get_the_title( $post_id ),
+		'description'      => brio_seo_get_description(),
+		'datePublished'    => get_the_date( DATE_W3C, $post_id ),
+		'dateModified'     => get_the_modified_date( DATE_W3C, $post_id ),
+		'inLanguage'       => get_bloginfo( 'language' ),
+		'isPartOf'         => [ '@id' => home_url( '/#website' ) ],
+		'author'           => [ '@id' => $author_url . '#person' ],
+		'publisher'        => [ '@id' => home_url( '/#organization' ) ],
+		'breadcrumb'       => [ '@id' => $post_url . '#breadcrumb' ],
+	];
+
+	if ( $thumb_url ) {
+		$article['image'] = $thumb_url;
+	}
+
+	if ( $first_cat ) {
+		$article['articleSection'] = $first_cat->name;
+	}
+
+	$tags = get_the_tags( $post_id );
+	if ( $tags ) {
+		$article['keywords'] = implode( ', ', wp_list_pluck( $tags, 'name' ) );
+	}
+
+	$graph[] = $person;
+	$graph[] = $breadcrumb;
+	$graph[] = $article;
+
+	return $graph;
+}
+add_filter( 'brio_jsonld_graph', 'brio_single_jsonld_graph' );

@@ -44,6 +44,36 @@ function brio_blog_register_rest() {
 				'maximum'           => 48,
 				'sanitize_callback' => 'absint',
 			],
+			'author_id' => [
+				'description'       => 'Filter by author ID',
+				'type'              => 'integer',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+			],
+			'tag' => [
+				'description'       => 'Tag slug',
+				'type'              => 'string',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_title',
+			],
+			'year' => [
+				'description'       => 'Filter by year',
+				'type'              => 'integer',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+			],
+			'month' => [
+				'description'       => 'Filter by month',
+				'type'              => 'integer',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+			],
+			'day' => [
+				'description'       => 'Filter by day',
+				'type'              => 'integer',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+			],
 		],
 		'callback' => 'brio_blog_rest_get_posts',
 	] );
@@ -65,10 +95,15 @@ function brio_blog_rest_get_posts( WP_REST_Request $request ) {
 	$per_page = $request->get_param( 'per_page' );
 
 	$result = brio_blog_query_posts( [
-		'category' => is_string( $category ) ? $category : '',
-		'search'   => is_string( $search )   ? $search   : '',
-		'offset'   => (int) $offset,
-		'per_page' => (int) $per_page,
+		'category'  => is_string( $category ) ? $category : '',
+		'search'    => is_string( $search )   ? $search   : '',
+		'offset'    => (int) $offset,
+		'per_page'  => (int) $per_page,
+		'author_id' => (int) $request->get_param( 'author_id' ),
+		'tag'       => (string) $request->get_param( 'tag' ),
+		'year'      => (int) $request->get_param( 'year' ),
+		'monthnum'  => (int) $request->get_param( 'month' ),
+		'day'       => (int) $request->get_param( 'day' ),
 	] );
 
 	$posts = array_map( 'brio_blog_serialize_post', $result['posts'] );

@@ -17,6 +17,9 @@ $tags       = get_the_tags();
 		<?php the_content(); ?>
 	</div>
 
+	<?php get_template_part( 'template-parts/post/author' ); ?>
+	<?php get_template_part( 'template-parts/post/related' ); ?>
+
 	<footer class="post-content__footer">
 
 		<!-- Tags + partage social -->

@@ -173,6 +173,26 @@ function brio_blog_query_posts( $args = [] ) {
 		$query_args['category_name'] = sanitize_title( $args['category'] );
 	}
 
+	if ( ! empty( $args['tag'] ) ) {
+		$query_args['tag'] = sanitize_title( $args['tag'] );
+	}
+
+	if ( ! empty( $args['author_id'] ) ) {
+		$query_args['author'] = (int) $args['author_id'];
+	}
+
+	if ( ! empty( $args['year'] ) ) {
+		$query_args['year'] = (int) $args['year'];
+	}
+
+	if ( ! empty( $args['monthnum'] ) ) {
+		$query_args['monthnum'] = (int) $args['monthnum'];
+	}
+
+	if ( ! empty( $args['day'] ) ) {
+		$query_args['day'] = (int) $args['day'];
+	}
+
 	if ( ! empty( $args['search'] ) ) {
 		$query_args['s'] = sanitize_text_field( $args['search'] );
 	}
@@ -202,6 +222,28 @@ function brio_get_blog_initial_data( $post_id = 0 ) {
 		'topics_total' => (int) $topics_query['total'],
 		'categories'   => brio_get_blog_categories(),
 	], $post_id );
+}
+
+/**
+ * Initial dataset for archive pages (category, tag, author, date).
+ *
+ * Same shape as brio_get_blog_initial_data() but accepts extra WP_Query
+ * constraints so the first paint only shows posts relevant to the archive.
+ *
+ * @since 1.0.0
+ *
+ * @param array $archive_args Extra query args (category, tag, author_id, year…).
+ * @return array{topics: array, topics_total: int, categories: array}
+ */
+function brio_get_archive_initial_data( $archive_args = [] ) {
+	$query_args = array_merge( [ 'per_page' => 12 ], $archive_args );
+	$result     = brio_blog_query_posts( $query_args );
+
+	return [
+		'topics'       => array_map( 'brio_blog_serialize_post', $result['posts'] ),
+		'topics_total' => (int) $result['total'],
+		'categories'   => brio_get_blog_categories(),
+	];
 }
 
 /**

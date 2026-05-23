@@ -31,6 +31,12 @@
 		return;
 	}
 
+	/* Contraintes d'archive (auteur, tag, date) — fixes pour toute la session.
+	   Lues depuis config.archive injecté par PHP dans le JSON hydration. */
+	const archiveConstraints = ( config.archive && typeof config.archive === 'object' )
+		? config.archive
+		: {};
+
 	const state = {
 		category: '',
 		search: '',
@@ -196,8 +202,20 @@
 
 	function buildUrl() {
 		const url = new URL( restUrl, window.location.origin );
+
+		/* Contraintes d'archive fixes — on mappe les clés PHP vers les params REST */
+		const keyMap = { author_id: 'author_id', tag: 'tag', year: 'year', monthnum: 'month', day: 'day' };
+		Object.entries( archiveConstraints ).forEach( ( [ k, v ] ) => {
+			if ( k === 'category' ) return; /* géré séparément ci-dessous */
+			const param = keyMap[ k ] || k;
+			if ( v ) url.searchParams.set( param, v );
+		} );
+
+		/* Filtre catégorie UI — priorité sur la contrainte d'archive category */
 		if ( state.category ) url.searchParams.set( 'category', state.category );
-		if ( state.search )   url.searchParams.set( 'search', state.search );
+		else if ( archiveConstraints.category ) url.searchParams.set( 'category', archiveConstraints.category );
+
+		if ( state.search ) url.searchParams.set( 'search', state.search );
 		url.searchParams.set( 'offset', String( state.offset ) );
 		url.searchParams.set( 'per_page', String( perPage ) );
 		return url.toString();

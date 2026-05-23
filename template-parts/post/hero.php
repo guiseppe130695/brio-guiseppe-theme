@@ -48,6 +48,14 @@ $reading_time = max( 1, (int) ceil( $word_count / 200 ) );
 			<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>">
 				<?php echo esc_html( get_the_date() ); ?>
 			</time>
+			<?php if ( get_the_modified_date( 'U' ) > get_the_date( 'U' ) + DAY_IN_SECONDS ) : ?>
+				<span class="post-hero__meta-updated">
+					— <?php esc_html_e( 'Mis à jour le', 'brio-guiseppe' ); ?>
+					<time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>">
+						<?php echo esc_html( get_the_modified_date() ); ?>
+					</time>
+				</span>
+			<?php endif; ?>
 		</span>
 		<?php if ( $first_cat ) : ?>
 			<span class="post-hero__meta-sep" aria-hidden="true">/</span>
@@ -69,10 +77,12 @@ $reading_time = max( 1, (int) ceil( $word_count / 200 ) );
 		</span>
 	</div>
 
-	<?php if ( has_post_thumbnail() ) : ?>
-		<div class="post-hero__image">
-			<?php the_post_thumbnail( 'large', [ 'loading' => 'eager' ] ); ?>
-		</div>
-	<?php endif; ?>
+	<div class="post-hero__image">
+		<img
+			src="<?php echo esc_url( brio_post_thumbnail_url( $post_id, 'large' ) ); ?>"
+			alt="<?php the_title_attribute(); ?>"
+			loading="eager"
+		/>
+	</div>
 
 </header>

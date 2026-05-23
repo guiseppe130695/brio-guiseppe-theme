@@ -10,8 +10,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$initial = brio_get_blog_initial_data();
-$topics  = brio_get_blog_topics_data();
+$initial = get_query_var( 'brio_blog_initial' ) ?: brio_get_blog_initial_data();
+$topics  = get_query_var( 'brio_blog_topics' )  ?: brio_get_blog_topics_data();
 
 $initial_title = str_replace( '{category}', __( 'Tous les articles', 'brio-guiseppe' ), $topics['title_template'] );
 ?>
