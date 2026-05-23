@@ -1,0 +1,142 @@
+/* ============================================
+   Brio Guiseppe — Page légale (PDC / Mentions / CGV / CGU)
+   Hero clair (titre vert primary, breadcrumb vert clair),
+   contenu éditorial sur le même fond.
+   ============================================ */
+
+/* ---------- Hero ---------- */
+.legal-hero {
+	background-color: var(--color-bg-primary);
+	padding: 100px var(--section-pad-x) 60px;
+	text-align: center;
+}
+
+@media (max-width: 1024px) {
+	.legal-hero { padding: 70px var(--section-pad-x) 40px; }
+}
+
+.legal-hero__title {
+	font-family: var(--font-primary);
+	font-size: var(--h1-size);
+	font-weight: var(--h1-weight);
+	letter-spacing: var(--h1-letter-spacing);
+	line-height: var(--h1-line-height);
+	color: var(--color-primary);
+	margin: 0 0 24px;
+}
+
+/* ---------- Breadcrumb ---------- */
+.legal-hero__crumbs ol {
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-uppercase-size);
+	font-weight: var(--accent-weight);
+}
+
+.legal-hero__crumbs li {
+	display: inline-flex;
+	align-items: center;
+	color: var(--color-text);
+	padding: 0 15px;
+}
+
+.legal-hero__crumbs li + li::before {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 15px;
+	border-radius: 50%;
+	background-color: var(--color-secondary);
+	flex-shrink: 0;
+}
+
+.legal-hero__crumbs a {
+	color: var(--color-text);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+}
+
+.legal-hero__crumbs a:hover,
+.legal-hero__crumbs a:focus-visible {
+	color: var(--color-primary);
+}
+
+.legal-hero__crumbs [aria-current="page"] {
+	color: var(--color-text);
+}
+
+/* ---------- Content ---------- */
+.legal-content {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 40px var(--section-pad-x) 100px;
+	font-family: var(--font-secondary);
+	font-size: var(--body-size);
+	font-weight: var(--body-weight);
+	letter-spacing: var(--body-letter-spacing);
+	line-height: var(--body-line-height);
+	color: var(--color-text);
+}
+
+@media (max-width: 1024px) {
+	.legal-content { padding-bottom: 70px; }
+}
+
+.legal-content > * + * { margin-top: 1.25em; }
+
+.legal-content h2 {
+	font-family: var(--font-primary);
+	font-size: var(--h3-size);
+	font-weight: var(--h3-weight);
+	letter-spacing: var(--h3-letter-spacing);
+	line-height: var(--h3-line-height);
+	color: var(--color-primary);
+	margin: 1.2em 0 0.5em;
+}
+
+.legal-content h2:first-child { margin-top: 0; }
+
+.legal-content h3 {
+	font-family: var(--font-primary);
+	font-size: var(--h4-size);
+	font-weight: var(--h4-weight);
+	letter-spacing: var(--h4-letter-spacing);
+	color: var(--color-primary);
+	margin: 1.8em 0 0.4em;
+}
+
+.legal-content p { margin: 0 0 1em; }
+
+.legal-content ul,
+.legal-content ol {
+	padding-left: 1.5em;
+	margin: 0 0 1.25em;
+}
+
+.legal-content li + li { margin-top: 0.4em; }
+
+.legal-content strong {
+	color: var(--color-primary);
+	font-weight: 600;
+}
+
+.legal-content a,
+.legal-content .decorated-link {
+	color: var(--color-primary);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1px;
+	transition: color var(--transition-fast);
+}
+
+.legal-content a:hover,
+.legal-content a:focus-visible {
+	color: var(--color-text);
+}

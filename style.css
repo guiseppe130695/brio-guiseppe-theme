@@ -1,10 +1,22 @@
 /*
-Theme Name: Brio Guiseppe Theme Custom
-Author: Brio Guiseppe
-Author URI: https://www.brioguiseppe.fr
-Description: A simple bootstrap WordPress theme.
-Version: 1.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: brio-guiseppe-theme
+Theme Name:        Brio Guiseppe Theme
+Theme URI:         https://www.brioguiseppe.fr
+Author:            Brio Guiseppe
+Author URI:        https://www.brioguiseppe.fr
+Description:       Thème WordPress sur-mesure pour Brio Guiseppe — accompagnement des hôteliers indépendants, riads et boutique-hôtels dans leur stratégie de désintermédiation OTA (réservations directes, optimisation du revenu, refonte digitale). Construit autour d'une identité typographique Nebeco (titres) + Manrope (texte), avec une homepage modulaire (hero, about, partners, programs, philosophy, showcase, fun-facts, pricing, faqs, blog, cta) et des feuilles de style structurées par sections dans assets/css/.
+Version:           1.0.0
+Requires at least: 6.0
+Tested up to:      6.5
+Requires PHP:      7.4
+License:           GNU General Public License v2 or later
+License URI:       http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:       brio-guiseppe
+Tags:              custom-logo, custom-menu, featured-images, threaded-comments, translation-ready, business, blog
+
+Les règles de mise en forme ne sont pas définies ici : elles sont chargées
+depuis assets/css/ (variables.css, fonts.css, header.css, home.css,
+sections/, components/) via includes/front/enqueue.php.
+
+Ce fichier reste obligatoire pour que WordPress reconnaisse le thème
+et affiche ses métadonnées dans Apparence → Thèmes.
 */
