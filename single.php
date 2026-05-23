@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 ?>
-<main id="main" class="site-main site-main--single" role="main">
+<main id="main" class="site-main site-main--single" role="main" itemscope itemtype="https://schema.org/Article">
 	<?php
 	if ( have_posts() ) :
 		the_post();

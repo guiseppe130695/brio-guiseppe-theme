@@ -1,19 +1,28 @@
 <?php
 /**
- * Single post — Contenu + footer (tags, partage social, navigation).
+ * Single post — Corps de l'article + footer (tags, partage, navigation).
+ *
+ * Structure HTML sémantique :
+ *   <article>           — contenu principal (hentry + Schema Article)
+ *     <div.entry-content> — corps éditorial (convention WP + microformat)
+ *     <aside>           — bloc auteur (information complémentaire)
+ *     <section>         — articles liés
+ *     <footer>          — tags + partage social
+ *   <nav>               — navigation prev/next (hors article, niveau page)
  *
  * @package Brio_Guiseppe
  */
 
 defined( 'ABSPATH' ) || exit;
 
+$post_id    = get_the_ID();
 $post_url   = urlencode( get_permalink() );
 $post_title = urlencode( get_the_title() );
 $tags       = get_the_tags();
 ?>
-<div class="post-content">
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'post-content hentry' ); ?>>
 
-	<div class="post-content__body">
+	<div class="post-content__body entry-content">
 		<?php the_content(); ?>
 	</div>
 
@@ -22,26 +31,25 @@ $tags       = get_the_tags();
 
 	<footer class="post-content__footer">
 
-		<!-- Tags + partage social -->
 		<div class="post-footer">
 
 			<!-- Tags -->
-			<div class="post-footer__tags">
-				<?php if ( ! empty( $tags ) ) : ?>
+			<?php if ( ! empty( $tags ) ) : ?>
+				<div class="post-footer__tags">
 					<p class="post-footer__tags-label">
 						<?php esc_html_e( 'Sujets abordés dans cet article :', 'brio-guiseppe' ); ?>
 					</p>
-					<ul class="post-footer__tag-list">
+					<ul class="post-footer__tag-list" aria-label="<?php esc_attr_e( 'Tags', 'brio-guiseppe' ); ?>">
 						<?php foreach ( $tags as $tag ) : ?>
 							<li>
-								<a href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>">
+								<a href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>" rel="tag">
 									<?php echo esc_html( $tag->name ); ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
 					</ul>
-				<?php endif; ?>
-			</div>
+				</div>
+			<?php endif; ?>
 
 			<!-- Partage social -->
 			<div class="post-footer__share">
@@ -78,26 +86,26 @@ $tags       = get_the_tags();
 
 		</div>
 
-		<!-- Navigation prev / next -->
-		<nav class="post-nav" aria-label="<?php esc_attr_e( 'Navigation entre articles', 'brio-guiseppe' ); ?>">
-			<?php
-			$prev = get_previous_post();
-			$next = get_next_post();
-			?>
-			<?php if ( $prev ) : ?>
-				<a href="<?php echo esc_url( get_permalink( $prev ) ); ?>" class="post-nav__link post-nav__link--prev">
-					<span class="post-nav__label"><?php esc_html_e( 'Retour à l\'article précédent', 'brio-guiseppe' ); ?></span>
-					<span class="post-nav__title"><?php echo esc_html( get_the_title( $prev ) ); ?></span>
-				</a>
-			<?php endif; ?>
-			<?php if ( $next ) : ?>
-				<a href="<?php echo esc_url( get_permalink( $next ) ); ?>" class="post-nav__link post-nav__link--next">
-					<span class="post-nav__label"><?php esc_html_e( 'Découvrir l\'article suivant', 'brio-guiseppe' ); ?></span>
-					<span class="post-nav__title"><?php echo esc_html( get_the_title( $next ) ); ?></span>
-				</a>
-			<?php endif; ?>
-		</nav>
-
 	</footer>
 
-</div>
+</article>
+
+<!-- Navigation prev / next — hors <article>, niveau page -->
+<nav class="post-nav" aria-label="<?php esc_attr_e( 'Navigation entre articles', 'brio-guiseppe' ); ?>">
+	<?php
+	$prev = get_previous_post();
+	$next = get_next_post();
+	?>
+	<?php if ( $prev ) : ?>
+		<a href="<?php echo esc_url( get_permalink( $prev ) ); ?>" class="post-nav__link post-nav__link--prev" rel="prev">
+			<span class="post-nav__label"><?php esc_html_e( 'Retour à l\'article précédent', 'brio-guiseppe' ); ?></span>
+			<span class="post-nav__title"><?php echo esc_html( get_the_title( $prev ) ); ?></span>
+		</a>
+	<?php endif; ?>
+	<?php if ( $next ) : ?>
+		<a href="<?php echo esc_url( get_permalink( $next ) ); ?>" class="post-nav__link post-nav__link--next" rel="next">
+			<span class="post-nav__label"><?php esc_html_e( 'Découvrir l\'article suivant', 'brio-guiseppe' ); ?></span>
+			<span class="post-nav__title"><?php echo esc_html( get_the_title( $next ) ); ?></span>
+		</a>
+	<?php endif; ?>
+</nav>

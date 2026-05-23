@@ -2,8 +2,14 @@
 /**
  * Single post — Hero
  *
- * Fond primary, titre H1, breadcrumb auto, meta (auteur / date / catégorie /
- * temps de lecture), image featured avec grand border-radius.
+ * Structure HTML sémantique :
+ *   <article> (microformat hentry, Schema.org Article)
+ *     <header>
+ *       <h1>        — titre principal (entry-title)
+ *       <nav>       — fil d'Ariane
+ *       <address>   — auteur (sémantique HTML5 pour les infos de contact/auteur)
+ *       <p>         — meta (date, catégorie, temps de lecture)
+ *       <figure>    — image à la une
  *
  * @package Brio_Guiseppe
  */
@@ -20,51 +26,69 @@ $reading_time = max( 1, (int) ceil( $word_count / 200 ) );
 ?>
 <header class="post-hero">
 
-	<h1 class="post-hero__title"><?php the_title(); ?></h1>
+	<h1 class="post-hero__title entry-title"><?php the_title(); ?></h1>
 
 	<nav class="post-hero__crumbs" aria-label="<?php esc_attr_e( 'Fil d\'Ariane', 'brio-guiseppe' ); ?>">
-		<ol>
-			<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Accueil', 'brio-guiseppe' ); ?></a></li>
+		<ol itemscope itemtype="https://schema.org/BreadcrumbList">
+			<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+				<a itemprop="item" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+					<span itemprop="name"><?php esc_html_e( 'Accueil', 'brio-guiseppe' ); ?></span>
+				</a>
+				<meta itemprop="position" content="1" />
+			</li>
 			<?php if ( $first_cat ) : ?>
-				<li>
-					<a href="<?php echo esc_url( get_category_link( $first_cat->term_id ) ); ?>">
-						<?php echo esc_html( $first_cat->name ); ?>
+				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+					<a itemprop="item" href="<?php echo esc_url( get_category_link( $first_cat->term_id ) ); ?>">
+						<span itemprop="name"><?php echo esc_html( $first_cat->name ); ?></span>
 					</a>
+					<meta itemprop="position" content="2" />
+				</li>
+				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+					<span itemprop="name" aria-current="page"><?php the_title(); ?></span>
+					<meta itemprop="position" content="3" />
+				</li>
+			<?php else : ?>
+				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+					<span itemprop="name" aria-current="page"><?php the_title(); ?></span>
+					<meta itemprop="position" content="2" />
 				</li>
 			<?php endif; ?>
-			<li><span aria-current="page"><?php the_title(); ?></span></li>
 		</ol>
 	</nav>
 
 	<div class="post-hero__meta">
-		<span class="post-hero__meta-item">
-			<?php esc_html_e( 'Conseils partagés par', 'brio-guiseppe' ); ?>
-			<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
+
+		<address class="post-hero__author">
+			<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
 				<?php the_author(); ?>
 			</a>
-		</span>
+		</address>
+
 		<span class="post-hero__meta-sep" aria-hidden="true">/</span>
+
 		<span class="post-hero__meta-item">
-			<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>">
+			<time class="entry-date published" datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>">
 				<?php echo esc_html( get_the_date() ); ?>
 			</time>
 			<?php if ( get_the_modified_date( 'U' ) > get_the_date( 'U' ) + DAY_IN_SECONDS ) : ?>
 				<span class="post-hero__meta-updated">
 					— <?php esc_html_e( 'Mis à jour le', 'brio-guiseppe' ); ?>
-					<time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>">
+					<time class="updated" datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>">
 						<?php echo esc_html( get_the_modified_date() ); ?>
 					</time>
 				</span>
 			<?php endif; ?>
 		</span>
+
 		<?php if ( $first_cat ) : ?>
 			<span class="post-hero__meta-sep" aria-hidden="true">/</span>
 			<span class="post-hero__meta-item">
-				<a href="<?php echo esc_url( get_category_link( $first_cat->term_id ) ); ?>">
+				<a href="<?php echo esc_url( get_category_link( $first_cat->term_id ) ); ?>" rel="category tag">
 					<?php echo esc_html( $first_cat->name ); ?>
 				</a>
 			</span>
 		<?php endif; ?>
+
 		<span class="post-hero__meta-sep" aria-hidden="true">/</span>
 		<span class="post-hero__meta-item">
 			<?php
@@ -75,14 +99,17 @@ $reading_time = max( 1, (int) ceil( $word_count / 200 ) );
 			);
 			?>
 		</span>
+
 	</div>
 
-	<div class="post-hero__image">
+	<figure class="post-hero__image">
 		<img
 			src="<?php echo esc_url( brio_post_thumbnail_url( $post_id, 'large' ) ); ?>"
 			alt="<?php the_title_attribute(); ?>"
 			loading="eager"
+			decoding="async"
+			width="1200"
 		/>
-	</div>
+	</figure>
 
 </header>
