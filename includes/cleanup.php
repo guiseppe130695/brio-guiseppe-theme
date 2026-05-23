@@ -104,6 +104,56 @@ remove_action( 'wp_head', 'wp_oembed_add_host_js' );            // Now unused on
 remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );  // <link rel="next"|"prev"> on posts.
 
 /**
+ * Disable comments site-wide.
+ *
+ * Comments are not part of this theme's design. Closing them at the theme
+ * level means no plugin or content import can accidentally re-open them.
+ *
+ * @since 1.0.0
+ */
+function brio_disable_comments() {
+	// Force-close comments on all post types.
+	add_filter( 'comments_open', '__return_false', 20 );
+	add_filter( 'pings_open',    '__return_false', 20 );
+
+	// Hide existing comment counts everywhere.
+	add_filter( 'comments_array', '__return_empty_array', 10 );
+
+	// Remove comment-related items from the admin menu.
+	add_action( 'admin_menu', function () {
+		remove_menu_page( 'edit-comments.php' );
+	} );
+
+	// Redirect any direct attempt to reach the comments admin screen.
+	add_action( 'admin_init', function () {
+		global $pagenow;
+		if ( 'edit-comments.php' === $pagenow ) {
+			wp_safe_redirect( admin_url() );
+			exit;
+		}
+	} );
+
+	// Remove comment support from all post types.
+	add_action( 'init', function () {
+		foreach ( get_post_types() as $post_type ) {
+			if ( post_type_supports( $post_type, 'comments' ) ) {
+				remove_post_type_support( $post_type, 'comments' );
+				remove_post_type_support( $post_type, 'trackbacks' );
+			}
+		}
+	} );
+
+	// Drop the comment-reply script — never needed.
+	add_action( 'wp_enqueue_scripts', function () {
+		wp_dequeue_script( 'comment-reply' );
+	}, 100 );
+
+	// Strip comment feeds from <head>.
+	remove_action( 'wp_head', 'feed_links_extra', 3 );
+}
+add_action( 'init', 'brio_disable_comments' );
+
+/**
  * Strip the version query string off every enqueued style/script URL.
  *
  * `?ver=6.x` doesn't help cache-busting once long-lived Cache-Control
