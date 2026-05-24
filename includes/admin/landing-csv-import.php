@@ -26,9 +26,14 @@ function brio_csv_import_menu() {
 }
 add_action( 'admin_menu', 'brio_csv_import_menu' );
 
-/* ── Map: CSV column → ( section, field, sanitizer ) ── */
+/* ── Map: CSV column → ( section, field, sanitizer ) ──
+ *
+ * Mirrors the flat meta keys saved by brio_landing_save_meta(). One CSV column
+ * per meta key, no JSON-grouped repeaters, so the file is editable in Excel
+ * and round-trips losslessly with the admin meta box.
+ */
 function brio_csv_field_map() {
-	return [
+	$map = [
 		// Hero
 		'hero_title'              => [ 'hero',       'title',       'text' ],
 		'hero_subtitle'           => [ 'hero',       'subtitle',    'textarea' ],
@@ -39,46 +44,86 @@ function brio_csv_field_map() {
 		'about_cta_label'         => [ 'about',      'cta_label',   'text' ],
 		'about_cta_url'           => [ 'about',      'cta_url',     'url' ],
 		'about_image'             => [ 'about',      'image',       'url' ],
-		// Partners
+		// Partners (header + 6 logos)
 		'partners_label'          => [ 'partners',   'label',       'text' ],
-		'partners_items'          => [ 'partners',   'items',       'json' ],
-		// Programs
-		'programs_overline'       => [ 'programs',   'overline',    'text' ],
-		'programs_heading'        => [ 'programs',   'heading',     'text' ],
-		'programs_items'          => [ 'programs',   'items',       'json' ],
-		'programs_cta_label'      => [ 'programs',   'cta_label',   'text' ],
-		'programs_cta_url'        => [ 'programs',   'cta_url',     'url' ],
-		'programs_note'           => [ 'programs',   'note',        'text' ],
-		// Philosophy
-		'philosophy_overline'     => [ 'philosophy', 'overline',    'text' ],
-		'philosophy_heading'      => [ 'philosophy', 'heading',     'text' ],
-		'philosophy_description'  => [ 'philosophy', 'description', 'textarea' ],
-		'philosophy_visual'       => [ 'philosophy', 'visual',      'url' ],
-		'philosophy_features'     => [ 'philosophy', 'features',    'json' ],
-		// Showcase
-		'showcase_bg'             => [ 'showcase',   'bg',          'url' ],
-		'showcase_images'         => [ 'showcase',   'images',      'json' ],
-		// Fun Facts
-		'funfacts_overline'       => [ 'funfacts',   'overline',    'text' ],
-		'funfacts_heading'        => [ 'funfacts',   'heading',     'text' ],
-		'funfacts_cards'          => [ 'funfacts',   'cards',       'json' ],
-		// Pricing
-		'pricing_overline'        => [ 'pricing',    'overline',    'text' ],
-		'pricing_heading'         => [ 'pricing',    'heading',     'text' ],
-		'pricing_cta_label'       => [ 'pricing',    'cta_label',   'text' ],
-		'pricing_cta_url'         => [ 'pricing',    'cta_url',     'url' ],
-		'pricing_plans'           => [ 'pricing',    'plans',       'json' ],
-		// FAQs
-		'faqs_overline'           => [ 'faqs',       'overline',    'text' ],
-		'faqs_heading'            => [ 'faqs',       'heading',     'text' ],
-		'faqs_visual'             => [ 'faqs',       'visual',      'url' ],
-		'faqs_items'              => [ 'faqs',       'items',       'json' ],
-		// CTA
-		'cta_heading'             => [ 'cta',        'heading',     'text' ],
-		'cta_taglines'            => [ 'cta',        'taglines',    'json' ],
-		'cta_label'               => [ 'cta',        'label',       'text' ],
-		'cta_url'                 => [ 'cta',        'url',         'url' ],
 	];
+	for ( $n = 1; $n <= 6; $n++ ) {
+		$map[ "partners_logo{$n}_url" ] = [ "partners_logo{$n}", 'url', 'url' ];
+		$map[ "partners_logo{$n}_alt" ] = [ "partners_logo{$n}", 'alt', 'text' ];
+	}
+
+	// Programs (header + 6 items + CTA + note)
+	$map['programs_overline']  = [ 'programs', 'overline',  'text' ];
+	$map['programs_heading']   = [ 'programs', 'heading',   'text' ];
+	for ( $n = 1; $n <= 6; $n++ ) {
+		$map[ "programs_item{$n}_title" ]   = [ "programs_item{$n}", 'title',   'text' ];
+		$map[ "programs_item{$n}_content" ] = [ "programs_item{$n}", 'content', 'textarea' ];
+	}
+	$map['programs_cta_label'] = [ 'programs', 'cta_label', 'text' ];
+	$map['programs_cta_url']   = [ 'programs', 'cta_url',   'url' ];
+	$map['programs_note']      = [ 'programs', 'note',      'text' ];
+
+	// Philosophy (header + visual + 3 features)
+	$map['philosophy_overline']    = [ 'philosophy', 'overline',    'text' ];
+	$map['philosophy_heading']     = [ 'philosophy', 'heading',     'text' ];
+	$map['philosophy_description'] = [ 'philosophy', 'description', 'textarea' ];
+	$map['philosophy_visual']      = [ 'philosophy', 'visual',      'url' ];
+	for ( $n = 1; $n <= 3; $n++ ) {
+		$map[ "philosophy_feature{$n}_icon" ]  = [ "philosophy_feature{$n}", 'icon',  'text' ];
+		$map[ "philosophy_feature{$n}_title" ] = [ "philosophy_feature{$n}", 'title', 'text' ];
+		$map[ "philosophy_feature{$n}_text" ]  = [ "philosophy_feature{$n}", 'text',  'text' ];
+	}
+
+	// Showcase
+	$map['showcase_bg']     = [ 'showcase', 'bg',     'url' ];
+	$map['showcase_images'] = [ 'showcase', 'images', 'json' ]; // stays JSON (free-form list)
+
+	// Fun Facts (header + 4 cards)
+	$map['funfacts_overline'] = [ 'funfacts', 'overline', 'text' ];
+	$map['funfacts_heading']  = [ 'funfacts', 'heading',  'text' ];
+	for ( $n = 1; $n <= 4; $n++ ) {
+		$map[ "funfacts_card{$n}_icon" ]   = [ "funfacts_card{$n}", 'icon',   'url' ];
+		$map[ "funfacts_card{$n}_number" ] = [ "funfacts_card{$n}", 'number', 'text' ];
+		$map[ "funfacts_card{$n}_suffix" ] = [ "funfacts_card{$n}", 'suffix', 'text' ];
+		$map[ "funfacts_card{$n}_title" ]  = [ "funfacts_card{$n}", 'title',  'text' ];
+	}
+
+	// Pricing (header + global CTA + 3 plans w/ per-plan CTA)
+	$map['pricing_overline']  = [ 'pricing', 'overline',  'text' ];
+	$map['pricing_heading']   = [ 'pricing', 'heading',   'text' ];
+	$map['pricing_cta_label'] = [ 'pricing', 'cta_label', 'text' ];
+	$map['pricing_cta_url']   = [ 'pricing', 'cta_url',   'url' ];
+	foreach ( [ 1, 2, 3 ] as $n ) {
+		$p = "plan{$n}";
+		$map[ "pricing_{$p}_title" ]        = [ "pricing_{$p}", 'title',        'text' ];
+		$map[ "pricing_{$p}_rooms" ]        = [ "pricing_{$p}", 'rooms',        'text' ];
+		$map[ "pricing_{$p}_price" ]        = [ "pricing_{$p}", 'price',        'text' ];
+		$map[ "pricing_{$p}_price_prefix" ] = [ "pricing_{$p}", 'price_prefix', 'text' ];
+		$map[ "pricing_{$p}_tagline" ]      = [ "pricing_{$p}", 'tagline',      'text' ];
+		$map[ "pricing_{$p}_ideal" ]        = [ "pricing_{$p}", 'ideal',        'text' ];
+		$map[ "pricing_{$p}_cta_label" ]    = [ "pricing_{$p}", 'cta_label',    'text' ];
+		$map[ "pricing_{$p}_cta_url" ]      = [ "pricing_{$p}", 'cta_url',      'url' ];
+		$map[ "pricing_{$p}_includes" ]     = [ "pricing_{$p}", 'includes',     'textarea' ];
+	}
+
+	// FAQs (header + visual + 8 items)
+	$map['faqs_overline'] = [ 'faqs', 'overline', 'text' ];
+	$map['faqs_heading']  = [ 'faqs', 'heading',  'text' ];
+	$map['faqs_visual']   = [ 'faqs', 'visual',   'url' ];
+	for ( $n = 1; $n <= 8; $n++ ) {
+		$map[ "faqs_item{$n}_question" ] = [ "faqs_item{$n}", 'question', 'text' ];
+		$map[ "faqs_item{$n}_answer" ]   = [ "faqs_item{$n}", 'answer',   'textarea' ];
+	}
+
+	// CTA final (heading + 3 taglines + button)
+	$map['cta_heading']  = [ 'cta', 'heading',  'text' ];
+	$map['cta_tagline1'] = [ 'cta', 'tagline1', 'text' ];
+	$map['cta_tagline2'] = [ 'cta', 'tagline2', 'text' ];
+	$map['cta_tagline3'] = [ 'cta', 'tagline3', 'text' ];
+	$map['cta_label']    = [ 'cta', 'label',    'text' ];
+	$map['cta_url']      = [ 'cta', 'url',      'url' ];
+
+	return $map;
 }
 
 /* ── Sanitize a single value ── */
@@ -308,7 +353,7 @@ function brio_csv_export() {
 			$page->post_name,
 			$page->post_status,
 		];
-		foreach ( $field_map as $col => $def ) {
+		foreach ( $field_map as $def ) {
 			[ $section, $field ] = $def;
 			$row[] = get_post_meta( $page->ID, '_brio_landing_' . $section . '_' . $field, true );
 		}
