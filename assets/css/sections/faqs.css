@@ -7,7 +7,7 @@
    ========================================================================== */
 
 .home-faqs {
-	background-color: var(--color-bg-secondary);
+	background-color: #FFF;
 }
 
 .home-faqs .container {
@@ -61,7 +61,7 @@
 
 /* Card details — cream closed → dark primary open · radius 10px */
 .home-faqs__details {
-	background-color: var(--color-bg-primary);
+	background-color: #FFF;
 	border-radius: 10px;
 	overflow: hidden;
 	transition: background-color var(--transition-normal);
@@ -92,7 +92,7 @@
 .home-faqs__summary::marker { display: none; }
 
 .home-faqs__summary:hover {
-	color: var(--color-accent);
+	color: var(--color-primary);
 }
 
 .home-faqs__details[open] .home-faqs__summary,
