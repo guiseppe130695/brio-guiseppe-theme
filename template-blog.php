@@ -21,7 +21,8 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-$initial = brio_get_blog_initial_data();
+$paged   = max( 1, (int) get_query_var( 'paged' ) ?: 1 );
+$initial = brio_get_blog_initial_data( 0, $paged );
 $hero    = brio_get_blog_hero_data();
 $topics  = brio_get_blog_topics_data();
 ?>
@@ -31,6 +32,7 @@ $topics  = brio_get_blog_topics_data();
       data-blog-app
       data-rest-url="<?php echo esc_url( rest_url( 'brio/v1/blog/posts' ) ); ?>"
       data-per-page="12"
+      data-paged="<?php echo (int) $paged; ?>"
       data-initial-offset="<?php echo (int) count( $initial['topics'] ); ?>">
 
 	<?php get_template_part( 'template-parts/blog/hero' ); ?>

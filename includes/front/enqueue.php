@@ -57,7 +57,7 @@ function brio_enqueue() {
 			wp_enqueue_style( 'brio_legal' );
 		}
 
-		if ( is_page_template( 'template-blog.php' ) || is_archive() ) {
+		if ( is_page_template( 'template-blog.php' ) || is_archive() || is_search() ) {
 			wp_enqueue_style( 'brio_blog' );
 		}
 
@@ -93,7 +93,7 @@ function brio_enqueue() {
 		);
 	}
 
-	if ( is_page_template( 'template-blog.php' ) || is_archive() ) {
+	if ( is_page_template( 'template-blog.php' ) || is_archive() || is_search() ) {
 		wp_enqueue_script(
 			'brio_blog',
 			$uri . '/assets/js/blog.js',

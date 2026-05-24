@@ -483,6 +483,7 @@
 	white-space: nowrap;
 }
 
+.post-content.entry-content .post-footer__share-list,
 .post-footer__share-list {
 	display: flex;
 	gap: 5px;

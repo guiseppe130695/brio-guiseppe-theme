@@ -212,15 +212,19 @@ function brio_blog_query_posts( $args = [] ) {
  *
  * @since 1.0.0
  */
-function brio_get_blog_initial_data( $post_id = 0 ) {
-	$post_id = $post_id ?: get_the_ID();
+function brio_get_blog_initial_data( $post_id = 0, $paged = 1 ) {
+	$post_id  = $post_id ?: get_the_ID();
+	$per_page = 12;
+	$offset   = ( max( 1, (int) $paged ) - 1 ) * $per_page;
 
-	$topics_query = brio_blog_query_posts( [ 'per_page' => 12 ] );
+	$topics_query = brio_blog_query_posts( [ 'per_page' => $per_page, 'offset' => $offset ] );
 
 	return apply_filters( 'brio_blog_initial_data', [
 		'topics'       => array_map( 'brio_blog_serialize_post', $topics_query['posts'] ),
 		'topics_total' => (int) $topics_query['total'],
 		'categories'   => brio_get_blog_categories(),
+		'paged'        => max( 1, (int) $paged ),
+		'per_page'     => $per_page,
 	], $post_id );
 }
 
@@ -235,14 +239,18 @@ function brio_get_blog_initial_data( $post_id = 0 ) {
  * @param array $archive_args Extra query args (category, tag, author_id, year…).
  * @return array{topics: array, topics_total: int, categories: array}
  */
-function brio_get_archive_initial_data( $archive_args = [] ) {
-	$query_args = array_merge( [ 'per_page' => 12 ], $archive_args );
+function brio_get_archive_initial_data( $archive_args = [], $paged = 1 ) {
+	$per_page   = 12;
+	$offset     = ( max( 1, (int) $paged ) - 1 ) * $per_page;
+	$query_args = array_merge( [ 'per_page' => $per_page, 'offset' => $offset ], $archive_args );
 	$result     = brio_blog_query_posts( $query_args );
 
 	return [
 		'topics'       => array_map( 'brio_blog_serialize_post', $result['posts'] ),
 		'topics_total' => (int) $result['total'],
 		'categories'   => brio_get_blog_categories(),
+		'paged'        => max( 1, (int) $paged ),
+		'per_page'     => $per_page,
 	];
 }
 

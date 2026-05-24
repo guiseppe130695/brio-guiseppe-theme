@@ -77,4 +77,39 @@ $initial_title = str_replace( '{category}', __( 'Tous les articles', 'brio-guise
 		</button>
 	</div>
 
+	<?php
+	/* Pagination HTML — crawlable par Google, masquée par JS dès que blog.js init */
+	$paged     = isset( $initial['paged'] )    ? (int) $initial['paged']    : 1;
+	$per_page  = isset( $initial['per_page'] ) ? (int) $initial['per_page'] : 12;
+	$total     = isset( $initial['topics_total'] ) ? (int) $initial['topics_total'] : 0;
+	$max_pages = $total > 0 ? (int) ceil( $total / $per_page ) : 1;
+
+	if ( $max_pages > 1 ) : ?>
+		<nav class="blog-pagination" aria-label="<?php esc_attr_e( 'Pagination', 'brio-guiseppe' ); ?>" data-blog-pagination>
+			<?php if ( $paged > 1 ) : ?>
+				<a class="blog-pagination__link blog-pagination__link--prev"
+				   href="<?php echo esc_url( get_pagenum_link( $paged - 1 ) ); ?>"
+				   rel="prev">
+					<?php esc_html_e( '← Précédent', 'brio-guiseppe' ); ?>
+				</a>
+			<?php endif; ?>
+
+			<span class="blog-pagination__info">
+				<?php printf(
+					esc_html__( 'Page %1$d sur %2$d', 'brio-guiseppe' ),
+					$paged,
+					$max_pages
+				); ?>
+			</span>
+
+			<?php if ( $paged < $max_pages ) : ?>
+				<a class="blog-pagination__link blog-pagination__link--next"
+				   href="<?php echo esc_url( get_pagenum_link( $paged + 1 ) ); ?>"
+				   rel="next">
+					<?php esc_html_e( 'Suivant →', 'brio-guiseppe' ); ?>
+				</a>
+			<?php endif; ?>
+		</nav>
+	<?php endif; ?>
+
 </section>

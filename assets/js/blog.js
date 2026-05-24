@@ -39,7 +39,7 @@
 
 	const state = {
 		category: '',
-		search: '',
+		search: archiveConstraints.search || '',
 		offset: 0,
 		hasMore: true,
 		loading: false,
@@ -60,12 +60,24 @@
 	const emptyEl        = root.querySelector( '[data-blog-empty]' );
 	const searchForm     = root.querySelector( '[data-blog-search]' );
 
+	/* Masquer la pagination HTML dès que JS est actif */
+	root.closest( '.blog-topics' )
+		? root.closest( '.blog-topics' ).classList.add( 'js-blog-ready' )
+		: document.querySelector( '[data-blog-topics]' ) && document.querySelector( '[data-blog-topics]' ).classList.add( 'js-blog-ready' );
+	document.querySelector( '[data-blog-pagination]' ) && ( document.querySelector( '[data-blog-pagination]' ).hidden = true );
+
 	if ( ! grid ) {
 		console.error( '[Brio Blog] Missing [data-blog-grid] in DOM.' );
 		return;
 	}
 
 	const defaultDropdownLabel = ( config.i18n && config.i18n.category ) || 'Catégorie';
+
+	/* Pré-remplir l'input si on arrive depuis une recherche WP */
+	if ( state.search && searchEl ) {
+		searchEl.value = state.search;
+		if ( clearEl ) clearEl.hidden = false;
+	}
 
 	/* ---------- Renderer ---------- */
 
@@ -206,7 +218,7 @@
 		/* Contraintes d'archive fixes — on mappe les clés PHP vers les params REST */
 		const keyMap = { author_id: 'author_id', tag: 'tag', year: 'year', monthnum: 'month', day: 'day' };
 		Object.entries( archiveConstraints ).forEach( ( [ k, v ] ) => {
-			if ( k === 'category' ) return; /* géré séparément ci-dessous */
+			if ( k === 'category' || k === 'search' ) return; /* gérés séparément */
 			const param = keyMap[ k ] || k;
 			if ( v ) url.searchParams.set( param, v );
 		} );

@@ -82,6 +82,21 @@ function brio_seo_canonical() {
 	if ( $canonical ) {
 		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $canonical ) );
 	}
+
+	/* prev / next pour les archives paginées */
+	if ( is_archive() || is_home() ) {
+		$paged      = max( 1, (int) get_query_var( 'paged' ) ?: 1 );
+		$per_page   = 12;
+		$total      = (int) wp_count_posts( 'post' )->publish;
+		$max_pages  = (int) ceil( $total / $per_page );
+
+		if ( $paged > 1 ) {
+			printf( '<link rel="prev" href="%s" />' . "\n", esc_url( get_pagenum_link( $paged - 1 ) ) );
+		}
+		if ( $paged < $max_pages ) {
+			printf( '<link rel="next" href="%s" />' . "\n", esc_url( get_pagenum_link( $paged + 1 ) ) );
+		}
+	}
 }
 add_action( 'wp_head', 'brio_seo_canonical', 2 );
 

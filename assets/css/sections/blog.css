@@ -187,3 +187,37 @@
 		padding: 20px;
 	}
 }
+
+/* ========== PAGINATION ========== */
+.blog-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	margin-top: 50px;
+	font-family: var(--font-secondary);
+	font-size: var(--accent-size);
+	font-weight: var(--accent-weight);
+}
+
+.blog-pagination__link {
+	color: var(--color-primary);
+	text-decoration: none;
+	padding: 10px 20px;
+	border: 1px solid var(--color-border);
+	border-radius: 50px;
+	transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.blog-pagination__link:hover {
+	background-color: var(--color-primary);
+	color: var(--color-bg-primary);
+}
+
+.blog-pagination__info {
+	color: var(--color-text);
+	opacity: 0.6;
+}
+
+/* Masquée quand JS a initialisé le load more */
+.js-blog-ready .blog-pagination { display: none; }

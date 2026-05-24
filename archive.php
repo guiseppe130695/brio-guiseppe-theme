@@ -65,7 +65,8 @@ if ( is_category() ) {
 }
 
 /* ── Données initiales filtrées selon le contexte d'archive ── */
-$initial = brio_get_archive_initial_data( $archive_query_args );
+$paged   = max( 1, (int) get_query_var( 'paged' ) ?: 1 );
+$initial = brio_get_archive_initial_data( $archive_query_args, $paged );
 $topics  = brio_get_blog_topics_data( 0 );
 ?>
 <?php
@@ -94,6 +95,7 @@ if ( is_author() ) {
       data-blog-app
       data-rest-url="<?php echo esc_url( rest_url( 'brio/v1/blog/posts' ) ); ?>"
       data-per-page="12"
+      data-paged="<?php echo (int) $paged; ?>"
       data-initial-offset="<?php echo (int) count( $initial['topics'] ); ?>"
       <?php echo $archive_data_attrs; ?>>
 
