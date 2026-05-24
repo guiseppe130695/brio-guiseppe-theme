@@ -39,6 +39,7 @@ function brio_enqueue() {
 		wp_register_style( 'brio_home',              $uri . '/assets/css/home.css',              [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_legal',             $uri . '/assets/css/sections/legal.css',    [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_blog',              $uri . '/assets/css/sections/blog-page.css',[ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_landing',           $uri . '/assets/css/sections/landing.css',  [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_404',               $uri . '/assets/css/sections/404.css',      [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_single',            $uri . '/assets/css/sections/single.css',   [ 'brio_variables' ], $ver );
 
@@ -49,7 +50,7 @@ function brio_enqueue() {
 		wp_enqueue_style( 'brio_header_responsive' );
 		wp_enqueue_style( 'brio_footer' );
 
-		if ( is_front_page() ) {
+		if ( is_front_page() || is_page_template( 'template-landing.php' ) ) {
 			wp_enqueue_style( 'brio_home' );
 		}
 
@@ -59,6 +60,10 @@ function brio_enqueue() {
 
 		if ( is_page_template( 'template-blog.php' ) || is_archive() || is_search() ) {
 			wp_enqueue_style( 'brio_blog' );
+		}
+
+		if ( is_page_template( 'template-landing.php' ) ) {
+			wp_enqueue_style( 'brio_landing' );
 		}
 
 		if ( is_404() ) {
@@ -83,7 +88,7 @@ function brio_enqueue() {
 	// Lighthouse "missing source maps for large JS" warning. Re-enable per-page
 	// only if a specific feature needs them.
 
-	if ( is_front_page() ) {
+	if ( is_front_page() || is_page_template( 'template-landing.php' ) ) {
 		wp_enqueue_script(
 			'brio_counters',
 			$uri . '/assets/js/counters.js',

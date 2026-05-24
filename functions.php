@@ -40,6 +40,7 @@ if ( is_admin() ) {
 	require_once get_theme_file_path( '/includes/admin/meta-boxes-legal.php' );
 	require_once get_theme_file_path( '/includes/admin/meta-boxes-outils.php' );
 	require_once get_theme_file_path( '/includes/admin/meta-boxes-blog.php' );
+	require_once get_theme_file_path( '/includes/admin/landing-csv-import.php' );
 }
 
 /**
@@ -56,6 +57,7 @@ require_once get_theme_file_path( '/includes/front/data-outils.php' );
 require_once get_theme_file_path( '/includes/front/data-blog.php' );
 require_once get_theme_file_path( '/includes/front/rest-blog.php' );
 require_once get_theme_file_path( '/includes/front/sitemap.php' );
+require_once get_theme_file_path( '/includes/front/landing-form.php' );
 
 /**
  * Register theme hooks.

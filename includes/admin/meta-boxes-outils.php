@@ -91,7 +91,7 @@ function brio_outils_render_cta( $post ) {
 }
 
 function brio_outils_save_meta( $post_id ) {
-	if ( ! brio_meta_can_save( $post_id, 'brio_outils_nonce' ) ) {
+	if ( ! brio_meta_can_save( $post_id, 'brio_outils_nonce', 'brio_outils_save' ) ) {
 		return;
 	}
 

@@ -64,7 +64,7 @@ function brio_blog_render_topics( $post ) {
 }
 
 function brio_blog_save_meta( $post_id ) {
-	if ( ! brio_meta_can_save( $post_id, 'brio_blog_nonce' ) ) {
+	if ( ! brio_meta_can_save( $post_id, 'brio_blog_nonce', 'brio_blog_save' ) ) {
 		return;
 	}
 

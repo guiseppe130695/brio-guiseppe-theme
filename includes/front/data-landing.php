@@ -2,9 +2,11 @@
 /**
  * Front-end data providers — Landing Page template
  *
- * Each function reads its section's post_meta and falls back to sensible
- * defaults so a brand-new Landing page renders gracefully before any field
- * is filled in. Partials in template-parts/landing/ consume these.
+ * Each function reads post_meta for the current landing page first, then falls
+ * back to the global homepage data so a new landing page renders gracefully
+ * before any field is filled in.
+ *
+ * Meta key pattern: _brio_landing_{section}_{field}
  *
  * @package Brio_Guiseppe
  * @since   1.0.0
@@ -12,79 +14,160 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** Hero */
+/**
+ * Helper: return meta value if set, otherwise a fallback.
+ */
+function brio_lmeta( $post_id, $section, $field, $fallback = '' ) {
+	return brio_meta_get( $post_id, 'landing', $section, $field, $fallback );
+}
+
+/* ── Hero ── */
 function brio_get_landing_hero_data( $post_id = 0 ) {
-	$post_id = $post_id ?: get_the_ID();
+	$post_id = $post_id ?: get_queried_object_id();
 	return apply_filters( 'brio_landing_hero_data', [
-		'title'     => brio_meta_get( $post_id, 'landing', 'hero', 'title',     __( 'Titre principal de votre landing', 'brio-guiseppe' ) ),
-		'subtitle'  => brio_meta_get( $post_id, 'landing', 'hero', 'subtitle',  __( 'Sous-titre qui développe la promesse en une phrase.', 'brio-guiseppe' ) ),
-		'image'     => brio_meta_get( $post_id, 'landing', 'hero', 'image',     '' ),
-		'cta_label' => brio_meta_get( $post_id, 'landing', 'hero', 'cta_label', __( 'Planifiez votre démo', 'brio-guiseppe' ) ),
-		'cta_url'   => brio_meta_get( $post_id, 'landing', 'hero', 'cta_url',   '#' ),
+		'title'    => brio_lmeta( $post_id, 'hero', 'title',    __( 'Titre principal de votre landing', 'brio-guiseppe' ) ),
+		'subtitle' => brio_lmeta( $post_id, 'hero', 'subtitle', __( 'Sous-titre qui développe la promesse en une phrase.', 'brio-guiseppe' ) ),
 	], $post_id );
 }
 
-/** Benefits */
-function brio_get_landing_benefits_data( $post_id = 0 ) {
-	$post_id = $post_id ?: get_the_ID();
-	return apply_filters( 'brio_landing_benefits_data', [
-		'title' => brio_meta_get( $post_id, 'landing', 'benefits', 'title', __( 'Pourquoi choisir Brio Guiseppe', 'brio-guiseppe' ) ),
+/* ── About ── */
+function brio_get_landing_about_data( $post_id = 0 ) {
+	$post_id  = $post_id ?: get_queried_object_id();
+	$home     = brio_get_about_data();
+	return apply_filters( 'brio_landing_about_data', [
+		'overline'    => brio_lmeta( $post_id, 'about', 'overline',    $home['overline'] ),
+		'heading'     => brio_lmeta( $post_id, 'about', 'heading',     $home['heading'] ),
+		'description' => brio_lmeta( $post_id, 'about', 'description', $home['description'] ),
+		'cta'         => [
+			'label' => brio_lmeta( $post_id, 'about', 'cta_label', $home['cta']['label'] ),
+			'href'  => brio_lmeta( $post_id, 'about', 'cta_url',   $home['cta']['href'] ),
+		],
+		'image'       => brio_lmeta( $post_id, 'about', 'image', $home['image'] ),
+	], $post_id );
+}
+
+/* ── Partners ── */
+function brio_get_landing_partners_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_partners_data();
+	return apply_filters( 'brio_landing_partners_data', [
+		'label' => brio_lmeta( $post_id, 'partners', 'label', $home['label'] ),
 		'items' => brio_meta_json_decode(
-			brio_meta_get( $post_id, 'landing', 'benefits', 'items', '' ),
-			[]
+			brio_lmeta( $post_id, 'partners', 'items', '' ),
+			$home['items']
 		),
 	], $post_id );
 }
 
-/** Proof */
-function brio_get_landing_proof_data( $post_id = 0 ) {
-	$post_id = $post_id ?: get_the_ID();
-	return apply_filters( 'brio_landing_proof_data', [
-		'title'  => brio_meta_get( $post_id, 'landing', 'proof', 'title',  __( 'Ils nous font confiance', 'brio-guiseppe' ) ),
-		'quote'  => brio_meta_get( $post_id, 'landing', 'proof', 'quote',  '' ),
-		'author' => brio_meta_get( $post_id, 'landing', 'proof', 'author', '' ),
-		'logos'  => brio_meta_json_decode(
-			brio_meta_get( $post_id, 'landing', 'proof', 'logos', '' ),
-			[]
+/* ── Programs ── */
+function brio_get_landing_programs_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_programs_data();
+	return apply_filters( 'brio_landing_programs_data', [
+		'overline' => brio_lmeta( $post_id, 'programs', 'overline',  $home['overline'] ),
+		'heading'  => brio_lmeta( $post_id, 'programs', 'heading',   $home['heading'] ),
+		'items'    => brio_meta_json_decode(
+			brio_lmeta( $post_id, 'programs', 'items', '' ),
+			$home['items']
+		),
+		'cta'      => [
+			'label' => brio_lmeta( $post_id, 'programs', 'cta_label', $home['cta']['label'] ),
+			'href'  => brio_lmeta( $post_id, 'programs', 'cta_url',   $home['cta']['href'] ),
+		],
+		'note'     => brio_lmeta( $post_id, 'programs', 'note', $home['note'] ?? '' ),
+	], $post_id );
+}
+
+/* ── Philosophy ── */
+function brio_get_landing_philosophy_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_philosophy_data();
+	return apply_filters( 'brio_landing_philosophy_data', [
+		'overline'    => brio_lmeta( $post_id, 'philosophy', 'overline',    $home['overline'] ),
+		'heading'     => brio_lmeta( $post_id, 'philosophy', 'heading',     $home['heading'] ),
+		'description' => brio_lmeta( $post_id, 'philosophy', 'description', $home['description'] ),
+		'visual'      => brio_lmeta( $post_id, 'philosophy', 'visual',      $home['visual'] ),
+		'mission'     => $home['mission'] ?? null,
+		'features'    => brio_meta_json_decode(
+			brio_lmeta( $post_id, 'philosophy', 'features', '' ),
+			$home['features']
 		),
 	], $post_id );
 }
 
-/** Offer */
-function brio_get_landing_offer_data( $post_id = 0 ) {
-	$post_id = $post_id ?: get_the_ID();
-	return apply_filters( 'brio_landing_offer_data', [
-		'title'     => brio_meta_get( $post_id, 'landing', 'offer', 'title',    __( 'Notre offre', 'brio-guiseppe' ) ),
-		'subtitle'  => brio_meta_get( $post_id, 'landing', 'offer', 'subtitle', '' ),
-		'price'     => brio_meta_get( $post_id, 'landing', 'offer', 'price',    '' ),
-		'features'  => brio_meta_json_decode(
-			brio_meta_get( $post_id, 'landing', 'offer', 'features', '' ),
-			[]
-		),
-		'cta_label' => brio_meta_get( $post_id, 'landing', 'offer', 'cta_label', __( 'Je m\'inscris', 'brio-guiseppe' ) ),
-		'cta_url'   => brio_meta_get( $post_id, 'landing', 'offer', 'cta_url',   '#' ),
-	], $post_id );
-}
-
-/** FAQ */
-function brio_get_landing_faq_data( $post_id = 0 ) {
-	$post_id = $post_id ?: get_the_ID();
-	return apply_filters( 'brio_landing_faq_data', [
-		'title' => brio_meta_get( $post_id, 'landing', 'faq', 'title', __( 'Questions fréquentes', 'brio-guiseppe' ) ),
-		'items' => brio_meta_json_decode(
-			brio_meta_get( $post_id, 'landing', 'faq', 'items', '' ),
-			[]
+/* ── Showcase ── */
+function brio_get_landing_showcase_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_showcase_data();
+	return apply_filters( 'brio_landing_showcase_data', [
+		'bg'     => brio_lmeta( $post_id, 'showcase', 'bg', $home['bg'] ),
+		'images' => brio_meta_json_decode(
+			brio_lmeta( $post_id, 'showcase', 'images', '' ),
+			$home['images']
 		),
 	], $post_id );
 }
 
-/** CTA */
+/* ── Fun Facts ── */
+function brio_get_landing_funfacts_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_fun_facts_data();
+	return apply_filters( 'brio_landing_funfacts_data', [
+		'overline' => brio_lmeta( $post_id, 'funfacts', 'overline', $home['overline'] ),
+		'heading'  => brio_lmeta( $post_id, 'funfacts', 'heading',  $home['heading'] ),
+		'cards'    => brio_meta_json_decode(
+			brio_lmeta( $post_id, 'funfacts', 'cards', '' ),
+			$home['cards']
+		),
+	], $post_id );
+}
+
+/* ── Pricing ── */
+function brio_get_landing_pricing_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_pricing_data();
+	return apply_filters( 'brio_landing_pricing_data', [
+		'overline' => brio_lmeta( $post_id, 'pricing', 'overline',  $home['overline'] ),
+		'heading'  => brio_lmeta( $post_id, 'pricing', 'heading',   $home['heading'] ),
+		'cta'      => [
+			'label' => brio_lmeta( $post_id, 'pricing', 'cta_label', $home['cta']['label'] ),
+			'href'  => brio_lmeta( $post_id, 'pricing', 'cta_url',   $home['cta']['href'] ),
+		],
+		'plans'    => brio_meta_json_decode(
+			brio_lmeta( $post_id, 'pricing', 'plans', '' ),
+			$home['plans']
+		),
+	], $post_id );
+}
+
+/* ── FAQs ── */
+function brio_get_landing_faqs_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_faqs_data();
+	return apply_filters( 'brio_landing_faqs_data', [
+		'overline' => brio_lmeta( $post_id, 'faqs', 'overline', $home['overline'] ),
+		'heading'  => brio_lmeta( $post_id, 'faqs', 'heading',  $home['heading'] ),
+		'visual'   => brio_lmeta( $post_id, 'faqs', 'visual',   $home['visual'] ),
+		'items'    => brio_meta_json_decode(
+			brio_lmeta( $post_id, 'faqs', 'items', '' ),
+			$home['items']
+		),
+	], $post_id );
+}
+
+/* ── CTA final ── */
 function brio_get_landing_cta_data( $post_id = 0 ) {
-	$post_id = $post_id ?: get_the_ID();
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_cta_data();
 	return apply_filters( 'brio_landing_cta_data', [
-		'heading' => brio_meta_get( $post_id, 'landing', 'cta', 'heading', __( 'Prêt à passer à l\'action ?', 'brio-guiseppe' ) ),
-		'tagline' => brio_meta_get( $post_id, 'landing', 'cta', 'tagline', '' ),
-		'label'   => brio_meta_get( $post_id, 'landing', 'cta', 'label',   __( 'Planifiez votre démo', 'brio-guiseppe' ) ),
-		'url'     => brio_meta_get( $post_id, 'landing', 'cta', 'url',     '#' ),
+		'heading'  => brio_lmeta( $post_id, 'cta', 'heading',  $home['heading'] ),
+		'taglines' => brio_meta_json_decode(
+			brio_lmeta( $post_id, 'cta', 'taglines', '' ),
+			$home['taglines'] ?? []
+		),
+		'cta'      => [
+			'label' => brio_lmeta( $post_id, 'cta', 'label', $home['cta']['label'] ),
+			'href'  => brio_lmeta( $post_id, 'cta', 'url',   $home['cta']['href'] ),
+		],
 	], $post_id );
 }

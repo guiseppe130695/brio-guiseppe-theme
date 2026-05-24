@@ -22,20 +22,33 @@ get_header();
  *
  * @return string[] Section slugs (matching template-parts/landing/{slug}.php).
  */
-$sections = apply_filters( 'brio_landing_sections', [
-	'hero',      // Accroche principale + CTA above the fold
-	'benefits',  // Bénéfices clés / proposition de valeur
-	'proof',     // Témoignages, chiffres, logos clients
-	'offer',     // Détail de l'offre / pricing simplifié
-	'faq',       // Objections fréquentes
-	'cta',       // CTA final de conversion
+/* Hero spécifique landing (60/40 avec formulaire) */
+$landing_sections = apply_filters( 'brio_landing_sections', [
+	'hero',
+	'features',
+	'about',
+	'partners',
+	'programs',
+	'philosophy',
+	'showcase',
+	'fun-facts',
+	'pricing',
+	'faqs',
+	'blog',
+	'cta',
 ] );
-
 ?>
 <main id="main" class="site-main site-main--landing" role="main">
 <?php
-foreach ( $sections as $section ) {
-	get_template_part( 'template-parts/landing/' . $section );
+foreach ( $landing_sections as $section ) {
+	// Use landing-specific partial if it exists, otherwise fall back to home.
+	$landing_part = 'template-parts/landing/' . $section;
+	$home_part    = 'template-parts/home/' . $section;
+	if ( locate_template( $landing_part . '.php' ) ) {
+		get_template_part( $landing_part );
+	} else {
+		get_template_part( $home_part );
+	}
 }
 ?>
 </main>

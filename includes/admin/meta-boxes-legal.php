@@ -48,7 +48,7 @@ function brio_legal_render_hero( $post ) {
 }
 
 function brio_legal_save_meta( $post_id ) {
-	if ( ! brio_meta_can_save( $post_id, 'brio_legal_nonce' ) ) {
+	if ( ! brio_meta_can_save( $post_id, 'brio_legal_nonce', 'brio_legal_save' ) ) {
 		return;
 	}
 

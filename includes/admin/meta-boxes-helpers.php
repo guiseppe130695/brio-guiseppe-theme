@@ -205,17 +205,22 @@ function brio_meta_json_decode( $raw, $default = [] ) {
  * @param string $nonce   Nonce action name (matches wp_nonce_field()).
  * @return bool
  */
-function brio_meta_can_save( $post_id, $nonce ) {
+function brio_meta_can_save( $post_id, $nonce_field, $nonce_action = '' ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-		return false;
-	}
-	if ( ! isset( $_POST[ $nonce ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ $nonce ] ) ), $nonce ) ) {
 		return false;
 	}
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return false;
 	}
-	return true;
+	// Accept our meta box nonce (classic editor) OR the native WP nonce (block editor).
+	$action = $nonce_action ?: $nonce_field;
+	if ( isset( $_POST[ $nonce_field ] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ $nonce_field ] ) ), $action ) ) {
+		return true;
+	}
+	if ( isset( $_POST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'update-post_' . $post_id ) ) {
+		return true;
+	}
+	return false;
 }
 
 /**
