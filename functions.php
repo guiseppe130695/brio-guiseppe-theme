@@ -57,6 +57,8 @@ require_once get_theme_file_path( '/includes/front/data-outils.php' );
 require_once get_theme_file_path( '/includes/front/data-blog.php' );
 require_once get_theme_file_path( '/includes/front/rest-blog.php' );
 require_once get_theme_file_path( '/includes/front/sitemap.php' );
+require_once get_theme_file_path( '/includes/admin/leads.php' );
+require_once get_theme_file_path( '/includes/front/mailer.php' );
 require_once get_theme_file_path( '/includes/front/landing-form.php' );
 
 /**

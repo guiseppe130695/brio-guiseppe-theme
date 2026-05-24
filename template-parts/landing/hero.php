@@ -65,30 +65,53 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 				<p class="landing-form__success">
 					<?php esc_html_e( '✓ Message envoyé ! Nous vous répondons sous 24h.', 'brio-guiseppe' ); ?>
 				</p>
-			<?php else : ?>
+			<?php else :
+				// Parse field errors from URL
+				$lf_errors = [];
+				if ( isset( $_GET['contact'], $_GET['lf_err'] ) && $_GET['contact'] === 'error' ) {
+					$lf_errors = array_flip( explode( ',', sanitize_text_field( wp_unslash( $_GET['lf_err'] ) ) ) );
+				}
+				$err_name    = isset( $lf_errors['name_length'] ) || isset( $lf_errors['name_format'] );
+				$err_email   = isset( $lf_errors['email_invalid'] ) || isset( $lf_errors['email_disposable'] );
+				$err_hotel   = isset( $lf_errors['hotel_length'] ) || isset( $lf_errors['hotel_html'] );
+				$err_message = isset( $lf_errors['message_too_long'] ) || isset( $lf_errors['message_html'] ) || isset( $lf_errors['message_spam'] );
+			?>
+				<?php if ( ! empty( $lf_errors ) ) : ?>
+					<p class="landing-form__error">
+						<?php esc_html_e( '⚠ Certains champs sont invalides. Vérifiez les champs en rouge.', 'brio-guiseppe' ); ?>
+					</p>
+				<?php endif; ?>
+
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
 
 					<?php wp_nonce_field( 'brio_landing_contact', 'brio_landing_contact_nonce' ); ?>
 					<input type="hidden" name="action" value="brio_landing_contact" />
 					<input type="hidden" name="redirect_to" value="<?php echo esc_url( get_permalink() ); ?>" />
+					<div style="position:absolute;left:-9999px;opacity:0;pointer-events:none" aria-hidden="true">
+						<input type="text" name="lf_website" value="" tabindex="-1" autocomplete="off" />
+					</div>
 
-					<input class="landing-form__input" type="text" name="lf_name" autocomplete="given-name" required
+					<input class="landing-form__input<?php echo $err_name ? ' landing-form__input--error' : ''; ?>"
+					       type="text" name="lf_name" autocomplete="given-name" required
 					       placeholder="<?php esc_attr_e( 'Votre prénom', 'brio-guiseppe' ); ?>" />
 
-					<input class="landing-form__input" type="email" name="lf_email" autocomplete="email" required
+					<input class="landing-form__input<?php echo $err_email ? ' landing-form__input--error' : ''; ?>"
+					       type="email" name="lf_email" autocomplete="email" required
 					       placeholder="<?php esc_attr_e( 'Email professionnel', 'brio-guiseppe' ); ?>" />
 
-					<input class="landing-form__input" type="text" name="lf_hotel" autocomplete="organization"
+					<input class="landing-form__input<?php echo $err_hotel ? ' landing-form__input--error' : ''; ?>"
+					       type="text" name="lf_hotel" autocomplete="organization"
 					       placeholder="<?php esc_attr_e( 'Nom de votre établissement', 'brio-guiseppe' ); ?>" />
 
-					<textarea class="landing-form__input landing-form__textarea" name="lf_message" rows="3"
+					<textarea class="landing-form__input landing-form__textarea<?php echo $err_message ? ' landing-form__input--error' : ''; ?>"
+					          name="lf_message" rows="3"
 					          placeholder="<?php esc_attr_e( 'Votre situation en quelques mots', 'brio-guiseppe' ); ?>"></textarea>
 
 					<button type="submit" class="landing-form__submit">
 						<?php esc_html_e( 'Réserver mon audit gratuit →', 'brio-guiseppe' ); ?>
 					</button>
 
-					</form>
+				</form>
 			<?php endif; ?>
 
 		</div>

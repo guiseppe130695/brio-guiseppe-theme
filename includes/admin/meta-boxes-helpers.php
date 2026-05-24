@@ -139,7 +139,7 @@ function brio_field_image( $name, $label, $value ) {
 			<?php esc_html_e( 'Choisir une image', 'brio-guiseppe' ); ?>
 		</button>
 		<?php if ( $value ) : ?>
-			<br /><img src="<?php echo esc_url( $value ); ?>" alt="" style="max-width:160px;height:auto;margin-top:6px;" />
+			<img src="<?php echo esc_url( $value ); ?>" alt="" class="brio-img-preview" />
 		<?php endif; ?>
 	</p>
 	<?php
@@ -300,20 +300,156 @@ function brio_meta_admin_assets( $hook ) {
 		return;
 	}
 	wp_enqueue_media();
-	wp_add_inline_script(
-		'jquery-core',
-		"jQuery(function($){
-			$(document).on('click','.brio-image-upload',function(e){
-				e.preventDefault();
-				var target = $(this).data('target');
-				var frame = wp.media({ title:'Choisir une image', multiple:false });
-				frame.on('select', function(){
-					var att = frame.state().get('selection').first().toJSON();
-					$('input[name=\"'+target+'\"]').val(att.url).trigger('change');
-				});
-				frame.open();
+
+	/* ── Tabs + grid CSS ── */
+	wp_add_inline_style( 'wp-admin', '
+/* ---- Brio meta tabs ---- */
+.brio-tabs { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+
+.brio-tabs__nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 12px 12px 0;
+	border-bottom: 2px solid #2271b1;
+	margin-bottom: 0;
+}
+
+.brio-tabs__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 7px 14px;
+	border: 1px solid #c3c4c7;
+	border-bottom: none;
+	border-radius: 4px 4px 0 0;
+	background: #f6f7f7;
+	color: #50575e;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.12s, color 0.12s;
+	position: relative;
+	bottom: -2px;
+}
+.brio-tabs__btn:hover { background: #fff; color: #2271b1; }
+.brio-tabs__btn.is-active {
+	background: #fff;
+	color: #1d2327;
+	border-color: #2271b1 #2271b1 #fff;
+	font-weight: 600;
+}
+.brio-tabs__icon { font-size: 14px; line-height: 1; }
+
+.brio-tabs__panel {
+	padding: 20px;
+}
+.brio-tabs__panel[hidden] { display: none; }
+
+.brio-tabs__heading {
+	margin: 0 0 16px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+/* ---- Field grid ---- */
+.brio-field { margin: 0 0 12px !important; }
+.brio-field label strong { font-size: 12px; color: #50575e; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+.brio-field input.widefat,
+.brio-field textarea.widefat {
+	margin-top: 4px;
+	border-radius: 3px;
+	border-color: #c3c4c7;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+	transition: border-color .1s;
+}
+.brio-field input.widefat:focus,
+.brio-field textarea.widefat:focus { border-color: #2271b1; box-shadow: 0 0 0 1px #2271b1; outline: none; }
+
+/* inline 2-col / 3-col helpers */
+.brio-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.brio-row--2 { grid-template-columns: 1fr 1fr; }
+.brio-row--3 { grid-template-columns: 2fr 1fr 60px; }
+.brio-row--4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.brio-row .brio-field { margin-bottom: 0 !important; }
+
+/* repeater card */
+.brio-card {
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	padding: 14px 16px;
+	margin-bottom: 10px;
+}
+.brio-card__title {
+	font-size: 12px;
+	font-weight: 700;
+	color: #2271b1;
+	text-transform: uppercase;
+	letter-spacing: .4px;
+	margin: 0 0 12px;
+}
+
+/* image preview */
+.brio-field--image .brio-img-preview {
+	display: block;
+	max-width: 120px;
+	height: auto;
+	border-radius: 3px;
+	margin-top: 6px;
+	border: 1px solid #dcdcde;
+}
+.brio-field--image .button { margin-top: 6px; }
+	' );
+
+	/* ── Tabs JS + media uploader ── */
+	wp_add_inline_script( 'jquery-core', "
+(function(){
+	document.addEventListener('DOMContentLoaded', function(){
+
+		/* --- Tabs --- */
+		document.querySelectorAll('.brio-tabs__nav').forEach(function(nav){
+			nav.addEventListener('click', function(e){
+				var btn = e.target.closest('.brio-tabs__btn');
+				if (!btn) return;
+				var wrap = nav.closest('.brio-tabs');
+				wrap.querySelectorAll('.brio-tabs__btn').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+				wrap.querySelectorAll('.brio-tabs__panel').forEach(function(p){ p.classList.remove('is-active'); p.hidden = true; });
+				btn.classList.add('is-active');
+				btn.setAttribute('aria-selected','true');
+				var panel = wrap.querySelector('#' + btn.dataset.tab);
+				if (panel) { panel.classList.add('is-active'); panel.hidden = false; }
 			});
-		});"
-	);
+		});
+
+		/* --- Media uploader --- */
+		document.addEventListener('click', function(e){
+			var trigger = e.target.closest('.brio-image-upload');
+			if (!trigger) return;
+			e.preventDefault();
+			var target = trigger.dataset.target;
+			var frame = wp.media({ title: 'Choisir une image', multiple: false });
+			frame.on('select', function(){
+				var att = frame.state().get('selection').first().toJSON();
+				var input = document.querySelector('input[name=\"' + target + '\"]');
+				if (input) {
+					input.value = att.url;
+					var preview = input.closest('.brio-field--image').querySelector('.brio-img-preview');
+					if (preview) { preview.src = att.url; preview.style.display = 'block'; }
+					else {
+						var img = document.createElement('img');
+						img.src = att.url; img.alt = ''; img.className = 'brio-img-preview';
+						input.closest('.brio-field--image').appendChild(img);
+					}
+				}
+			});
+			frame.open();
+		});
+	});
+})();
+	" );
 }
 add_action( 'admin_enqueue_scripts', 'brio_meta_admin_assets' );
