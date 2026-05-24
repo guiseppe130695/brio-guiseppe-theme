@@ -32,7 +32,6 @@ function brio_enqueue() {
 		// ---- DEV: individual source files (easy iteration) ----
 		wp_register_style( 'brio_fonts',             $uri . '/assets/css/fonts.css',             [],                 $ver );
 		wp_register_style( 'brio_variables',         $uri . '/assets/css/variables.css',         [ 'brio_fonts' ],     $ver );
-		wp_register_style( 'brio_font_icons',        $uri . '/assets/css/font-icons.css',        [],                 $ver );
 		wp_register_style( 'brio_header',            $uri . '/assets/css/header.css',            [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_header_responsive', $uri . '/assets/css/header-responsive.css', [ 'brio_header' ],    $ver );
 		wp_register_style( 'brio_footer',            $uri . '/assets/css/footer.css',            [ 'brio_variables' ], $ver );
@@ -45,7 +44,6 @@ function brio_enqueue() {
 
 		wp_enqueue_style( 'brio_fonts' );
 		wp_enqueue_style( 'brio_variables' );
-		wp_enqueue_style( 'brio_font_icons' );
 		wp_enqueue_style( 'brio_header' );
 		wp_enqueue_style( 'brio_header_responsive' );
 		wp_enqueue_style( 'brio_footer' );
