@@ -74,7 +74,7 @@ function brio_seo_canonical() {
 		$page = get_option( 'page_for_posts' );
 		$canonical = $page ? get_permalink( $page ) : home_url( '/' );
 	} elseif ( is_archive() ) {
-		$canonical = get_the_archive_link() ?: '';
+		$canonical = get_pagenum_link( 1, false ) ?: '';
 	} else {
 		$canonical = '';
 	}

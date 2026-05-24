@@ -89,21 +89,27 @@ add_action( 'rest_api_init', 'brio_blog_register_rest' );
  * @return WP_REST_Response
  */
 function brio_blog_rest_get_posts( WP_REST_Request $request ) {
-	$category = $request->get_param( 'category' );
-	$search   = $request->get_param( 'search' );
-	$offset   = $request->get_param( 'offset' );
-	$per_page = $request->get_param( 'per_page' );
+	$category  = $request->get_param( 'category' );
+	$search    = $request->get_param( 'search' );
+	$offset    = $request->get_param( 'offset' );
+	$per_page  = $request->get_param( 'per_page' );
+	$tag_raw   = $request->get_param( 'tag' );
+	$tag       = sanitize_title( is_string( $tag_raw ) ? $tag_raw : '' );
+	$author_id = absint( $request->get_param( 'author_id' ) );
+	$year      = absint( $request->get_param( 'year' ) );
+	$monthnum  = absint( $request->get_param( 'month' ) );
+	$day       = absint( $request->get_param( 'day' ) );
 
 	$result = brio_blog_query_posts( [
 		'category'  => is_string( $category ) ? $category : '',
 		'search'    => is_string( $search )   ? $search   : '',
 		'offset'    => (int) $offset,
 		'per_page'  => (int) $per_page,
-		'author_id' => (int) $request->get_param( 'author_id' ),
-		'tag'       => sanitize_title( (string) ( $request->get_param( 'tag' ) ?? '' ) ),
-		'year'      => (int) $request->get_param( 'year' ),
-		'monthnum'  => (int) $request->get_param( 'month' ),
-		'day'       => (int) $request->get_param( 'day' ),
+		'author_id' => $author_id,
+		'tag'       => $tag,
+		'year'      => $year,
+		'monthnum'  => $monthnum,
+		'day'       => $day,
 	] );
 
 	$posts = array_map( 'brio_blog_serialize_post', $result['posts'] );
