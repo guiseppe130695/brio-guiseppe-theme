@@ -1,0 +1,100 @@
+/* ============================================
+   Brio Guiseppe — Page Auteur (E-E-A-T)
+   ============================================ */
+
+.site-main--author { background: #fff; }
+
+/* ── Hero ─────────────────────────────────────── */
+.author-hero { padding: clamp(60px, 8vw, 100px) 20px clamp(40px, 5vw, 64px); }
+.author-hero__inner {
+	max-width: 1100px; margin: 0 auto;
+	display: grid; grid-template-columns: 220px 1fr; gap: 48px;
+	align-items: center;
+}
+@media (max-width: 768px) {
+	.author-hero__inner { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+}
+.author-hero__photo img {
+	width: 100%; max-width: 220px; aspect-ratio: 1; object-fit: cover;
+	border-radius: 50%; display: block;
+	box-shadow: 0 12px 32px -16px rgba(15,23,42,.3);
+}
+.author-hero__role {
+	font-family: var(--font-secondary);
+	font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+	color: var(--color-accent, #b08d57);
+	margin: 0 0 12px;
+}
+.author-hero__name {
+	font-family: var(--font-primary);
+	font-size: clamp(36px, 5vw, 56px); font-weight: 300;
+	letter-spacing: -1.5px; line-height: 1.05;
+	color: var(--color-primary); margin: 0 0 18px;
+}
+.author-hero__lead {
+	font-family: var(--font-secondary);
+	font-size: 18px; line-height: 1.55; color: var(--color-text);
+	margin: 0 0 22px; max-width: 580px;
+}
+@media (max-width: 768px) { .author-hero__lead { margin-left: auto; margin-right: auto; } }
+
+.author-hero__social { list-style: none; padding: 0; margin: 0; display: flex; gap: 14px; flex-wrap: wrap; }
+@media (max-width: 768px) { .author-hero__social { justify-content: center; } }
+.author-hero__social a {
+	display: inline-block; padding: 8px 16px;
+	border: 1.5px solid var(--color-primary); border-radius: 999px;
+	font-family: var(--font-secondary); font-size: 13px; font-weight: 500;
+	color: var(--color-primary); text-decoration: none;
+	transition: background .15s, color .15s;
+}
+.author-hero__social a:hover { background: var(--color-primary); color: var(--color-accent, #b08d57); }
+
+/* ── Bio ──────────────────────────────────────── */
+.author-bio { padding: clamp(40px, 5vw, 64px) 20px; background: #faf8f5; }
+.author-bio__inner { max-width: 720px; margin: 0 auto; }
+.author-bio__title {
+	font-family: var(--font-primary); font-weight: 300;
+	font-size: clamp(26px, 3vw, 36px); letter-spacing: -.8px;
+	margin: 0 0 24px; color: var(--color-primary);
+}
+.author-bio__body { font-family: var(--font-secondary); font-size: 17px; line-height: 1.75; color: var(--color-text); }
+.author-bio__body p { margin: 0 0 1em; }
+.author-bio__body p:last-child { margin-bottom: 0; }
+
+/* ── Credentials ─────────────────────────────── */
+.author-credentials { padding: clamp(48px, 6vw, 80px) 20px; }
+.author-credentials__inner { max-width: 980px; margin: 0 auto; }
+.author-credentials__title {
+	font-family: var(--font-primary); font-weight: 300;
+	font-size: clamp(26px, 3vw, 36px); letter-spacing: -.8px;
+	margin: 0 0 32px; color: var(--color-primary); text-align: center;
+}
+.author-credentials__grid {
+	display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 18px; margin-bottom: 40px;
+}
+.author-credentials__stat {
+	display: flex; flex-direction: column; align-items: center; text-align: center;
+	padding: 28px 16px; background: #faf8f5; border-radius: 14px;
+}
+.author-credentials__stat-num {
+	font-family: var(--font-primary); font-size: 48px; font-weight: 300;
+	line-height: 1; color: var(--color-accent, #b08d57);
+}
+.author-credentials__stat-label {
+	font-family: var(--font-secondary); font-size: 13px;
+	color: var(--color-text); margin-top: 8px;
+}
+.author-credentials__list {
+	list-style: none; padding: 0; margin: 0;
+	display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;
+}
+.author-credentials__list li {
+	font-family: var(--font-secondary); font-size: 15px; color: var(--color-text);
+	padding: 14px 18px 14px 42px; background: #fff; border: 1px solid #ecebe6; border-radius: 10px;
+	position: relative;
+}
+.author-credentials__list li::before {
+	content: "✓"; position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+	color: var(--color-accent, #b08d57); font-weight: 700;
+}

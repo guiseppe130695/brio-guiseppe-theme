@@ -104,12 +104,26 @@ $reading_time = max( 1, (int) ceil( $word_count / 200 ) );
 	</div>
 
 	<figure class="post-hero__image">
+		<?php
+		$post_thumb_id = get_post_thumbnail_id( $post_id );
+		$post_thumb_w  = 1200;
+		$post_thumb_h  = 675; // 16:9 fallback
+		if ( $post_thumb_id ) {
+			$meta = wp_get_attachment_metadata( $post_thumb_id );
+			if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
+				// Scale to width 1200 keeping ratio.
+				$post_thumb_h = (int) round( $meta['height'] * ( $post_thumb_w / $meta['width'] ) );
+			}
+		}
+		?>
 		<img
 			src="<?php echo esc_url( brio_post_thumbnail_url( $post_id, 'large' ) ); ?>"
 			alt="<?php the_title_attribute(); ?>"
 			loading="eager"
+			fetchpriority="high"
 			decoding="async"
-			width="1200"
+			width="<?php echo (int) $post_thumb_w; ?>"
+			height="<?php echo (int) $post_thumb_h; ?>"
 		/>
 	</figure>
 

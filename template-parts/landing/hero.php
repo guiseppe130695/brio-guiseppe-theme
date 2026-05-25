@@ -22,7 +22,7 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 					<?php foreach ( $avatars as $key ) : ?>
 						<img src="<?php echo esc_url( brio_asset( 'hero', $key ) ); ?>"
 						     alt="" class="landing-hero__avatar"
-						     width="36" height="36" decoding="async" />
+						     width="36" height="36" loading="eager" decoding="async" />
 					<?php endforeach; ?>
 				</div>
 				<div class="landing-hero__rating-text">

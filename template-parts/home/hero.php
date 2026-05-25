@@ -73,7 +73,7 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 			<video class="home-hero__video" autoplay loop muted playsinline preload="metadata" poster="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>" aria-hidden="true">
 				<source src="<?php echo esc_url( brio_asset( 'hero', 'video' ) ); ?>" type="video/mp4" />
 			</video>
-			<img class="home-hero__suitcase" src="<?php echo esc_url( brio_asset( 'hero', 'suitcase' ) ); ?>" alt="" width="250" height="250" decoding="async" />
+			<img class="home-hero__suitcase" src="<?php echo esc_url( brio_asset( 'hero', 'suitcase' ) ); ?>" alt="" width="250" height="250" loading="eager" fetchpriority="high" decoding="async" />
 		</div>
 
 	</div>

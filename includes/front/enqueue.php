@@ -41,6 +41,7 @@ function brio_enqueue() {
 		wp_register_style( 'brio_landing',           $uri . '/assets/css/sections/landing.css',  [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_404',               $uri . '/assets/css/sections/404.css',      [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_single',            $uri . '/assets/css/sections/single.css',   [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_author',            $uri . '/assets/css/sections/author.css',   [ 'brio_variables' ], $ver );
 
 		wp_enqueue_style( 'brio_fonts' );
 		wp_enqueue_style( 'brio_variables' );
@@ -70,6 +71,10 @@ function brio_enqueue() {
 
 		if ( is_single() ) {
 			wp_enqueue_style( 'brio_single' );
+		}
+
+		if ( is_page_template( 'template-author.php' ) ) {
+			wp_enqueue_style( 'brio_author' );
 		}
 	} else {
 		// ---- PROD: minified bundles (one global, one home) ----
