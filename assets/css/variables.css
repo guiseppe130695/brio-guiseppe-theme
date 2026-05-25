@@ -5,6 +5,18 @@
 @import url('./fonts.css');
 
 :root {
+	/* ========== BREAKPOINTS (mobile-first) ==========
+	 * Use as: @media (min-width: 640px) { … }
+	 * Note: CSS variables can't be used inside @media queries directly,
+	 * but documenting them here keeps the system explicit.
+	 *
+	 *   sm   640px  →  mobile large (iPhone Plus / Pro Max)
+	 *   md   768px  →  tablet portrait (iPad)
+	 *   lg  1024px  →  tablet landscape / small desktop
+	 *   xl  1280px  →  desktop standard
+	 *   2xl 1536px  →  large desktop
+	 */
+
 	/* ========== COLORS ========== */
 	/* Primary Colors */
 	--color-primary: #173E04;
@@ -17,65 +29,49 @@
 	--color-bg-secondary: #F5F0E2;
 	--color-border: rgba(33, 88, 6, 0.19);
 
-	/* ========== TYPOGRAPHY ========== */
-	/* Font Families */
+	/* ========== TYPOGRAPHY (fluid via clamp) ==========
+	 * Pattern: clamp(MIN, PREFERRED, MAX)
+	 *   MIN        = mobile target (~375px)
+	 *   PREFERRED  = viewport-scaled value (vw)
+	 *   MAX        = desktop cap
+	 */
 	--font-primary: 'Nebeco', serif;
 	--font-secondary: 'Manrope', sans-serif;
 
-	/* Font Sizes - H1 */
-	--h1-size: 80px;
-	--h1-size-tablet: 60px;
-	--h1-size-mobile: 50px;
+	--h1-size: clamp(2.75rem, 1.5rem + 5vw, 5rem);          /* 44px → 80px */
 	--h1-weight: 300;
-	--h1-letter-spacing: -3px;
+	--h1-letter-spacing: -0.04em;
 	--h1-line-height: 1;
 
-	/* Font Sizes - H2 */
-	--h2-size: 58px;
-	--h2-size-tablet: 46px;
-	--h2-size-mobile: 38px;
+	--h2-size: clamp(2.125rem, 1.25rem + 3.6vw, 3.625rem);  /* 34px → 58px */
 	--h2-weight: 300;
-	--h2-letter-spacing: -2.5px;
-	--h2-line-height: 1;
+	--h2-letter-spacing: -0.04em;
+	--h2-line-height: 1.05;
 
-	/* Font Sizes - H3 */
-	--h3-size: 38px;
-	--h3-size-tablet: 32px;
-	--h3-size-mobile: 28px;
+	--h3-size: clamp(1.625rem, 1.125rem + 2.1vw, 2.375rem); /* 26px → 38px */
 	--h3-weight: 300;
-	--h3-letter-spacing: -1.6px;
-	--h3-line-height: 1;
+	--h3-letter-spacing: -0.035em;
+	--h3-line-height: 1.1;
 
-	/* Font Sizes - H4 */
-	--h4-size: 29px;
-	--h4-size-tablet: 26px;
-	--h4-size-mobile: 24px;
+	--h4-size: clamp(1.375rem, 1rem + 1.4vw, 1.8125rem);    /* 22px → 29px */
 	--h4-weight: 300;
-	--h4-letter-spacing: -1.1px;
-	--h4-line-height: 1.1;
+	--h4-letter-spacing: -0.03em;
+	--h4-line-height: 1.15;
 
-	/* Font Sizes - H5 */
-	--h5-size: 22px;
-	--h5-size-tablet: 20px;
-	--h5-size-mobile: 19px;
+	--h5-size: clamp(1.125rem, 0.95rem + 0.6vw, 1.375rem);  /* 18px → 22px */
 	--h5-weight: 300;
-	--h5-letter-spacing: -0.8px;
-	--h5-line-height: 1.2;
+	--h5-letter-spacing: -0.025em;
+	--h5-line-height: 1.25;
 
-	/* Font Sizes - H6 */
-	--h6-size: 20px;
-	--h6-size-tablet: 19px;
-	--h6-size-mobile: 18px;
+	--h6-size: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);  /* 17px → 20px */
 	--h6-weight: 300;
-	--h6-letter-spacing: -0.8px;
+	--h6-letter-spacing: -0.025em;
 	--h6-line-height: 1.3;
 
-	/* Body Text */
-	--body-size: 16px;
-	--body-size-tablet: 15px;
-	--body-size-mobile: 15px;
+	/* Body Text — fluid 15px → 16px */
+	--body-size: clamp(0.9375rem, 0.875rem + 0.2vw, 1rem);
 	--body-weight: 400;
-	--body-letter-spacing: -0.3px;
+	--body-letter-spacing: -0.01em;
 	--body-line-height: 1.6;
 
 	/* Accent Text (Buttons) */
@@ -100,14 +96,15 @@
 	--spacing-3xl: 40px;
 
 	/* Section text stack — gaps between overline / heading / body / CTA */
-	--stack-overline-heading: 12px;
-	--stack-heading-body: 24px;
-	--stack-body-cta: 40px;
+	--stack-overline-heading: clamp(8px, 1vw, 12px);
+	--stack-heading-body:     clamp(16px, 2vw, 24px);
+	--stack-body-cta:         clamp(24px, 3vw, 40px);
 
-	/* Section padding (responsive: overridden in @media below) */
-	--section-pad-y: 100px;
-	--section-pad-x: 25px;
-	--section-max-w: 1400px;
+	/* Section sizing — all fluid, no @media overrides needed */
+	--section-pad-y:   clamp(48px, 7vw, 100px);
+	--section-pad-x:   clamp(16px, 4vw, 40px);
+	--section-max-w:   1400px;
+	--container-pad-x: clamp(16px, 4vw, 40px);
 
 	/* ========== BORDER RADIUS ========== */
 	--radius-sm: 8px;
@@ -141,33 +138,4 @@
 	}
 }
 
-/* Tablet breakpoint */
-@media (max-width: 1024px) {
-	:root {
-		--h1-size: var(--h1-size-tablet);
-		--h2-size: var(--h2-size-tablet);
-		--h3-size: var(--h3-size-tablet);
-		--h4-size: var(--h4-size-tablet);
-		--h5-size: var(--h5-size-tablet);
-		--h6-size: var(--h6-size-tablet);
-		--body-size: var(--body-size-tablet);
-
-		--section-pad-y: 70px;
-		--section-pad-x: 20px;
-	}
-}
-
-/* Mobile breakpoint */
-@media (max-width: 768px) {
-	:root {
-		--h1-size: var(--h1-size-mobile);
-		--h2-size: var(--h2-size-mobile);
-		--h3-size: var(--h3-size-mobile);
-		--h4-size: var(--h4-size-mobile);
-		--h5-size: var(--h5-size-mobile);
-		--h6-size: var(--h6-size-mobile);
-		--body-size: var(--body-size-mobile);
-
-		--section-pad-x: 10px;
-	}
-}
+/* No tablet/mobile breakpoint overrides needed — all sizes fluid via clamp(). */

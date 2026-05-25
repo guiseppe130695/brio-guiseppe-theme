@@ -6,11 +6,17 @@
    responsive padding scale is a one-line change there.
    ========================================================================== */
 
-/* Container — max-width + auto centering. Sections add their own flex/grid
-   on top (e.g. `.home-about .container { display: flex; … }`). */
+/* Container — max-width + auto centering + fluid horizontal padding.
+   Sections add their own flex/grid on top (e.g. `.home-about .container {
+   display: flex; … }`). The fluid padding ensures content never touches
+   viewport edges on small screens. */
 .container {
 	max-width: var(--section-max-w);
 	margin: 0 auto;
+	padding-left: var(--container-pad-x);
+	padding-right: var(--container-pad-x);
+	width: 100%;
+	box-sizing: border-box;
 }
 
 /* Section base — vertical rhythm + stacking context.
@@ -29,19 +35,11 @@
 
 /* --slim modifier: smaller vertical padding (Partners marquee strip). */
 .home-section--slim {
-	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-top: clamp(28px, 4vw, 50px);
+	padding-bottom: clamp(28px, 4vw, 50px);
 }
 
-@media (max-width: 1024px) {
-	.home-section--slim {
-		padding-top: 40px;
-		padding-bottom: 40px;
-	}
-}
-
-@media (max-width: 768px) {
-	.home-section--flush-top {
-		padding-bottom: 30px;
-	}
+/* --flush-top: reduce bottom padding on small screens for visual rhythm. */
+.home-section--flush-top {
+	padding-bottom: clamp(24px, 5vw, var(--section-pad-y));
 }
