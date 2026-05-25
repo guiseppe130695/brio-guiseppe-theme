@@ -30,6 +30,24 @@ function brio_get_landing_hero_data( $post_id = 0 ) {
 	], $post_id );
 }
 
+/* ── Rating (visible dans le hero + JSON-LD AggregateRating) ── */
+function brio_get_landing_rating_data( $post_id = 0 ) {
+	$post_id = $post_id ?: get_queried_object_id();
+	$home    = brio_get_hero_data();
+	$h       = $home['rating'];
+
+	$value = (float) brio_lmeta( $post_id, 'rating', 'value', $h['value'] );
+	$count = (int)   brio_lmeta( $post_id, 'rating', 'count', $h['count'] ?? 0 );
+
+	return apply_filters( 'brio_landing_rating_data', [
+		'value'   => max( 0, min( 5, $value ) ),
+		'max'     => 5,
+		'count'   => max( 0, $count ),
+		'caption' => brio_lmeta( $post_id, 'rating', 'caption', $h['caption'] ),
+		'href'    => brio_lmeta( $post_id, 'rating', 'href',    $h['href'] ),
+	], $post_id );
+}
+
 /* ── About ── */
 function brio_get_landing_about_data( $post_id = 0 ) {
 	$post_id  = $post_id ?: get_queried_object_id();

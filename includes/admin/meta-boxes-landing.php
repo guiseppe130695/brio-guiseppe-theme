@@ -35,6 +35,8 @@ function brio_landing_render_tabs( $post ) {
 
 	$tabs = [
 		'hero'       => [ 'label' => __( 'Hero',         'brio-guiseppe' ), 'icon' => 'dashicons-cover-image',   'hint' => __( 'Titre H1 & sous-titre',          'brio-guiseppe' ), 'prefixes' => [ 'hero' ] ],
+		'rating'     => [ 'label' => __( 'Note & avis',  'brio-guiseppe' ), 'icon' => 'dashicons-star-filled',   'hint' => __( 'Étoiles SERP (AggregateRating)', 'brio-guiseppe' ), 'prefixes' => [ 'rating' ] ],
+		'unique'     => [ 'label' => __( 'Contenu unique','brio-guiseppe' ), 'icon' => 'dashicons-edit-large',    'hint' => __( 'Texte propre à la ville/niche',  'brio-guiseppe' ), 'prefixes' => [ 'unique' ] ],
 		'about'      => [ 'label' => __( 'À propos',     'brio-guiseppe' ), 'icon' => 'dashicons-admin-users',   'hint' => __( 'Présentation + visuel',          'brio-guiseppe' ), 'prefixes' => [ 'about' ] ],
 		'partners'   => [ 'label' => __( 'Partenaires',  'brio-guiseppe' ), 'icon' => 'dashicons-groups',        'hint' => __( 'Jusqu’à 6 logos',                'brio-guiseppe' ), 'prefixes' => [ 'partners' ] ],
 		'programs'   => [ 'label' => __( 'Programmes',   'brio-guiseppe' ), 'icon' => 'dashicons-list-view',     'hint' => __( '6 cartes éditoriales',           'brio-guiseppe' ), 'prefixes' => [ 'programs' ] ],
@@ -123,6 +125,28 @@ function brio_landing_render_hero( $post ) {
 	echo '<div class="brio-block"><h4 class="brio-block__title">' . esc_html__( 'En-tête de section', 'brio-guiseppe' ) . '</h4>';
 	brio_field_text(     'brio_landing_hero_title',    __( 'Titre H1',   'brio-guiseppe' ), brio_meta_get( $id, 'landing', 'hero', 'title' ) );
 	brio_field_textarea( 'brio_landing_hero_subtitle', __( 'Sous-titre', 'brio-guiseppe' ), brio_meta_get( $id, 'landing', 'hero', 'subtitle' ) );
+	echo '</div>';
+}
+
+/* ── Unique content (anti scaled-content) ── */
+function brio_landing_render_unique( $post ) {
+	$id = $post->ID;
+	echo '<div class="brio-block"><h4 class="brio-block__title">' . esc_html__( 'Contenu propre à cette landing', 'brio-guiseppe' ) . '</h4>';
+	echo '<p class="description" style="margin:-4px 0 12px">' . esc_html__( 'Rédigez ici 300+ mots vraiment spécifiques à cette ville/niche : contexte local, spécificités du marché, exemples concrets. Sans ce contenu, la page sera mise en noindex pour éviter une pénalité "scaled content abuse".', 'brio-guiseppe' ) . '</p>';
+	brio_field_text(     'brio_landing_unique_heading', __( 'Titre de section (optionnel)', 'brio-guiseppe' ), brio_meta_get( $id, 'landing', 'unique', 'heading' ) );
+	brio_field_textarea( 'brio_landing_unique_content', __( 'Contenu (HTML simple autorisé)', 'brio-guiseppe' ), brio_meta_get( $id, 'landing', 'unique', 'content' ), 14 );
+	echo '</div>';
+}
+
+/* ── Rating (AggregateRating SERP) ── */
+function brio_landing_render_rating( $post ) {
+	$id = $post->ID;
+	echo '<div class="brio-block"><h4 class="brio-block__title">' . esc_html__( 'Note affichée + Rich Snippet', 'brio-guiseppe' ) . '</h4>';
+	echo '<p class="description" style="margin:-4px 0 12px">' . esc_html__( 'Ces valeurs s\'affichent dans le hero ET alimentent le balisage AggregateRating (étoiles Google). Laissez vide pour utiliser les valeurs globales du thème.', 'brio-guiseppe' ) . '</p>';
+	brio_field_text( 'brio_landing_rating_value',   __( 'Note (0–5, ex: 4.9)',          'brio-guiseppe' ), brio_meta_get( $id, 'landing', 'rating', 'value' ) );
+	brio_field_text( 'brio_landing_rating_count',   __( 'Nombre d\'avis (ex: 12)',      'brio-guiseppe' ), brio_meta_get( $id, 'landing', 'rating', 'count' ) );
+	brio_field_text( 'brio_landing_rating_caption', __( 'Légende (ex: « avis LinkedIn »)','brio-guiseppe' ), brio_meta_get( $id, 'landing', 'rating', 'caption' ) );
+	brio_field_text( 'brio_landing_rating_href',    __( 'Lien (ex: profil LinkedIn)',   'brio-guiseppe' ), brio_meta_get( $id, 'landing', 'rating', 'href' ) );
 	echo '</div>';
 }
 
@@ -321,6 +345,16 @@ function brio_landing_save_meta( $post_id ) {
 		'hero' => [
 			[ 'title',    'text' ],
 			[ 'subtitle', 'textarea' ],
+		],
+		'rating' => [
+			[ 'value',   'text' ],
+			[ 'count',   'text' ],
+			[ 'caption', 'text' ],
+			[ 'href',    'url' ],
+		],
+		'unique' => [
+			[ 'heading', 'text' ],
+			[ 'content', 'textarea' ],
 		],
 		'about' => [
 			[ 'overline',    'text' ],

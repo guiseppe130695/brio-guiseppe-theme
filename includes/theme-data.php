@@ -204,6 +204,7 @@ function brio_get_hero_data() {
 		'rating'   => [
 			'value'   => 5,
 			'max'     => 5,
+			'count'   => 12, // nombre d'avis/recommandations réels (ajuster selon LinkedIn)
 			'caption' => __( 'Noté par les hôteliers accompagnés', 'brio-guiseppe' ),
 			'href'    => $company['social']['linkedin'] ?? '#',
 		],

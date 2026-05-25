@@ -284,3 +284,53 @@ function brio_single_jsonld_graph( $graph ) {
 	return $graph;
 }
 add_filter( 'brio_jsonld_graph', 'brio_single_jsonld_graph' );
+
+/**
+ * JSON-LD Service node for landing pages.
+ *
+ * Each landing markets a specific service (website creation for a hospitality
+ * niche/city), so we expose a Service node with an AggregateRating sourced
+ * from the same hero rating shown on the page. The rating value + reviewCount
+ * must remain visible in the markup (hero block) for Google to honor the
+ * stars in SERP — that visibility is enforced by the landing hero template.
+ *
+ * @since 1.2.0
+ *
+ * @param array $graph Current @graph array.
+ * @return array
+ */
+function brio_landing_jsonld_graph( $graph ) {
+	if ( ! is_page() ) {
+		return $graph;
+	}
+	$post_id = get_queried_object_id();
+	if ( 'template-landing.php' !== get_page_template_slug( $post_id ) ) {
+		return $graph;
+	}
+
+	$rating = brio_get_landing_rating_data( $post_id );
+	if ( empty( $rating['count'] ) || empty( $rating['value'] ) ) {
+		return $graph; // no rating → don't emit AggregateRating (avoids spam markup)
+	}
+
+	$permalink = get_permalink( $post_id );
+	$service   = [
+		'@type'       => 'Service',
+		'@id'         => $permalink . '#service',
+		'name'        => get_the_title( $post_id ),
+		'url'         => $permalink,
+		'provider'    => [ '@id' => home_url( '/#organization' ) ],
+		'serviceType' => __( 'Création de site web pour hôtels et hébergements', 'brio-guiseppe' ),
+		'aggregateRating' => [
+			'@type'       => 'AggregateRating',
+			'ratingValue' => (string) $rating['value'],
+			'bestRating'  => '5',
+			'worstRating' => '1',
+			'reviewCount' => (int) $rating['count'],
+		],
+	];
+
+	$graph[] = $service;
+	return $graph;
+}
+add_filter( 'brio_jsonld_graph', 'brio_landing_jsonld_graph' );

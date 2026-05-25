@@ -70,6 +70,16 @@ function brio_sitemap_render() {
 		] ),
 	] );
 	foreach ( $pages as $page ) {
+		// Skip landings flagged as noindex by anti-scaled-content audit.
+		if (
+			'template-landing.php' === get_page_template_slug( $page->ID )
+			&& function_exists( 'brio_landing_audit' )
+		) {
+			$audit = brio_landing_audit( $page->ID );
+			if ( $audit['noindex'] ) {
+				continue;
+			}
+		}
 		$urls[] = [
 			'loc'        => get_permalink( $page->ID ),
 			'lastmod'    => date( 'c', strtotime( $page->post_modified_gmt ) ),

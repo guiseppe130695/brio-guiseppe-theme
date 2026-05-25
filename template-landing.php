@@ -27,6 +27,7 @@ $landing_sections = apply_filters( 'brio_landing_sections', [
 	'hero',
 	'features',
 	'about',
+	'unique-content',
 	'partners',
 	'programs',
 	'philosophy',

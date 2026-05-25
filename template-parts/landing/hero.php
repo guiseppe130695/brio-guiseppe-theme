@@ -8,8 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $hero    = brio_get_landing_hero_data( get_queried_object_id() );
-$home    = brio_get_hero_data();
-$rating  = $home['rating'];
+$rating  = brio_get_landing_rating_data( get_queried_object_id() );
 $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 ?>
 <section class="landing-hero" aria-labelledby="landing-hero-title">
@@ -32,7 +31,19 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 					?>"></div>
 					<p class="landing-hero__rating-caption">
 						<a href="<?php echo esc_url( $rating['href'] ); ?>" target="_blank" rel="noopener">
-							<?php echo esc_html( $rating['caption'] ); ?>
+							<?php
+							if ( ! empty( $rating['count'] ) ) {
+								echo esc_html( sprintf(
+									/* translators: 1: rating value (e.g. 5), 2: count (e.g. 12), 3: caption */
+									__( '%1$s/5 — %2$d recommandations · %3$s', 'brio-guiseppe' ),
+									number_format_i18n( $rating['value'], ( fmod( $rating['value'], 1 ) === 0.0 ? 0 : 1 ) ),
+									(int) $rating['count'],
+									$rating['caption']
+								) );
+							} else {
+								echo esc_html( $rating['caption'] );
+							}
+							?>
 						</a>
 					</p>
 				</div>
