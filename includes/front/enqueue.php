@@ -91,6 +91,15 @@ function brio_enqueue() {
 	// Lighthouse "missing source maps for large JS" warning. Re-enable per-page
 	// only if a specific feature needs them.
 
+	// Header burger — every page.
+	wp_enqueue_script(
+		'brio_header',
+		$uri . '/assets/js/header.js',
+		[],
+		$ver,
+		[ 'in_footer' => true, 'strategy' => 'defer' ]
+	);
+
 	if ( is_front_page() || is_page_template( 'template-landing.php' ) ) {
 		wp_enqueue_script(
 			'brio_counters',

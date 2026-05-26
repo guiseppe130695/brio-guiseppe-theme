@@ -41,8 +41,13 @@ $company = brio_get_company_data();
 <header class="site-header" role="banner">
 	<div class="container">
 
-		<?php /* --- Primary Navigation (left) --- */ ?>
-		<nav class="nav-left" aria-label="<?php esc_attr_e( 'Primary navigation', 'brio-guiseppe' ); ?>">
+		<?php /* --- Site Branding (left on mobile, center on desktop) --- */ ?>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo" rel="home" aria-label="<?php echo esc_attr( $company['name'] ); ?>">
+			<?php echo esc_html( $company['name'] ); ?><span>.</span>
+		</a>
+
+		<?php /* --- Primary Navigation (drawer on mobile) --- */ ?>
+		<nav class="nav-left" id="brio-primary-nav" aria-label="<?php esc_attr_e( 'Primary navigation', 'brio-guiseppe' ); ?>">
 			<?php
 			if ( has_nav_menu( 'primary' ) ) {
 				wp_nav_menu( [
@@ -56,12 +61,23 @@ $company = brio_get_company_data();
 			?>
 		</nav>
 
-		<?php /* --- Site Branding (center) --- */ ?>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="logo" rel="home" aria-label="<?php echo esc_attr( $company['name'] ); ?>">
-			<?php echo esc_html( $company['name'] ); ?><span>.</span>
-		</a>
+		<?php /* --- Mobile CTA + burger (right cluster) --- */ ?>
+		<div class="site-header__mobile-actions">
+			<a href="#" class="btn btn-primary site-header__mobile-cta">
+				<?php esc_html_e( 'Planifiez votre démo', 'brio-guiseppe' ); ?>
+			</a>
+			<button type="button"
+			        class="site-header__burger"
+			        aria-controls="brio-primary-nav"
+			        aria-expanded="false"
+			        aria-label="<?php esc_attr_e( 'Ouvrir le menu', 'brio-guiseppe' ); ?>">
+				<span class="site-header__burger-line"></span>
+				<span class="site-header__burger-line"></span>
+				<span class="site-header__burger-line"></span>
+			</button>
+		</div>
 
-		<?php /* --- Contact Actions (right) --- */ ?>
+		<?php /* --- Contact Actions (desktop only) --- */ ?>
 		<div class="nav-right">
 			<?php foreach ( $company['phones'] as $phone ) : ?>
 				<a href="tel:<?php echo esc_attr( $phone['tel'] ); ?>" class="phone">
