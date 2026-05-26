@@ -70,9 +70,20 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 		</ul>
 
 		<div class="home-hero__media">
-			<video class="home-hero__video" autoplay loop muted playsinline preload="metadata" poster="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>" aria-hidden="true">
-				<source src="<?php echo esc_url( brio_asset( 'hero', 'video' ) ); ?>" type="video/mp4" />
-			</video>
+			<?php /* Mobile: still image only. Desktop: video loaded lazily after main paint. */ ?>
+			<picture class="home-hero__poster">
+				<source media="(max-width: 768px)" srcset="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>" />
+				<img src="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>"
+				     alt="" width="870" height="490"
+				     loading="eager" fetchpriority="high" decoding="async" />
+			</picture>
+			<video class="home-hero__video"
+			       loop muted playsinline
+			       preload="none"
+			       data-src="<?php echo esc_url( brio_asset( 'hero', 'video' ) ); ?>"
+			       poster="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>"
+			       width="870" height="490"
+			       aria-hidden="true"></video>
 			<img class="home-hero__suitcase" src="<?php echo esc_url( brio_asset( 'hero', 'suitcase' ) ); ?>" alt="" width="250" height="250" loading="eager" fetchpriority="high" decoding="async" />
 		</div>
 

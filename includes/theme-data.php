@@ -134,7 +134,7 @@ function brio_get_assets() {
 			'avatar_4' => $base . 'hero/avatar-4.jpg',
 			'suitcase' => $base . 'hero/suitcase.svg',
 			'video'    => $base . 'hero/marrakech.mp4',
-			'poster'   => $base . 'hero/poster.webp',
+			'poster'   => $base . 'hero/poster-870.webp',
 		],
 		'about' => [
 			'commissions' => $base . 'about/Stop-aux-commissions-invisibles.webp',

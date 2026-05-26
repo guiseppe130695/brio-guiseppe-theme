@@ -1,0 +1,10 @@
+const path = require('path');
+const rel = 'fonts.css';
+const sourceDir = path.posix.join('assets/css', path.dirname(rel).replace(/\\/g, '/'));
+const bundleDir = 'assets/css/dist';
+const target = '../fonts/Nebeco.woff2';
+const absFromTheme = path.posix.normalize(path.posix.join(sourceDir, target));
+const fromBundle = path.posix.relative(bundleDir, absFromTheme);
+console.log('sourceDir:', sourceDir);
+console.log('absFromTheme:', absFromTheme);
+console.log('fromBundle:', fromBundle);

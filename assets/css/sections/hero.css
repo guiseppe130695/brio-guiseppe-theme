@@ -195,14 +195,37 @@
 	position: relative;
 	width: 100%;
 	margin-top: 16px;
+	border-radius: 50px 50px 0 0;
+	overflow: hidden;
 }
 
+/* Static poster (always visible until JS swaps in the video). */
+.home-hero__poster {
+	display: block;
+	width: 100%;
+}
+.home-hero__poster img {
+	display: block;
+	width: 100%;
+	height: 600px;
+	object-fit: cover;
+}
+
+/* Video sits ABOVE the poster once it loads. Hidden on mobile. */
 .home-hero__video {
 	display: block;
 	width: 100%;
 	height: 600px;
 	object-fit: cover;
 	border-radius: 50px 50px 0 0;
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
+.home-hero__video:not([data-loaded]) { display: none; }
+
+@media (max-width: 768px) {
+	.home-hero__video { display: none !important; }
 }
 
 .home-hero__suitcase {

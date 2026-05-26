@@ -77,11 +77,29 @@ function brio_enqueue() {
 			wp_enqueue_style( 'brio_author' );
 		}
 	} else {
-		// ---- PROD: minified bundles (one global, one home) ----
+		// ---- PROD: minified bundles, regular blocking load. ----
+		// We tried media='print' onload swap but it caused FCP regressions
+		// in Chromium. The bundles are small enough (~12 KB gzipped) that
+		// blocking load + inlined critical CSS is the fastest combo.
 		wp_enqueue_style( 'brio_global', $uri . '/assets/css/dist/global.min.css', [], $ver );
 
-		if ( is_front_page() ) {
+		if ( is_front_page() || is_page_template( 'template-landing.php' ) ) {
 			wp_enqueue_style( 'brio_home', $uri . '/assets/css/dist/home.min.css', [ 'brio_global' ], $ver );
+		}
+		if ( is_page_template( 'template-blog.php' ) || is_archive() || is_search() ) {
+			wp_enqueue_style( 'brio_blog', $uri . '/assets/css/dist/blog.min.css', [ 'brio_global' ], $ver );
+		}
+		if ( is_single() ) {
+			wp_enqueue_style( 'brio_single', $uri . '/assets/css/dist/single.min.css', [ 'brio_global' ], $ver );
+		}
+		if ( is_page_template( 'template-legal.php' ) ) {
+			wp_enqueue_style( 'brio_legal', $uri . '/assets/css/dist/legal.min.css', [ 'brio_global' ], $ver );
+		}
+		if ( is_page_template( 'template-author.php' ) ) {
+			wp_enqueue_style( 'brio_author', $uri . '/assets/css/dist/author.min.css', [ 'brio_global' ], $ver );
+		}
+		if ( is_404() ) {
+			wp_enqueue_style( 'brio_404', $uri . '/assets/css/dist/404.min.css', [ 'brio_global' ], $ver );
 		}
 	}
 
@@ -119,4 +137,32 @@ function brio_enqueue() {
 			[ 'in_footer' => true, 'strategy' => 'defer' ]
 		);
 	}
+}
+
+/**
+ * Turn render-blocking <link rel="stylesheet"> into async loads via the
+ * media="print" + onload swap trick. Critical above-the-fold styles are
+ * inlined in header.php so the page is visually complete without these.
+ *
+ * Only applied to our own theme bundles — leaves admin/plugin styles alone.
+ *
+ * @param string $tag    The <link> markup.
+ * @param string $handle The style handle.
+ * @return string
+ */
+function brio_make_styles_async( $tag, $handle ) {
+	$async = [ 'brio_global', 'brio_home', 'brio_blog', 'brio_single', 'brio_legal', 'brio_author', 'brio_404' ];
+	if ( ! in_array( $handle, $async, true ) ) {
+		return $tag;
+	}
+	// Replace media='all' with media='print' onload swap, with <noscript> fallback.
+	$tag = preg_replace(
+		"/media='[^']*'/",
+		"media='print' onload=\"this.media='all'\"",
+		$tag
+	);
+	// Append <noscript> fallback so the CSS still loads with JS disabled.
+	$noscript_tag = str_replace( " media='print' onload=\"this.media='all'\"", " media='all'", $tag );
+	$noscript_tag = preg_replace( '/\sonload="[^"]*"/', '', $noscript_tag );
+	return $tag . '<noscript>' . $noscript_tag . '</noscript>';
 }

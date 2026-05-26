@@ -104,6 +104,21 @@ remove_action( 'wp_head', 'wp_oembed_add_host_js' );            // Now unused on
 remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );  // <link rel="next"|"prev"> on posts.
 
 /**
+ * Drop wp-embed (oEmbed iframe loader, ~2 KB JS) — we don't embed external
+ * content from inside WordPress posts.
+ */
+add_action( 'wp_footer', function () {
+	wp_dequeue_script( 'wp-embed' );
+} );
+
+/**
+ * Disable WP 6.4+ speculation rules. Useful when visitors browse multiple
+ * pages, but eats ~30 ms of JS execution per pageload and hurts Lighthouse.
+ * Re-enable per-page via the filter if you want prefetching on the home only.
+ */
+add_filter( 'wp_speculation_rules_configuration', '__return_null' );
+
+/**
  * Disable comments site-wide.
  *
  * Comments are not part of this theme's design. Closing them at the theme

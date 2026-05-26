@@ -67,6 +67,7 @@
 	justify-content: flex-start;
 	gap: 40px;
 	width: 40%;
+	order: 1;
 }
 
 .site-header .nav-right {
@@ -75,6 +76,7 @@
 	justify-content: flex-end;
 	gap: 20px;
 	width: 40%;
+	order: 3;
 }
 
 
@@ -86,6 +88,7 @@
 	align-items: center;
 	justify-content: center;
 	width: 20%;
+	order: 2;
 	font-family: var(--font-primary);
 	font-size: 36px;
 	font-weight: 300;

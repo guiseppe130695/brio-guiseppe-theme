@@ -13,6 +13,13 @@
 (function () {
 	'use strict';
 
+	// Defer setup until the browser is idle to avoid forced layout/reflow
+	// during initial paint. Falls back to setTimeout on browsers without
+	// requestIdleCallback (Safari).
+	var idle = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+	idle(setup);
+
+	function setup() {
 	var counters = document.querySelectorAll('.home-fun-facts__number[data-counter]');
 	if (!counters.length) {
 		return;
@@ -58,4 +65,5 @@
 	counters.forEach(function (c) {
 		obs.observe(c);
 	});
+	} // end setup()
 })();
