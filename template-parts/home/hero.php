@@ -71,9 +71,11 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 
 		<div class="home-hero__media">
 			<?php
-			/* Mobile: still image only. Desktop: video loaded lazily after main paint.
-			 * The poster comes in 3 sizes (640 / 870 / 1740) so each viewport pulls
-			 * the right one — saves ~70 KB on phones. */
+			/* Mobile : on cache la vidéo via CSS et on n'affiche que l'image.
+			 * Desktop : <video autoplay> standard. LiteSpeed gère le lazy-load
+			 * de la vidéo lui-même via son optimizer. Les `data-no-lazy` et
+			 * `data-no-optimize` empêchent LiteSpeed de masquer/différer les
+			 * éléments visuels critiques du hero (le poster img est notre LCP). */
 			$poster_base = trailingslashit( get_theme_file_uri( '/assets/images/hero' ) );
 			?>
 			<picture class="home-hero__poster">
@@ -85,16 +87,18 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 				        type="image/webp" />
 				<img src="<?php echo esc_url( $poster_base . 'poster-1740.webp' ); ?>"
 				     alt="" width="1740" height="980"
-				     loading="eager" fetchpriority="high" decoding="async" />
+				     loading="eager" fetchpriority="high" decoding="async"
+				     data-no-lazy="1" />
 			</picture>
 			<video class="home-hero__video"
-			       loop muted playsinline
-			       preload="none"
-			       data-src="<?php echo esc_url( brio_asset( 'hero', 'video' ) ); ?>"
+			       autoplay loop muted playsinline
+			       preload="metadata"
 			       poster="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>"
 			       width="870" height="490"
-			       aria-hidden="true"></video>
-			<img class="home-hero__suitcase" src="<?php echo esc_url( brio_asset( 'hero', 'suitcase' ) ); ?>" alt="" width="250" height="250" loading="eager" fetchpriority="high" decoding="async" />
+			       aria-hidden="true">
+				<source src="<?php echo esc_url( brio_asset( 'hero', 'video' ) ); ?>" type="video/mp4" />
+			</video>
+			<img class="home-hero__suitcase" src="<?php echo esc_url( brio_asset( 'hero', 'suitcase' ) ); ?>" alt="" width="250" height="250" loading="eager" fetchpriority="high" decoding="async" data-no-lazy="1" />
 		</div>
 
 	</div>

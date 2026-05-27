@@ -211,7 +211,8 @@
 	object-fit: cover;
 }
 
-/* Video sits ABOVE the poster once it loads. Hidden on mobile. */
+/* Video sits ABOVE the poster, autoplay on desktop. Hidden on mobile to
+ * keep payload light (the poster image stays visible behind / instead). */
 .home-hero__video {
 	display: block;
 	width: 100%;
@@ -222,7 +223,6 @@
 	inset: 0;
 	z-index: 1;
 }
-.home-hero__video:not([data-loaded]) { display: none; }
 
 @media (max-width: 768px) {
 	.home-hero__video { display: none !important; }

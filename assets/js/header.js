@@ -1,38 +1,4 @@
 /**
- * Lazy-load the hero video on desktop only, after the first paint.
- * Mobile keeps the poster image only (saves 15 MB transfer).
- */
-( function () {
-	'use strict';
-	if ( window.matchMedia( '(max-width: 768px)' ).matches ) return;
-	var v = document.querySelector( '.home-hero__video[data-src]' );
-	if ( ! v ) return;
-
-	function load() {
-		if ( v.dataset.loaded ) return;
-		v.dataset.loaded = '1';
-		var src = document.createElement( 'source' );
-		src.src = v.dataset.src;
-		src.type = 'video/mp4';
-		v.appendChild( src );
-		v.load();
-		v.play().catch( function () {} );
-	}
-
-	// Use IntersectionObserver to load only when hero is visible.
-	if ( 'IntersectionObserver' in window ) {
-		var io = new IntersectionObserver( function ( entries ) {
-			entries.forEach( function ( e ) {
-				if ( e.isIntersecting ) { load(); io.disconnect(); }
-			} );
-		}, { rootMargin: '200px' } );
-		io.observe( v );
-	} else {
-		setTimeout( load, 1500 );
-	}
-} )();
-
-/**
  * Header — mobile burger toggle + submenu accordion.
  *
  * Vanilla JS, no jQuery. Listens for the burger click, toggles aria-expanded
