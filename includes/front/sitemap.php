@@ -205,12 +205,22 @@ function brio_sitemap_render_segment( $type ) {
 	}
 
 	if ( 'terms' === $type ) {
+		// Categories
 		$categories = get_categories( [ 'hide_empty' => true ] );
 		foreach ( $categories as $cat ) {
 			$urls[] = [
 				'loc'        => get_category_link( $cat->term_id ),
 				'changefreq' => 'weekly',
 				'priority'   => '0.6',
+			];
+		}
+		// Tags
+		$tags = get_tags( [ 'hide_empty' => true ] );
+		foreach ( $tags as $tag ) {
+			$urls[] = [
+				'loc'        => get_tag_link( $tag->term_id ),
+				'changefreq' => 'weekly',
+				'priority'   => '0.5',
 			];
 		}
 	}

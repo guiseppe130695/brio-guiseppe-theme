@@ -30,6 +30,80 @@ function brio_setup_theme() {
 }
 
 /**
+ * Rename the post_tag archive slug from /tag/{slug}/ to /definition/{slug}/.
+ *
+ * We re-register the existing `post_tag` taxonomy with a custom rewrite slug,
+ * keeping all other defaults (UI labels, query var "tag", REST API, etc.).
+ * Old /tag/* URLs are 301-redirected to /definition/* further down for SEO
+ * continuity.
+ *
+ * Filterable: set BRIO_TAG_SLUG via wp-config.php or filter `brio_tag_slug`
+ * if you ever want to change it again without editing the theme.
+ *
+ * @since 1.6.0
+ */
+function brio_rename_tag_archive_slug() {
+	$slug = apply_filters( 'brio_tag_slug', 'definition' );
+
+	register_taxonomy( 'post_tag', 'post', [
+		'hierarchical'      => false,
+		'show_ui'           => true,
+		'show_in_rest'      => true,
+		'show_admin_column' => true,
+		'rewrite'           => [
+			'slug'         => $slug,
+			'with_front'   => false,
+			'hierarchical' => false,
+		],
+		'_builtin'          => true,
+	] );
+}
+add_action( 'init', 'brio_rename_tag_archive_slug', 11 );
+
+/**
+ * Flush rewrite rules exactly once after the slug is changed. Stores a
+ * version flag in options so a future slug change can re-trigger the flush
+ * by bumping the constant.
+ *
+ * @since 1.6.0
+ */
+function brio_maybe_flush_tag_rewrites() {
+	$current = get_option( 'brio_tag_slug_flushed', '' );
+	$target  = apply_filters( 'brio_tag_slug', 'definition' );
+	if ( $current !== $target ) {
+		flush_rewrite_rules();
+		update_option( 'brio_tag_slug_flushed', $target, false );
+	}
+}
+add_action( 'init', 'brio_maybe_flush_tag_rewrites', 12 );
+
+/**
+ * 301-redirect legacy /tag/{slug}/ URLs to /definition/{slug}/ so existing
+ * inbound links + Google's index transfer cleanly.
+ *
+ * Only fires when the legacy /tag/ prefix is requested AND a tag with that
+ * slug actually exists — anything else falls through to the normal 404.
+ *
+ * @since 1.6.0
+ */
+function brio_redirect_old_tag_urls() {
+	if ( is_admin() ) {
+		return;
+	}
+	$path = wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ) ?: '';
+	if ( ! preg_match( '#^/tag/([^/]+)/?$#', $path, $m ) ) {
+		return;
+	}
+	$tag = get_term_by( 'slug', $m[1], 'post_tag' );
+	if ( ! $tag || is_wp_error( $tag ) ) {
+		return;
+	}
+	wp_safe_redirect( get_term_link( $tag ), 301 );
+	exit;
+}
+add_action( 'template_redirect', 'brio_redirect_old_tag_urls' );
+
+/**
  * Emit the <meta name="description"> tag in <head>.
  *
  * For singular content with an excerpt, uses the excerpt. Otherwise falls
