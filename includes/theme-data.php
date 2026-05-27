@@ -60,26 +60,35 @@ function brio_get_company_data() {
  * @return array Footer navigation columns with titles and links.
  */
 function brio_get_footer_columns() {
+	// Read DB-stored settings if present (set via Appearance → Footer).
+	$saved = get_option( 'brio_footer_settings', [] );
+
+	$explorer_title = ! empty( $saved['explorer_title'] ) ? $saved['explorer_title'] : __( 'Explorer', 'brio-guiseppe' );
+	$services_title = ! empty( $saved['services_title'] ) ? $saved['services_title'] : __( 'Services', 'brio-guiseppe' );
+
+	$default_explorer = [
+		[ 'label' => __( 'Accueil', 'brio-guiseppe' ),   'url' => '#' ],
+		[ 'label' => __( 'Expertise', 'brio-guiseppe' ), 'url' => '#' ],
+		[ 'label' => __( 'Services', 'brio-guiseppe' ),  'url' => '#' ],
+		[ 'label' => __( 'Blog', 'brio-guiseppe' ),      'url' => '#' ],
+		[ 'label' => __( 'Contact', 'brio-guiseppe' ),   'url' => '#' ],
+	];
+	$default_services = [
+		[ 'label' => __( 'Site Web Hôtel Conversion', 'brio-guiseppe' ),  'url' => '#' ],
+		[ 'label' => __( 'SEO Tourisme & Destination', 'brio-guiseppe' ), 'url' => '#' ],
+		[ 'label' => __( 'Revenue Management System', 'brio-guiseppe' ),  'url' => '#' ],
+		[ 'label' => __( 'Audit Distribution OTA', 'brio-guiseppe' ),     'url' => '#' ],
+		[ 'label' => __( 'Optimisation Conversion', 'brio-guiseppe' ),    'url' => '#' ],
+	];
+
 	$columns = [
 		'explorer' => [
-			'title' => __( 'Explorer', 'brio-guiseppe' ),
-			'links' => [
-				[ 'label' => __( 'Accueil', 'brio-guiseppe' ),   'url' => '#' ],
-				[ 'label' => __( 'Expertise', 'brio-guiseppe' ), 'url' => '#' ],
-				[ 'label' => __( 'Services', 'brio-guiseppe' ),  'url' => '#' ],
-				[ 'label' => __( 'Blog', 'brio-guiseppe' ),      'url' => '#' ],
-				[ 'label' => __( 'Contact', 'brio-guiseppe' ),   'url' => '#' ],
-			],
+			'title' => $explorer_title,
+			'links' => ! empty( $saved['explorer_links'] ) ? $saved['explorer_links'] : $default_explorer,
 		],
 		'services' => [
-			'title' => __( 'Services', 'brio-guiseppe' ),
-			'links' => [
-				[ 'label' => __( 'Site Web Hôtel Conversion', 'brio-guiseppe' ),  'url' => '#' ],
-				[ 'label' => __( 'SEO Tourisme & Destination', 'brio-guiseppe' ), 'url' => '#' ],
-				[ 'label' => __( 'Revenue Management System', 'brio-guiseppe' ),  'url' => '#' ],
-				[ 'label' => __( 'Audit Distribution OTA', 'brio-guiseppe' ),     'url' => '#' ],
-				[ 'label' => __( 'Optimisation Conversion', 'brio-guiseppe' ),    'url' => '#' ],
-			],
+			'title' => $services_title,
+			'links' => ! empty( $saved['services_links'] ) ? $saved['services_links'] : $default_services,
 		],
 	];
 
@@ -100,12 +109,19 @@ function brio_get_footer_columns() {
  * }
  */
 function brio_get_legal_data() {
+	$saved = get_option( 'brio_footer_settings', [] );
+
+	$privacy_label = ! empty( $saved['legal_privacy_label'] ) ? $saved['legal_privacy_label'] : __( 'Politique de confidentialité', 'brio-guiseppe' );
+	$privacy_url   = ! empty( $saved['legal_privacy_url'] )   ? $saved['legal_privacy_url']   : '#';
+	$terms_label   = ! empty( $saved['legal_terms_label'] )   ? $saved['legal_terms_label']   : __( 'Mentions légales', 'brio-guiseppe' );
+	$terms_url     = ! empty( $saved['legal_terms_url'] )     ? $saved['legal_terms_url']     : '#';
+
 	$data = [
 		'ice'       => '002333763000084',
 		'fiscal_id' => '37690548',
 		'pages'     => [
-			'privacy' => [ 'label' => __( 'Politique de confidentialité', 'brio-guiseppe' ), 'url' => '#' ],
-			'legal'   => [ 'label' => __( 'Mentions légales', 'brio-guiseppe' ),             'url' => '#' ],
+			'privacy' => [ 'label' => $privacy_label, 'url' => $privacy_url ],
+			'legal'   => [ 'label' => $terms_label,   'url' => $terms_url ],
 		],
 	];
 
