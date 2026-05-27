@@ -32,50 +32,58 @@ function brio_setup_theme() {
 /**
  * Rename the post_tag archive slug from /tag/{slug}/ to /definition/{slug}/.
  *
- * We re-register the existing `post_tag` taxonomy with a custom rewrite slug,
- * keeping all other defaults (UI labels, query var "tag", REST API, etc.).
- * Old /tag/* URLs are 301-redirected to /definition/* further down for SEO
- * continuity.
+ * Uses `register_taxonomy_args` to patch only the rewrite slug, keeping every
+ * other default WordPress sets up for post_tag (labels, capabilities, REST
+ * exposure, query var "tag", etc.). Re-registering via `register_taxonomy()`
+ * with incomplete args would break the admin UI and 404 the new archives.
  *
- * Filterable: set BRIO_TAG_SLUG via wp-config.php or filter `brio_tag_slug`
- * if you ever want to change it again without editing the theme.
+ * Filter `brio_tag_slug` if you ever want to change it again.
  *
  * @since 1.6.0
  */
-function brio_rename_tag_archive_slug() {
+function brio_rewrite_post_tag_slug( $args, $taxonomy ) {
+	if ( 'post_tag' !== $taxonomy ) {
+		return $args;
+	}
 	$slug = apply_filters( 'brio_tag_slug', 'definition' );
 
-	register_taxonomy( 'post_tag', 'post', [
-		'hierarchical'      => false,
-		'show_ui'           => true,
-		'show_in_rest'      => true,
-		'show_admin_column' => true,
-		'rewrite'           => [
-			'slug'         => $slug,
-			'with_front'   => false,
-			'hierarchical' => false,
-		],
-		'_builtin'          => true,
-	] );
+	// Only override rewrite — leave everything else (labels, caps, REST…) alone.
+	$args['rewrite'] = [
+		'slug'         => $slug,
+		'with_front'   => false,
+		'hierarchical' => false,
+		'ep_mask'      => isset( $args['rewrite']['ep_mask'] ) ? $args['rewrite']['ep_mask'] : 0,
+	];
+	return $args;
 }
-add_action( 'init', 'brio_rename_tag_archive_slug', 11 );
+add_filter( 'register_taxonomy_args', 'brio_rewrite_post_tag_slug', 10, 2 );
 
 /**
- * Flush rewrite rules exactly once after the slug is changed. Stores a
- * version flag in options so a future slug change can re-trigger the flush
- * by bumping the constant.
+ * Flush rewrite rules when our slug doesn't match what's currently registered.
+ * Runs late on `init` (priority 99) so every taxonomy/CPT is registered first,
+ * then we check the actual taxonomy object's rewrite slug — more reliable than
+ * a stored option flag that can drift from reality.
  *
  * @since 1.6.0
  */
 function brio_maybe_flush_tag_rewrites() {
-	$current = get_option( 'brio_tag_slug_flushed', '' );
-	$target  = apply_filters( 'brio_tag_slug', 'definition' );
+	$target = apply_filters( 'brio_tag_slug', 'definition' );
+	$tax    = get_taxonomy( 'post_tag' );
+	if ( ! $tax ) {
+		return;
+	}
+	$current = is_array( $tax->rewrite ) ? ( $tax->rewrite['slug'] ?? '' ) : '';
 	if ( $current !== $target ) {
-		flush_rewrite_rules();
-		update_option( 'brio_tag_slug_flushed', $target, false );
+		// Mismatch in this request — nothing to do, the filter should have
+		// applied. Bail to avoid loops.
+		return;
+	}
+	if ( get_option( 'brio_tag_slug_flushed_v2' ) !== $target ) {
+		flush_rewrite_rules( false );
+		update_option( 'brio_tag_slug_flushed_v2', $target, false );
 	}
 }
-add_action( 'init', 'brio_maybe_flush_tag_rewrites', 12 );
+add_action( 'init', 'brio_maybe_flush_tag_rewrites', 99 );
 
 /**
  * 301-redirect legacy /tag/{slug}/ URLs to /definition/{slug}/ so existing

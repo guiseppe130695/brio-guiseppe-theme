@@ -486,16 +486,18 @@ function brio_csv_import_page() {
 	$field_map   = brio_csv_field_map();
 	?>
 	<div class="wrap brio-import-wrap">
-		<header class="brio-import-hero">
-			<div>
-				<h1><?php esc_html_e( 'Import Landing Pages', 'brio-guiseppe' ); ?></h1>
-				<p class="brio-import-sub"><?php esc_html_e( 'Importez un CSV UTF-8 — une ligne = une landing page. Traitement par lots, sans timeout, avec progression en direct.', 'brio-guiseppe' ); ?></p>
-			</div>
+		<div class="brio-import-toolbar">
+			<p class="brio-import-sub">
+				<?php esc_html_e( 'Importez un CSV UTF-8 — une ligne = une landing page. Traitement par lots, sans timeout, avec progression en direct.', 'brio-guiseppe' ); ?>
+			</p>
 			<div class="brio-import-actions">
-				<a class="button" href="<?php echo esc_url( admin_url( 'tools.php?page=brio-landing-import&brio_csv_template=1' ) ); ?>"><?php esc_html_e( 'Modèle vide', 'brio-guiseppe' ); ?></a>
-				<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'tools.php?page=brio-landing-import&brio_csv_export=1' ), 'brio_csv_export' ) ); ?>"><?php esc_html_e( 'Exporter tout', 'brio-guiseppe' ); ?></a>
+				<?php
+				$hub_url = admin_url( 'tools.php?page=brio-import-export&tab=landings' );
+				?>
+				<a class="button" href="<?php echo esc_url( add_query_arg( 'brio_csv_template', '1', $hub_url ) ); ?>"><?php esc_html_e( 'Modèle vide', 'brio-guiseppe' ); ?></a>
+				<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'brio_csv_export', '1', $hub_url ), 'brio_csv_export' ) ); ?>"><?php esc_html_e( 'Exporter tout', 'brio-guiseppe' ); ?></a>
 			</div>
-		</header>
+		</div>
 
 		<div class="brio-import-grid">
 			<section class="brio-card brio-card--upload">
@@ -565,63 +567,90 @@ function brio_csv_import_page() {
 	</div>
 
 	<style>
-		.brio-import-wrap { max-width: 1180px; }
-		.brio-import-hero { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; padding:24px 28px; margin:16px 0 24px; background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%); color:#f8fafc; border-radius:14px; box-shadow:0 8px 24px -12px rgba(15,23,42,.4); }
-		.brio-import-hero h1 { color:#fff; font-size:24px; margin:0 0 4px; padding:0; }
-		.brio-import-sub { color:#cbd5e1; margin:0; max-width:640px; }
+		/* Aligned with the user's admin color scheme — same vars as csv-job-engine.php. */
+		.brio-import-wrap {
+			--brio-accent: var(--wp-admin-theme-color, #2271b1);
+			--brio-accent-soft: var(--wp-admin-theme-color-darker-10, #135e96);
+			--brio-bg: #fff;
+			--brio-bg-soft: #f6f7f7;
+			--brio-border: #c3c4c7;
+			--brio-text: #1d2327;
+			--brio-text-soft: #50575e;
+			max-width: 1180px;
+		}
+		.brio-import-toolbar { display:flex; justify-content:space-between; align-items:center; gap:16px; margin:0 0 14px; padding:0; }
+		.brio-import-sub { color: var(--brio-text-soft); margin:0; font-size:13px; max-width:680px; }
 		.brio-import-actions { display:flex; gap:8px; flex-shrink:0; }
-		.brio-import-actions .button { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.2); color:#fff; }
-		.brio-import-actions .button:hover { background:rgba(255,255,255,.18); color:#fff; }
-		.brio-import-actions .button-primary { background:#fff; color:#0f172a; border-color:#fff; }
-		.brio-import-actions .button-primary:hover { background:#e2e8f0; color:#0f172a; }
 
-		.brio-import-grid { display:grid; grid-template-columns: 1fr 1.2fr; gap:20px; }
+		.brio-import-grid { display:grid; grid-template-columns: 1fr 1.2fr; gap:16px; }
 		@media (max-width: 960px) { .brio-import-grid { grid-template-columns: 1fr; } }
 
-		.brio-card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:22px 24px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
-		.brio-card h2 { margin:0 0 16px; font-size:15px; text-transform:uppercase; letter-spacing:.05em; color:#475569; }
-		.brio-card h3 { display:flex; justify-content:space-between; align-items:center; margin:18px 0 8px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:#64748b; }
+		.brio-card { background: var(--brio-bg); border:1px solid var(--brio-border); border-radius:4px; padding:18px 20px; }
+		.brio-card h2 { margin:0 0 12px; font-size:14px; color: var(--brio-text); font-weight:600; }
+		.brio-card h3 { display:flex; justify-content:space-between; align-items:center; margin:16px 0 6px; font-size:13px; color: var(--brio-text); font-weight:600; }
+		.brio-card h3 .button-link { font-size:12px; }
 
-		.brio-resume-banner { display:flex; align-items:center; gap:12px; padding:12px 14px; margin-bottom:14px; background:#fef3c7; border:1px solid #fcd34d; border-radius:8px; }
-		.brio-resume-banner strong { color:#92400e; }
-		.brio-resume-banner span { flex:1; color:#78350f; font-size:13px; }
+		.brio-resume-banner {
+			display:flex; align-items:center; gap:10px;
+			padding:10px 12px; margin-bottom:12px;
+			background:#fcf9e8; border-left:4px solid #dba617;
+			font-size:13px;
+		}
+		.brio-resume-banner strong { color: var(--brio-text); }
+		.brio-resume-banner span { flex:1; color: var(--brio-text-soft); }
 
-		.brio-dropzone { display:block; border:2px dashed #cbd5e1; border-radius:10px; padding:32px 16px; text-align:center; cursor:pointer; transition:all .15s; background:#f8fafc; }
-		.brio-dropzone:hover, .brio-dropzone.is-drag { border-color:#3b82f6; background:#eff6ff; }
+		.brio-dropzone {
+			display:block; border:1px dashed var(--brio-border); border-radius:4px;
+			padding:28px 14px; text-align:center; cursor:pointer;
+			transition: border-color .15s, background .15s;
+			background: var(--brio-bg-soft);
+		}
+		.brio-dropzone:hover, .brio-dropzone.is-drag {
+			border-color: var(--brio-accent);
+			border-style: solid;
+			background: #fff;
+		}
 		.brio-dropzone__inner { display:flex; flex-direction:column; gap:6px; align-items:center; }
-		.brio-dropzone__icon { font-size:28px; color:#3b82f6; }
-		.brio-dropzone__hint { font-size:12px; color:#64748b; }
-		.brio-dropzone__file { font-size:13px; color:#0f172a; font-weight:600; margin-top:6px; }
+		.brio-dropzone__icon { font-size:22px; color: var(--brio-accent); line-height:1; }
+		.brio-dropzone__hint { font-size:12px; color: var(--brio-text-soft); }
+		.brio-dropzone__file { font-size:13px; color: var(--brio-text); font-weight:600; margin-top:4px; }
 
-		.brio-import-controls { display:flex; gap:8px; margin-top:16px; }
+		.brio-import-controls { display:flex; gap:6px; margin-top:14px; }
 
-		.brio-progress { margin-bottom:18px; }
-		.brio-progress__bar { height:10px; background:#e2e8f0; border-radius:999px; overflow:hidden; }
-		.brio-progress__fill { height:100%; width:0; background:linear-gradient(90deg,#3b82f6,#06b6d4); border-radius:999px; transition:width .3s ease; }
-		.brio-progress__meta { display:flex; justify-content:space-between; margin-top:6px; font-size:12px; color:#64748b; font-variant-numeric:tabular-nums; }
+		.brio-progress { margin-bottom:16px; }
+		.brio-progress__bar { height:8px; background: var(--brio-bg-soft); border:1px solid var(--brio-border); border-radius:999px; overflow:hidden; }
+		.brio-progress__fill { height:100%; width:0; background: var(--brio-accent); transition: width .3s ease; }
+		.brio-progress__meta { display:flex; justify-content:space-between; margin-top:6px; font-size:12px; color: var(--brio-text-soft); font-variant-numeric:tabular-nums; }
 
-		.brio-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:6px; }
-		.brio-stat { display:flex; flex-direction:column; padding:12px; border-radius:8px; background:#f8fafc; border:1px solid #e5e7eb; }
-		.brio-stat__num { font-size:22px; font-weight:700; line-height:1; font-variant-numeric:tabular-nums; }
-		.brio-stat span:last-child { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:#64748b; margin-top:4px; }
-		.brio-stat--new .brio-stat__num { color:#16a34a; }
-		.brio-stat--upd .brio-stat__num { color:#2563eb; }
-		.brio-stat--skp .brio-stat__num { color:#d97706; }
-		.brio-stat--err .brio-stat__num { color:#dc2626; }
+		.brio-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:4px; }
+		.brio-stat {
+			display:flex; flex-direction:column;
+			padding:10px 12px; border:1px solid var(--brio-border); border-radius:4px;
+			background: var(--brio-bg);
+		}
+		.brio-stat__num { font-size:20px; font-weight:600; line-height:1; font-variant-numeric:tabular-nums; color: var(--brio-text); }
+		.brio-stat span:last-child { font-size:11px; color: var(--brio-text-soft); margin-top:4px; }
 
-		.brio-log { height:280px; overflow-y:auto; background:#0f172a; color:#e2e8f0; font-family:Menlo,Consolas,monospace; font-size:12px; padding:12px 14px; border-radius:8px; line-height:1.6; }
+		.brio-log {
+			height:280px; overflow-y:auto;
+			background: var(--brio-bg-soft);
+			border:1px solid var(--brio-border); border-radius:4px;
+			font-family: Consolas, Menlo, monospace; font-size:12px;
+			padding:8px 10px; line-height:1.55;
+			color: var(--brio-text);
+		}
 		.brio-log__line { display:flex; gap:10px; padding:1px 0; }
-		.brio-log__r { color:#64748b; min-width:48px; }
-		.brio-log__t { font-weight:700; min-width:42px; }
-		.brio-log__t--new { color:#4ade80; }
-		.brio-log__t--upd { color:#60a5fa; }
-		.brio-log__t--err { color:#f87171; }
-		.brio-log__t--ok  { color:#fbbf24; }
-		.brio-log__m { flex:1; }
-		.brio-log:empty::before { content:"En attente…"; color:#475569; font-style:italic; }
+		.brio-log__r { color: var(--brio-text-soft); min-width:44px; }
+		.brio-log__t { font-weight:600; min-width:38px; }
+		.brio-log__t--new { color:#008a20; }
+		.brio-log__t--upd { color: var(--brio-accent-soft); }
+		.brio-log__t--err { color:#d63638; }
+		.brio-log__t--ok  { color:#996800; }
+		.brio-log__m { flex:1; word-break:break-word; }
+		.brio-log:empty::before { content:"En attente…"; color: var(--brio-text-soft); font-style:italic; }
 
-		.brio-card--ref { margin-top:20px; }
-		.brio-card--ref summary { cursor:pointer; font-weight:600; color:#475569; }
+		.brio-card--ref { margin-top:16px; }
+		.brio-card--ref summary { cursor:pointer; font-weight:600; color: var(--brio-text); }
 		.brio-card--ref table { margin-top:14px; max-width:720px; }
 	</style>
 
@@ -793,7 +822,7 @@ function brio_csv_export() {
 		! is_admin() ||
 		! current_user_can( 'manage_options' ) ||
 		! isset( $_GET['brio_csv_export'] ) ||
-		( $_GET['page'] ?? '' ) !== 'brio-landing-import'
+		! in_array( $_GET['page'] ?? '', [ 'brio-landing-import', 'brio-import-export' ], true )
 	) {
 		return;
 	}
@@ -850,7 +879,7 @@ function brio_csv_template_download() {
 		! is_admin() ||
 		! current_user_can( 'manage_options' ) ||
 		! isset( $_GET['brio_csv_template'] ) ||
-		( $_GET['page'] ?? '' ) !== 'brio-landing-import'
+		! in_array( $_GET['page'] ?? '', [ 'brio-landing-import', 'brio-import-export' ], true )
 	) {
 		return;
 	}

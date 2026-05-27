@@ -44,7 +44,10 @@ if ( is_admin() ) {
 	require_once get_theme_file_path( '/includes/admin/meta-boxes-blog.php' );
 	require_once get_theme_file_path( '/includes/admin/landing-csv-import.php' );
 	require_once get_theme_file_path( '/includes/admin/footer-settings.php' );
-	require_once get_theme_file_path( '/includes/admin/tags-export.php' );
+	require_once get_theme_file_path( '/includes/admin/csv-job-engine.php' );
+	require_once get_theme_file_path( '/includes/admin/csv-tags.php' );
+	require_once get_theme_file_path( '/includes/admin/csv-articles.php' );
+	require_once get_theme_file_path( '/includes/admin/import-export-hub.php' );
 }
 
 /**
