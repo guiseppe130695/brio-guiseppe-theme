@@ -47,6 +47,20 @@ function brio_seo_get_description() {
 		}
 	}
 
+	// Category / tag / custom taxonomy archive.
+	if ( is_category() || is_tag() || is_tax() ) {
+		$term = get_queried_object();
+		if ( $term && ! empty( $term->term_id ) ) {
+			$override = get_term_meta( $term->term_id, '_brio_seo_description', true );
+			if ( $override ) {
+				return wp_strip_all_tags( $override );
+			}
+			if ( ! empty( $term->description ) ) {
+				return wp_trim_words( wp_strip_all_tags( $term->description ), 28, '…' );
+			}
+		}
+	}
+
 	return wp_strip_all_tags( get_bloginfo( 'description' ) );
 }
 
@@ -114,7 +128,10 @@ add_action( 'wp_head', 'brio_seo_canonical', 2 );
 
 function brio_seo_head_meta() {
 	$desc  = brio_seo_get_description();
-	$title = is_singular() ? get_the_title() : wp_get_document_title();
+	// Use the custom SEO title if defined on this context (Yoast-like override).
+	// `wp_get_document_title()` already applies our `pre_get_document_title`
+	// filter, so it returns the resolved value for singulars + terms.
+	$title = wp_get_document_title();
 	$url   = is_singular() ? get_permalink() : home_url( add_query_arg( null, null ) );
 	$type  = is_singular( 'post' ) ? 'article' : 'website';
 

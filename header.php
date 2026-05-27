@@ -29,7 +29,7 @@ $company = brio_get_company_data();
 	          Tokens, header, hero base. Full bundle still loads via wp_head(). */ ?>
 	<style id="brio-critical-css">
 	:root{--color-primary:#173E04;--color-secondary:#B3D99A;--color-text:#215806;--color-accent:#FECE6E;--color-bg-primary:#FFFAEE;--color-bg-secondary:#F5F0E2;--color-border:rgba(33,88,6,.19);--font-primary:'Nebeco',serif;--font-secondary:'Manrope',sans-serif;--section-max-w:1400px;--container-pad-x:clamp(16px,4vw,40px);--h1-size:clamp(2.75rem, 1.5rem + 5vw, 5rem);--h2-size:clamp(2.125rem, 1.25rem + 3.6vw, 3.625rem);--h3-size:clamp(1.625rem, 1.125rem + 2.1vw, 2.375rem);--h4-size:clamp(1.375rem, 1rem + 1.4vw, 1.8125rem);--h5-size:clamp(1.125rem, .95rem + .6vw, 1.375rem);--h6-size:clamp(1.0625rem, .95rem + .4vw, 1.25rem);--body-size:clamp(.9375rem, .875rem + .2vw, 1rem)}
-	*{box-sizing:border-box}body{margin:0;font-family:var(--font-secondary);font-size:var(--body-size);color:var(--color-text);background:var(--color-bg-primary);line-height:1.6;letter-spacing:-.01em}
+	*{box-sizing:border-box}body{margin:0;font-family:var(--font-secondary);font-size:var(--body-size);color:var(--color-text);line-height:1.6;letter-spacing:-.01em}
 	h1,.h1{font-family:var(--font-primary);font-size:var(--h1-size);font-weight:300;line-height:1;letter-spacing:-.04em;color:var(--color-primary);margin:0}
 	h2,.h2{font-family:var(--font-primary);font-size:var(--h2-size);font-weight:300;line-height:1.05;letter-spacing:-.04em;color:var(--color-primary);margin:0}
 	h3,.h3{font-family:var(--font-primary);font-size:var(--h3-size);font-weight:300;line-height:1.1;letter-spacing:-.035em;color:var(--color-primary);margin:0}
