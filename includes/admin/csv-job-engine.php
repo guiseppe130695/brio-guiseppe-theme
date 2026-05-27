@@ -320,10 +320,10 @@ function brio_csv_render_importer( $type ) {
 
 	// Static helper actions.
 	$export_url   = is_callable( $importer['export_rows'] )
-		? wp_nonce_url( add_query_arg( [ 'page' => 'brio-import-export', 'tab' => $type, 'brio_csv_export' => 1 ], admin_url( 'tools.php' ) ), 'brio_csv_export_' . $type )
+		? wp_nonce_url( add_query_arg( [ 'page' => 'brio-import-export', 'tab' => $type, 'brio_csv2_export' => 1 ], admin_url( 'tools.php' ) ), 'brio_csv2_export_' . $type )
 		: '';
 	$template_url = ! empty( $importer['columns'] )
-		? add_query_arg( [ 'page' => 'brio-import-export', 'tab' => $type, 'brio_csv_template' => 1 ], admin_url( 'tools.php' ) )
+		? add_query_arg( [ 'page' => 'brio-import-export', 'tab' => $type, 'brio_csv2_template' => 1 ], admin_url( 'tools.php' ) )
 		: '';
 	?>
 	<div class="brio-import-wrap" data-type="<?php echo esc_attr( $type ); ?>">
@@ -662,7 +662,7 @@ function brio_csv_handle_export() {
 	if (
 		! is_admin() ||
 		! current_user_can( 'manage_options' ) ||
-		! isset( $_GET['brio_csv_export'] ) ||
+		! isset( $_GET['brio_csv2_export'] ) ||
 		( $_GET['page'] ?? '' ) !== 'brio-import-export'
 	) {
 		return;
@@ -674,7 +674,7 @@ function brio_csv_handle_export() {
 	}
 	if (
 		! isset( $_GET['_wpnonce'] ) ||
-		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'brio_csv_export_' . $type )
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'brio_csv2_export_' . $type )
 	) {
 		wp_die( esc_html__( 'Requête invalide.', 'brio-guiseppe' ) );
 	}
@@ -705,7 +705,7 @@ function brio_csv_handle_template() {
 	if (
 		! is_admin() ||
 		! current_user_can( 'manage_options' ) ||
-		! isset( $_GET['brio_csv_template'] ) ||
+		! isset( $_GET['brio_csv2_template'] ) ||
 		( $_GET['page'] ?? '' ) !== 'brio-import-export'
 	) {
 		return;
