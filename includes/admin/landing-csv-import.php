@@ -393,6 +393,25 @@ function brio_csv_ajax_chunk() {
 			update_post_meta( $post_id, $meta_key, $clean );
 		}
 
+		/* SEO override fields — stored under a different meta key prefix
+		 * (_brio_seo_*) than the landing fields, so they get their own handling. */
+		if ( isset( $data['seo_title'] ) ) {
+			$v = sanitize_text_field( $data['seo_title'] );
+			if ( '' === $v ) {
+				delete_post_meta( $post_id, '_brio_seo_title' );
+			} else {
+				update_post_meta( $post_id, '_brio_seo_title', $v );
+			}
+		}
+		if ( isset( $data['seo_description'] ) ) {
+			$v = sanitize_textarea_field( $data['seo_description'] );
+			if ( '' === $v ) {
+				delete_post_meta( $post_id, '_brio_seo_description' );
+			} else {
+				update_post_meta( $post_id, '_brio_seo_description', $v );
+			}
+		}
+
 		$processed++;
 	}
 	fclose( $h );
@@ -538,6 +557,8 @@ function brio_csv_import_page() {
 				<?php foreach ( $field_map as $col => $def ) : ?>
 					<tr><td><code><?php echo esc_html( $col ); ?></code></td><td><?php echo esc_html( $def[2] ); ?></td></tr>
 				<?php endforeach; ?>
+				<tr><td><code>seo_title</code></td><td>text — <em><?php esc_html_e( 'override SEO du <title> et og:title', 'brio-guiseppe' ); ?></em></td></tr>
+				<tr><td><code>seo_description</code></td><td>textarea — <em><?php esc_html_e( 'override SEO de la meta description', 'brio-guiseppe' ); ?></em></td></tr>
 				</tbody>
 			</table>
 		</details>
@@ -784,7 +805,12 @@ function brio_csv_export() {
 	}
 
 	$field_map = brio_csv_field_map();
-	$cols      = array_merge( [ 'page_title', 'page_slug', 'page_status' ], array_keys( $field_map ) );
+	// Reserved columns first, all landing field columns, then SEO overrides.
+	$cols = array_merge(
+		[ 'page_title', 'page_slug', 'page_status' ],
+		array_keys( $field_map ),
+		[ 'seo_title', 'seo_description' ]
+	);
 
 	$pages = get_posts( [
 		'post_type'      => 'page',
@@ -808,6 +834,9 @@ function brio_csv_export() {
 			[ $section, $field ] = $def;
 			$row[] = get_post_meta( $page->ID, '_brio_landing_' . $section . '_' . $field, true );
 		}
+		// SEO overrides (separate meta key prefix).
+		$row[] = (string) get_post_meta( $page->ID, '_brio_seo_title', true );
+		$row[] = (string) get_post_meta( $page->ID, '_brio_seo_description', true );
 		fputcsv( $out, $row );
 	}
 	fclose( $out );
@@ -827,7 +856,8 @@ function brio_csv_template_download() {
 	}
 	$cols = array_merge(
 		[ 'page_title', 'page_slug', 'page_status' ],
-		array_keys( brio_csv_field_map() )
+		array_keys( brio_csv_field_map() ),
+		[ 'seo_title', 'seo_description' ]
 	);
 	header( 'Content-Type: text/csv; charset=utf-8' );
 	header( 'Content-Disposition: attachment; filename="landing-import-template.csv"' );
