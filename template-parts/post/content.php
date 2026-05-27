@@ -24,6 +24,21 @@ $tags       = get_the_tags();
 
 	<?php the_content(); ?>
 
+	<?php /* Tags — à la fin du contenu rédactionnel, dans l'<article>. */ ?>
+	<?php if ( ! empty( $tags ) ) : ?>
+		<footer class="post-content__footer">
+			<ul class="post-footer__tag-list" aria-label="<?php esc_attr_e( 'Tags', 'brio-guiseppe' ); ?>">
+				<?php foreach ( $tags as $tag ) : ?>
+					<li>
+						<a href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>" rel="tag">
+							<?php echo esc_html( $tag->name ); ?>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</footer>
+	<?php endif; ?>
+
 	<!-- Partage social — juste après le contenu -->
 	<div class="post-footer__share">
 		<p class="post-footer__share-label">
@@ -59,20 +74,6 @@ $tags       = get_the_tags();
 
 	<?php get_template_part( 'template-parts/post/author' ); ?>
 	<?php get_template_part( 'template-parts/post/related' ); ?>
-
-	<?php if ( ! empty( $tags ) ) : ?>
-	<footer class="post-content__footer">
-		<ul class="post-footer__tag-list" aria-label="<?php esc_attr_e( 'Tags', 'brio-guiseppe' ); ?>">
-			<?php foreach ( $tags as $tag ) : ?>
-				<li>
-					<a href="<?php echo esc_url( get_tag_link( $tag->term_id ) ); ?>" rel="tag">
-						<?php echo esc_html( $tag->name ); ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</footer>
-	<?php endif; ?>
 
 </article>
 

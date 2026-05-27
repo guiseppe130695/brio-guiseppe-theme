@@ -448,7 +448,13 @@
 	padding: 0 0 0 10px;
 }
 
-.post-footer__tag-list li { margin: 0; }
+.post-footer__tag-list li { margin: 0; display: inline-flex; align-items: center; }
+.post-footer__tag-list li:not(:last-child)::after {
+	content: ",";
+	margin-left: 2px;
+	color: rgba(0, 0, 0, 0.49);
+	font-size: 14px;
+}
 
 .post-footer__tag-list a {
 	font-family: var(--font-secondary);
