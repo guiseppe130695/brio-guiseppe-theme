@@ -20,17 +20,10 @@ $company = brio_get_company_data();
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
 
-	<?php /* Preload Nebeco — used by every heading + overline above the fold.
-	          Short-circuits the HTML → fonts.css → @font-face → woff2 chain. */ ?>
+	<?php /* Preload self-hosted fonts — both used above the fold.
+	          Short-circuits the HTML → CSS → @font-face → woff2 chain. */ ?>
 	<link rel="preload" as="font" type="font/woff2" href="<?php echo esc_url( get_theme_file_uri( '/assets/fonts/Nebeco.woff2' ) ); ?>" crossorigin />
-
-	<?php /* Preconnect to Google Fonts for faster handshake. */ ?>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-	<?php /* Non-blocking Google Fonts (Manrope, 4 weights we actually use). */ ?>
-	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
-	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" /></noscript>
+	<link rel="preload" as="font" type="font/woff2" href="<?php echo esc_url( get_theme_file_uri( '/assets/fonts/Manrope-latin.woff2' ) ); ?>" crossorigin />
 
 	<?php /* Critical above-the-fold CSS — eliminates render-blocking on first paint.
 	          Tokens, header, hero base. Full bundle still loads via wp_head(). */ ?>

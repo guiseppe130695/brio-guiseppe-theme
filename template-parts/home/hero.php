@@ -70,11 +70,21 @@ $avatars = [ 'avatar_1', 'avatar_2', 'avatar_3', 'avatar_4' ];
 		</ul>
 
 		<div class="home-hero__media">
-			<?php /* Mobile: still image only. Desktop: video loaded lazily after main paint. */ ?>
+			<?php
+			/* Mobile: still image only. Desktop: video loaded lazily after main paint.
+			 * The poster comes in 3 sizes (640 / 870 / 1740) so each viewport pulls
+			 * the right one — saves ~70 KB on phones. */
+			$poster_base = trailingslashit( get_theme_file_uri( '/assets/images/hero' ) );
+			?>
 			<picture class="home-hero__poster">
-				<source media="(max-width: 768px)" srcset="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>" />
-				<img src="<?php echo esc_url( brio_asset( 'hero', 'poster' ) ); ?>"
-				     alt="" width="870" height="490"
+				<source media="(max-width: 768px)"
+				        srcset="<?php echo esc_url( $poster_base . 'poster-640.webp' ); ?>"
+				        type="image/webp" />
+				<source media="(max-width: 1200px)"
+				        srcset="<?php echo esc_url( $poster_base . 'poster-870.webp' ); ?>"
+				        type="image/webp" />
+				<img src="<?php echo esc_url( $poster_base . 'poster-1740.webp' ); ?>"
+				     alt="" width="1740" height="980"
 				     loading="eager" fetchpriority="high" decoding="async" />
 			</picture>
 			<video class="home-hero__video"

@@ -128,10 +128,10 @@ function brio_get_assets() {
 
 	$assets = [
 		'hero'   => [
-			'avatar_1' => $base . 'hero/avatar-1.jpg',
-			'avatar_2' => $base . 'hero/avatar-2.jpg',
-			'avatar_3' => $base . 'hero/avatar-3.jpg',
-			'avatar_4' => $base . 'hero/avatar-4.jpg',
+			'avatar_1' => $base . 'hero/avatar-1.webp',
+			'avatar_2' => $base . 'hero/avatar-2.webp',
+			'avatar_3' => $base . 'hero/avatar-3.webp',
+			'avatar_4' => $base . 'hero/avatar-4.webp',
 			'suitcase' => $base . 'hero/suitcase.svg',
 			'video'    => $base . 'hero/marrakech.mp4',
 			'poster'   => $base . 'hero/poster-870.webp',
