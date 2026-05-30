@@ -70,7 +70,6 @@
 }
 
 .home-philosophy__heading {
-	max-width: 75%;
 	animation: fade-up var(--transition-normal) 200ms both;
 }
 
@@ -147,10 +146,6 @@
 	.home-philosophy__content {
 		width: 100%;
 		order: 1;
-	}
-
-	.home-philosophy__heading {
-		max-width: 520px;
 	}
 
 	.home-philosophy__features {

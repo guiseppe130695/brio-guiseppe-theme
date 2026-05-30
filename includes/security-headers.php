@@ -112,6 +112,7 @@ function brio_restrict_rest_api( $result ) {
 	$allowed    = [
 		'/brio/v1/',           // Our own blog endpoint.
 		'/wp/v2/media/',       // Needed for some front-end image lookups.
+		'/wp/v2/wpmcp/',       // WordPress MCP plugin — JWT-protected, used by Claude.
 	];
 
 	foreach ( $allowed as $prefix ) {

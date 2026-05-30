@@ -32,10 +32,10 @@ function brio_enqueue() {
 		// ---- DEV: individual source files (easy iteration) ----
 		wp_register_style( 'brio_fonts',             $uri . '/assets/css/fonts.css',             [],                 $ver );
 		wp_register_style( 'brio_variables',         $uri . '/assets/css/variables.css',         [ 'brio_fonts' ],     $ver );
-		wp_register_style( 'brio_header',            $uri . '/assets/css/header.css',            [ 'brio_variables' ], $ver );
-		wp_register_style( 'brio_header_responsive', $uri . '/assets/css/header-responsive.css', [ 'brio_header' ],    $ver );
-		wp_register_style( 'brio_footer',            $uri . '/assets/css/footer.css',            [ 'brio_variables' ], $ver );
-		wp_register_style( 'brio_home',              $uri . '/assets/css/home.css',              [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_header',            $uri . '/assets/css/layout/header.css',            [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_header_responsive', $uri . '/assets/css/layout/header-responsive.css', [ 'brio_header' ],    $ver );
+		wp_register_style( 'brio_footer',            $uri . '/assets/css/layout/footer.css',            [ 'brio_variables' ], $ver );
+		wp_register_style( 'brio_home',              $uri . '/assets/css/sections/home.css',            [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_legal',             $uri . '/assets/css/sections/legal.css',    [ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_blog',              $uri . '/assets/css/sections/blog-page.css',[ 'brio_variables' ], $ver );
 		wp_register_style( 'brio_landing',           $uri . '/assets/css/sections/landing.css',  [ 'brio_variables' ], $ver );

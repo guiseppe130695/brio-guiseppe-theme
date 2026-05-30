@@ -195,14 +195,17 @@
 	position: relative;
 	width: 100%;
 	margin-top: 16px;
-	border-radius: 50px 50px 0 0;
-	overflow: hidden;
+	/* No overflow:hidden here — it would clip the suitcase that overflows
+	 * the bottom-right corner. Rounded-corner clipping is applied to the
+	 * poster/video elements individually instead. */
 }
 
 /* Static poster (always visible until JS swaps in the video). */
 .home-hero__poster {
 	display: block;
 	width: 100%;
+	border-radius: 50px 50px 0 0;
+	overflow: hidden;
 }
 .home-hero__poster img {
 	display: block;

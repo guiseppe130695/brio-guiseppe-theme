@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Cache-busting toggle for development.
  * Set to true to append a timestamp to asset versions (forces browser reload).
  */
-define( 'BRIO_DEV_MODE', false );
+define( 'BRIO_DEV_MODE', true );
 
 /**
  * Load theme files.

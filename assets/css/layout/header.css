@@ -18,12 +18,12 @@
 /* 1. Component imports
    ========================================================================== */
 
-@import url('./components/typography.css');
-@import url('./components/button.css');
-@import url('./components/phone.css');
-@import url('./components/navigation.css');
-@import url('./components/section.css');
-@import url('./components/animations.css');
+@import url('../components/typography.css');
+@import url('../components/button.css');
+@import url('../components/phone.css');
+@import url('../components/navigation.css');
+@import url('../components/section.css');
+@import url('../components/animations.css');
 
 
 /* 2. Reset (scoped to header concerns)

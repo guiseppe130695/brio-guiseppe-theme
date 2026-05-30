@@ -226,11 +226,6 @@ button:disabled:hover,
 	border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 }
 
-/* Button spacing utility */
-.btn + .btn {
-	margin-left: var(--spacing-md);
-}
-
 /* ==========================================================================
    Homepage section CTA buttons
    --------------------------------------------------------------------------

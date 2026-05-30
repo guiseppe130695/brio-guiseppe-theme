@@ -10,18 +10,18 @@
 /* Section imports — uncomment as each section is built
    ========================================================================== */
 
-@import url('./sections/hero.css');
-@import url('./sections/about.css');
-@import url('./sections/philosophy.css');
-@import url('./sections/showcase.css');
-/* @import url('./sections/mission.css'); */
-@import url('./sections/partners.css');
-@import url('./sections/programs.css');
-@import url('./sections/fun-facts.css');
-@import url('./sections/pricing.css');
-@import url('./sections/faqs.css');
-@import url('./sections/blog.css');
-@import url('./sections/cta.css');
+@import url('./hero.css');
+@import url('./about.css');
+@import url('./philosophy.css');
+@import url('./showcase.css');
+/* @import url('./mission.css'); */
+@import url('./partners.css');
+@import url('./programs.css');
+@import url('./fun-facts.css');
+@import url('./pricing.css');
+@import url('./faqs.css');
+@import url('./blog.css');
+@import url('./cta.css');
 
 
 /* Shared homepage primitives

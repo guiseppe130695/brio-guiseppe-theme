@@ -23,7 +23,6 @@
 .home-partners__label {
 	color: var(--color-primary);
 	text-align: center;
-	max-width: 270px;
 }
 
 /* Marquee viewport — clips overflow, fades edges */
